@@ -6,8 +6,6 @@ import org.apache.commons.codec.digest.DigestUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-
-
 import Zest.gym.model.User;
 import Zest.gym.repository.userRepository;
 import jakarta.servlet.http.HttpSession;
@@ -15,7 +13,9 @@ import jakarta.servlet.http.HttpSession;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
+
+import org.springframework.web.bind.annotation.RequestParam;
+
 
 
 
@@ -27,7 +27,7 @@ public class LoginSignupContoller {
 	
 	@GetMapping("/")
 	public String LandingPage() {
-		return "login.html";
+		return "landing.html";
 	}
 	
 	
@@ -75,6 +75,65 @@ public class LoginSignupContoller {
 		model.addAttribute("errormessage", "Username or password incorrect. Please try again!");
 		return "login.html";
 	}
+	
+	
+	@GetMapping("/forgotPwd")
+	public String forgotPassword() {
+		return "forgotPwd.html";
+	}
+	
+	@PostMapping("/forgotPwd")
+	public String forgotPasswordEmail(Model model,HttpSession session, @RequestParam("email") String email){
+		int otp = new mailSender().sendOtp(email);
+		session.setAttribute("otp", otp);
+		session.setAttribute("email", email);
+		System.out.println(otp + email);
+		return "otp.html";
+	}
+	
+	
+	 @PostMapping("/checkOtp") public String otpChecker(HttpSession
+			  session, @RequestParam("otpcode")Integer otpcode){
+			  if(session.getAttribute("otp")!=null) {
+				  String email = (String) session.getAttribute("email");
+			  int otp = (int) session.getAttribute("otp"); 
+			  if(otp == otpcode) { 
+				  String status="matched"; 
+				  session.setAttribute("status", status);
+				  System.out.println(session.getAttribute("status"));
+				  session.setAttribute("email", email);
+				  System.out.println(email);
+				  return "resetPwd.html";
+				  }
+			  else{ 
+					  String status="mismatch"; 
+					  session.setAttribute("status", status);
+					  System.out.println(session.getAttribute("status"));
+					  return "otp.html" ; 
+			  }
+			  }
+			  
+			  return "forgetPwd.html" ; 
+	 }
+	 
+	 
+	 @PostMapping("/newPassword")
+	  public String newPassword(@ModelAttribute User u, HttpSession session, @RequestParam("newPassword") String newPassword){
+		  String email =  (String) session.getAttribute("email");
+		  if(email != null) {
+			  	String hashPwd = DigestUtils.sha3_256Hex(newPassword);
+				u.setPassword(hashPwd);
+			  	uRepo.updatePasswordByEmail(email, hashPwd);
+				new mailSender().sendPasswordChangeMessage(email);
+				System.out.println("password changed successfully" + hashPwd);
+				session.invalidate();
+		  }
+		  return "landing.html";
+		  
+		  
+	  }
+	 
+
 	
 	
 	

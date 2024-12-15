@@ -35,14 +35,17 @@
                 <h2 class="font-bold text-2xl text-center mt-8">Enter OTP</h2>
                 <p class="text-center mt-2">Enter OTP sent to your email to reset password.</p>
                 <!-- OTP Form -->
-                <form action="" class="flex flex-col gap-4 w-full mt-6">
+                <form id="otpForm" action="checkOtp" method="post" class="flex flex-col gap-4 w-full mt-6">
                     <div class="otp-container">
-                        <input type="text" class="otp-input" maxlength="1" id="otp1" oninput="moveFocus(this, 'otp2')" required>
-                        <input type="text" class="otp-input" maxlength="1" id="otp2" oninput="moveFocus(this, 'otp3')" required>
-                        <input type="text" class="otp-input" maxlength="1" id="otp3" oninput="moveFocus(this, 'otp4')" required>
-                        <input type="text" class="otp-input" maxlength="1" id="otp4" required>
+                        <input type="text" class="otp-input" maxlength="1" id="otp1" oninput="moveFocus(this, 'otp2')" required aria-label="OTP digit 1">
+                        <input type="text" class="otp-input" maxlength="1" id="otp2" oninput="moveFocus(this, 'otp3')" required aria-label="OTP digit 2">
+                        <input type="text" class="otp-input" maxlength="1" id="otp3" oninput="moveFocus(this, 'otp4')" required aria-label="OTP digit 3">
+                        <input type="text" class="otp-input" maxlength="1" id="otp4" oninput="combineOtp()" required aria-label="OTP digit 4">
                     </div>
-                    <button class="bg-[#e65252] text-white py-3 rounded-2xl mt-4 w-40 mx-auto">Submit</button>
+                    <input type="hidden" name="otpcode" id="otpcode">
+                    <button type="submit" class="bg-[#e65252] text-white py-3 rounded-2xl mt-4 w-40 mx-auto">
+                        Submit OTP
+                    </button>
                 </form>
                 <!-- OTP Form End -->
             </div>
@@ -52,19 +55,25 @@
     <script>
         function moveFocus(current, nextId) {
             if (current.value.length === current.maxLength) {
-                document.getElementById(nextId).focus();
+                const nextInput = document.getElementById(nextId);
+                if (nextInput) nextInput.focus();
             }
         }
 
-        // Optionally: Handle OTP submission by combining values
-        // document.querySelector("form").onsubmit = function(e) {
-        //     e.preventDefault();
-        //     let otp = '';
-        //     for (let i = 1; i <= 4; i++) {
-        //         otp += document.getElementById('otp' + i).value;
-        //     }
-        //     console.log("OTP entered:", otp);  // Send this OTP to the backend
-        // };
+        function combineOtp() {
+            // Combine OTP values into the hidden input field
+            let otp = '';
+            for (let i = 1; i <= 4; i++) {
+                const value = document.getElementById('otp' + i).value;
+                otp += value;
+            }
+            document.getElementById('otpcode').value = otp;
+        }
+
+        // Automatically combine OTP before form submission
+        document.getElementById('otpForm').addEventListener('submit', function () {
+            combineOtp();
+        });
     </script>
 </body>
 

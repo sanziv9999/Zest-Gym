@@ -62,7 +62,7 @@
                 <h2 class="font-bold text-2xl text-center mt-8">Reset Password</h2>
                 <p class="text-center mt-2">Enter new password to reset.</p>
                 <!--Reset Password Form-->
-                <form action="" class="flex flex-col gap-4 w-full" id="resetPasswordForm">
+                <form action="newPassword" method="post" class="flex flex-col gap-4 w-full" id="resetPasswordForm">
                     <div class="password-container">
                         <input class="p-3 mt-3 rounded-xl border w-full" type="password" name="newPassword"
                             id="newPassword" placeholder="Enter New Password" required>
@@ -123,35 +123,34 @@
 
         // Form Validation on Submit
         document.getElementById('resetPasswordForm').addEventListener('submit', function (e) {
-            e.preventDefault();
-
-            var newPassword = document.getElementById('newPassword').value;
-            var confirmPassword = document.getElementById('confirmPassword').value;
-
-            // Reset previous error messages
-            document.getElementById('newPasswordError').classList.add('hidden');
-            document.getElementById('confirmPasswordError').classList.add('hidden');
-            document.getElementById('toast').classList.remove('show');
-
-            // Password Validation: Check if New Password and Confirm Password match
-            if (newPassword !== confirmPassword) {
-                document.getElementById('confirmPasswordError').classList.remove('hidden');
-                showToast("*Passwords do not match!");
-                return;
-            }
-
-            // Regex for Password Strength Validation
-            var passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
-
-            if (!passwordRegex.test(newPassword)) {
-                document.getElementById('newPasswordError').classList.remove('hidden');
-                document.getElementById('togglePasswordNew').classList.add('move-eye-up');  // Move icon up
-                showToast("*Password must be at least 8 characters long, with at least one uppercase letter, one lowercase letter, one number, and one special character.");
-                return;
-            } else {
-                document.getElementById('togglePasswordNew').classList.remove('move-eye-up');
-            }
-
+	    var newPassword = document.getElementById('newPassword').value;
+	    var confirmPassword = document.getElementById('confirmPassword').value;
+	
+	    // Reset previous error messages
+	    document.getElementById('newPasswordError').classList.add('hidden');
+	    document.getElementById('confirmPasswordError').classList.add('hidden');
+	    document.getElementById('toast').classList.remove('show');
+	
+	    // Password Validation: Check if New Password and Confirm Password match
+	    if (newPassword !== confirmPassword) {
+	        e.preventDefault();
+	        document.getElementById('confirmPasswordError').classList.remove('hidden');
+	        showToast("Passwords do not match!");
+	        return;
+	    }
+	
+	    // Regex for Password Strength Validation
+	    var passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+	
+	    if (!passwordRegex.test(newPassword)) {
+	        e.preventDefault();
+	        document.getElementById('newPasswordError').classList.remove('hidden');
+	        document.getElementById('togglePasswordNew').classList.add('move-eye-up'); // Move icon up
+	        showToast("Password must be at least 8 characters long, with at least one uppercase letter, one lowercase letter, one number, and one special character.");
+	        return;
+	    } else {
+	        document.getElementById('togglePasswordNew').classList.remove('move-eye-up');
+	    }
 
             // If validation passes, you can proceed with form submission (this is where you'd normally send the request to the server)
             showToast("Password reset successfully!");
