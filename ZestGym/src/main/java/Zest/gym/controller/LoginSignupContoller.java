@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestBody;
+
 
 
 
@@ -132,6 +134,118 @@ public class LoginSignupContoller {
 		  
 		  
 	  }
+	 
+	 @GetMapping("/about-us")
+	 public String aboutUs() {
+	 	return "about-us.html";
+	 }
+	 
+	 @GetMapping("/team")
+	 public String team() {
+	 	return "team.html";
+	 }
+	 
+	 
+	 @GetMapping("/gallery")
+	 public String gallery() {
+	 	return "gallery.html";
+	 }
+	 
+	 @GetMapping("/blog")
+	 public String blog() {
+	 	return "blog.html";
+	 }
+	 
+	 @GetMapping("/404")
+	 public String error() {
+	 	return "404.html";
+	 	
+	 }
+	 
+	 @GetMapping("/contact")
+	 public String contact() {
+	 	return "contact.html";
+	 	
+	 }
+	 
+	 @GetMapping("/profile")
+	 public String profile() {
+	 	return "contact.html";
+	 	
+	 }
+	 
+	 @GetMapping("/index")
+	 public String index() {
+	 	return "index.html";
+	 }
+	 
+	 
+	 @GetMapping("/membership")
+	 public String membershipPage() {
+	 	return "membership.html";
+	 }
+	 
+	 @GetMapping("/membershipForm-12month")
+	 public String membershipForm12month() {
+	 	return "membershipForm.html";
+	 }
+	 
+	 @GetMapping("/membershipForm")
+	 public String membershipForm() {
+	 	return "membershipForm.html";
+	 }
+	 
+	 @GetMapping("/attendance")
+	 public String attendance() {
+	 	return "attendance.html";
+	 }
+	 
+
+	 
+	 
+	 
+	 
+	 
+	 
+	 //Activities
+	 
+	 @GetMapping("/class-timetable")
+	 public String classTimetable() {
+	 	return "class-timetable.html";
+	 }
+	 
+	 @GetMapping("/bmi-calculator")
+	 public String bmiCalculator() {
+	 	return "bmi-calculator.html";
+	 }
+	 
+	 @GetMapping("/activities")
+	 public String activities() {
+	 	return "activities.html";
+	 }
+	 
+	 //Workout
+	 
+	 @GetMapping("/video")
+	 public String video() {
+	 	return "video.html";
+	 }
+	 
+	 @GetMapping("/diet")
+	 public String deit() {
+	 	return "diet.html";
+	 }
+	 
+	 
+	 
+
+	 
+	 
+	 
+	 
+	 
+	 
+	 
 	 
 
 	

@@ -1,521 +1,616 @@
-<!doctype html>
-<html class="no-js" lang="zxx">
-
-<head>
-    <meta charset="utf-8">
-    <meta http-equiv="x-ua-compatible" content="ie=edge">
+<!DOCTYPE html>
+<html lang="zxx">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="description" content="Gym Template" />
+    <meta name="keywords" content="Gym, unica, creative, html" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
     <title>Zest Fitness</title>
-    <meta name="description" content="">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <!-- <link rel="manifest" href="site.webmanifest"> -->
-    <link rel="shortcut icon" type="image/x-icon" href="img/favicon.png">
-    <!-- Place favicon.ico in the root directory -->
+    <!-- Google Font -->
+    <link
+      href="https://fonts.googleapis.com/css?family=Muli:300,400,500,600,700,800,900&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css?family=Oswald:300,400,500,600,700&display=swap"
+      rel="stylesheet"
+    />
 
-    <!-- CSS here -->
-    <link rel="stylesheet" href="css/bootstrap.min.css">
-    <link rel="stylesheet" href="css/owl.carousel.min.css">
-    <link rel="stylesheet" href="css/magnific-popup.css">
-    <link rel="stylesheet" href="css/font-awesome.min.css">
-    <link rel="stylesheet" href="css/themify-icons.css">
-    <link rel="stylesheet" href="css/gijgo.css">
-    <link rel="stylesheet" href="css/nice-select.css">
-    <link rel="stylesheet" href="css/flaticon.css">
-    <link rel="stylesheet" href="css/slicknav.css">
+    <!-- Css Styles -->
+    <link rel="stylesheet" href="css/bootstrap.min.css" type="text/css" />
+    <link rel="stylesheet" href="css/font-awesome.min.css" type="text/css" />
+    <link rel="stylesheet" href="css/flaticon.css" type="text/css" />
+    <link rel="stylesheet" href="css/owl.carousel.min.css" type="text/css" />
+    <link rel="stylesheet" href="css/barfiller.css" type="text/css" />
+    <link rel="stylesheet" href="css/magnific-popup.css" type="text/css" />
+    <link rel="stylesheet" href="css/slicknav.min.css" type="text/css" />
+    <link rel="stylesheet" href="css/style.css" type="text/css" />
+  </head>
 
-    <link rel="stylesheet" href="css/style.css">
-    <!-- <link rel="stylesheet" href="css/responsive.css"> -->
-</head>
+  <body>
+    <!-- Page Preloder -->
+    <div id="preloder">
+      <div class="loader"></div>
+    </div>
 
-<body>
-    <!-- header-start -->
-    <header>
-        <div class="header-area ">
-            <div id="sticky-header" class="main-header-area">
-                <div class="container-fluid ">
-                    <div class="header_bottom_border">
-                        <div class="row align-items-center">
-                            <div class="col-xl-3 col-lg-2">
-                                <div class="logo">
-                                    <a href="index.html">
-                                        <img src="img/logo.png" alt="">
-                                    </a>
-                                </div>
-                            </div>
-                            <div class="col-xl-6 col-lg-7">
-                                <div class="main-menu  d-none d-lg-block">
-                                    <nav>
-                                        <ul id="navigation">
-                                            <li><a href="index.html">home</a></li>
-                                            <li><a href="about.html">about</a></li>
-                                            <li><a href="pricing.html">pricing</a></li>
-                                            <li><a href="gallery.html">gallery</a></li>
-                                            <li><a href="gallery.html">Trainer</a></li>
+    <!-- Offcanvas Menu Section Begin -->
+    <div class="offcanvas-menu-overlay"></div>
+    <div class="offcanvas-menu-wrapper">
+      <div class="canvas-close">
+        <i class="fa fa-close"></i>
+      </div>
+      <div class="canvas-search search-switch">
+        <i class="fa fa-search"></i>
+      </div>
+      <nav class="canvas-menu mobile-menu">
+        <ul>
+          <li><a href="index">Home</a></li>
+          <li><a href="membership">Membership</a></li>
+          <li><a href="attendance">Attendance</a></li>
+          <li>
+            <a href="#">Activities</a>
+            <ul class="dropdown">
+              <li><a href="class-timetable">Schedules</a></li>
+              <li><a href="bmi-calculator">BMI Calculator</a></li>
+              <li><a href="activities">My Activities</a></li>
+            </ul>
+          </li>
+          <li>
+            <a href="#">Workout</a>
+            <ul class="dropdown">
+              <li><a href="video">Video Tutorial</a></li>
+              <li><a href="class-timetable">Workouts</a></li>
+              <li><a href="diet">Diet</a></li>
+              <!-- <li><a href="./404.html">404</a></li> -->
+            </ul>
+          </li>
+          <li><a href="contact">Contact</a></li>
+          <li><a href="profile"> Profile </a></li>
+        </ul>
+      </nav>
+      <div id="mobile-menu-wrap"></div>
+    </div>
+    <!-- Offcanvas Menu Section End -->
 
-                                            <!-- <li><a href="#">pages <i class="ti-angle-down"></i></a>
-                                                <ul class="submenu">
-                                                    
-                                                    <li><a href="elements.html">elements</a></li>
-                                                </ul>
-                                            </li> 
-                                            <li><a href="#">blog <i class="ti-angle-down"></i></a>
-                                                <ul class="submenu">
-                                                    <li><a href="blog.html">blog</a></li>
-                                                    <li><a href="single-blog.html">single-blog</a></li>
-                                                </ul>
-                                            </li-->
-                                            <li><a href="contact.html">Contact</a></li>
-                                        </ul>
-                                    </nav>
-                                </div>
-                            </div>
-                            <div class="col-xl-3 col-lg-3 d-none d-lg-block">
-                                <div class="Appointment">
-                                    <div class="book_btn d-none d-lg-block">
-                                        <a href="#">Join Us</a>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-12">
-                                <div class="mobile_menu d-block d-lg-none"></div>
-                            </div>
-                        </div>
-                    </div>
-
-                </div>
+    <!-- Header Section Begin -->
+    <header class="header-section">
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-lg-3">
+            <div class="logo">
+              <a href="index">
+                <img src="img/logo.png" alt="" />
+              </a>
             </div>
+          </div>
+          <div class="col-lg-6">
+            <nav class="nav-menu">
+              <ul>
+                <li><a href="index">Home</a></li>
+                <li><a href="membership">Membership</a></li>
+                <li><a href="attendance">Attendance</a></li>
+                <li>
+                  <a href="#">Activities</a>
+                  <ul class="dropdown">
+                    <li><a href="class-timetable">Schedules</a></li>
+                    <li><a href="bmi-calculator">BMI Calculator</a></li>
+                    <li><a href="activities">My Activities</a></li>
+                  </ul>
+                </li>
+                <li>
+                  <a href="#">Workout</a>
+                  <ul class="dropdown">
+                    <li><a href="video">Video Tutorial</a></li>
+                    <li><a href="class-timetable">Workouts</a></li>
+                    <li><a href="diet">Diet</a></li>
+                    <!-- <li><a href="./404.html">404</a></li> -->
+                  </ul>
+                </li>
+                <li><a href="contact">Contact</a></li>
+                <li><a href="profile"> Profile </a></li>
+              </ul>
+            </nav>
+          </div>
+          <div class="col-lg-3">
+            <div class="top-option">
+              <div class="to-search search-switch">
+                <i class="fa fa-search"></i>
+              </div>
+            </div>
+          </div>
         </div>
+        <div class="canvas-open">
+          <i class="fa fa-bars"></i>
+        </div>
+      </div>
     </header>
-    <!-- header-end -->
+    <!-- Header End -->
 
-    <!-- slider_area_start -->
-    <div class="slider_area">
-        <div class="slider_active owl-carousel">
-            <div class="single_slider  d-flex align-items-center slider_bg_1 overlay">
-                <div class="container">
-                    <div class="row align-items-center justify-content-center">
-                        <div class="col-xl-12">
-                            <div class="slider_text text-center">
-                                <span>Build Up Your</span>
-                                <h3>Body Shape</h3>
-                                <p>Build Your Body and Fitness with Professional Touch</p>
-                                <a href="#" class="boxed-btn3">Join Us</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="single_slider  d-flex align-items-center slider_bg_2 overlay">
-                <div class="container">
-                    <div class="row align-items-center justify-content-center">
-                        <div class="col-xl-12">
-                            <div class="slider_text text-center">
-                                <span>Build Up Your</span>
-                                <h3>Strength</h3>
-                                <p>Build Your Body and Fitness with Professional Touch</p>
-                                <a href="#" class="boxed-btn3">Join Us</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="single_slider  d-flex align-items-center slider_bg_1 overlay">
-                <div class="container">
-                    <div class="row align-items-center justify-content-center">
-                        <div class="col-xl-12">
-                            <div class="slider_text text-center">
-                                <span>Build Up Your</span>
-                                <h3>Body Shape</h3>
-                                <p>Build Your Body and Fitness with Professional Touch</p>
-                                <a href="#" class="boxed-btn3">Join Us</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="single_slider  d-flex align-items-center slider_bg_2 overlay">
-                <div class="container">
-                    <div class="row align-items-center justify-content-center">
-                        <div class="col-xl-12">
-                            <div class="slider_text text-center">
-                                <span>Build Up Your</span>
-                                <h3>Strength</h3>
-                                <p>Build Your Body and Fitness with Professional Touch</p>
-                                <a href="#" class="boxed-btn3">Join Us</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- slider_area_end -->
-
-    <!-- features_area_start  -->
-    <div class="features_area">
-        <div class="container">
+    <!-- Hero Section Begin -->
+    <section class="hero-section">
+      <div class="hs-slider owl-carousel">
+        <div class="hs-item set-bg" data-setbg="img/hero/hero-1.jpg">
+          <div class="container">
             <div class="row">
-                <div class="col-xl-12">
-                    <div class="section_title text-center mb-73">
-                        <h3>Our Features</h3>
-                        <p>There are many variations of passages of lorem Ipsum available, but the majority <br> have suffered alteration.</p>
-                    </div>
+              <div class="col-lg-6 offset-lg-6">
+                <div class="hi-text">
+                  <span>Shape your body</span>
+                  <h1>Be <strong>strong</strong> traning hard</h1>
+                  <a href="#" class="primary-btn">Get info</a>
                 </div>
+              </div>
             </div>
+          </div>
+        </div>
+        <div class="hs-item set-bg" data-setbg="img/hero/hero-2.jpg">
+          <div class="container">
             <div class="row">
-                <div class="col-lg-3 col-md-6">
-                    <div class="single_feature text-center mb-73">
-                        <div class="icon">
-                            <img src="img/svg_icon/1.svg" alt="">
-                        </div>
-                        <h4>Weightlifting</h4>
-                        <p>There are many variations of passages of lorem Ipsum available.</p>
-                    </div>
+              <div class="col-lg-6 offset-lg-6">
+                <div class="hi-text">
+                  <span>Shape your body</span>
+                  <h1>Be <strong>strong</strong> traning hard</h1>
+                  <a href="#" class="primary-btn">Get info</a>
                 </div>
-                <div class="col-lg-3 col-md-6">
-                    <div class="single_feature text-center">
-                        <div class="icon">
-                            <img src="img/svg_icon/2.svg" alt="">
-                        </div>
-                        <h4>Specific Muscles</h4>
-                        <p>There are many variations of passages of lorem Ipsum available.</p>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-md-6">
-                    <div class="single_feature text-center">
-                        <div class="icon">
-                            <img src="img/svg_icon/3.svg" alt="">
-                        </div>
-                        <h4>Flex Your Muscles</h4>
-                        <p>There are many variations of passages of lorem Ipsum available.</p>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-md-6">
-                    <div class="single_feature text-center">
-                        <div class="icon">
-                            <img src="img/svg_icon/4.svg" alt="">
-                        </div>
-                        <h4>Cardio Exercises</h4>
-                        <p>There are many variations of passages of lorem Ipsum available.</p>
-                    </div>
-                </div>
+              </div>
             </div>
+          </div>
         </div>
+      </div>
+    </section>
+    <!-- Hero Section End -->
+
+    <!-- ChoseUs Section Begin -->
+    <section class="choseus-section spad">
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-12">
+            <div class="section-title">
+              <span>Why chose us?</span>
+              <h2>PUSH YOUR LIMITS FORWARD</h2>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-lg-3 col-sm-6">
+            <div class="cs-item">
+              <span class="flaticon-034-stationary-bike"></span>
+              <h4>Modern equipment</h4>
+              <p>
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+                eiusmod tempor incididunt ut dolore facilisis.
+              </p>
+            </div>
+          </div>
+          <div class="col-lg-3 col-sm-6">
+            <div class="cs-item">
+              <span class="flaticon-033-juice"></span>
+              <h4>Healthy nutrition plan</h4>
+              <p>
+                Quis ipsum suspendisse ultrices gravida. Risus commodo viverra
+                maecenas accumsan lacus vel facilisis.
+              </p>
+            </div>
+          </div>
+          <div class="col-lg-3 col-sm-6">
+            <div class="cs-item">
+              <span class="flaticon-002-dumbell"></span>
+              <h4>Proffesponal training plan</h4>
+              <p>
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+                eiusmod tempor incididunt ut dolore facilisis.
+              </p>
+            </div>
+          </div>
+          <div class="col-lg-3 col-sm-6">
+            <div class="cs-item">
+              <span class="flaticon-014-heart-beat"></span>
+              <h4>Unique to your needs</h4>
+              <p>
+                Quis ipsum suspendisse ultrices gravida. Risus commodo viverra
+                maecenas accumsan lacus vel facilisis.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <!-- ChoseUs Section End -->
+
+    <!-- Classes Section Begin -->
+    <section class="classes-section spad">
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-12">
+            <div class="section-title">
+              <span>Our Classes</span>
+              <h2>WHAT WE CAN OFFER</h2>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-lg-4 col-md-6">
+            <div class="class-item">
+              <div class="ci-pic">
+                <img src="img/classes/class-1.jpg" alt="" />
+              </div>
+              <div class="ci-text">
+                <span>STRENGTH</span>
+                <h5>Weightlifting</h5>
+                <a href="#"><i class="fa fa-angle-right"></i></a>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-4 col-md-6">
+            <div class="class-item">
+              <div class="ci-pic">
+                <img src="img/classes/class-2.jpg" alt="" />
+              </div>
+              <div class="ci-text">
+                <span>Cardio</span>
+                <h5>Indoor cycling</h5>
+                <a href="#"><i class="fa fa-angle-right"></i></a>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-4 col-md-6">
+            <div class="class-item">
+              <div class="ci-pic">
+                <img src="img/classes/class-3.jpg" alt="" />
+              </div>
+              <div class="ci-text">
+                <span>STRENGTH</span>
+                <h5>Kettlebell power</h5>
+                <a href="#"><i class="fa fa-angle-right"></i></a>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-6 col-md-6">
+            <div class="class-item">
+              <div class="ci-pic">
+                <img src="img/classes/class-4.jpg" alt="" />
+              </div>
+              <div class="ci-text">
+                <span>Cardio</span>
+                <h4>Indoor cycling</h4>
+                <a href="#"><i class="fa fa-angle-right"></i></a>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-6">
+            <div class="class-item">
+              <div class="ci-pic">
+                <img src="img/classes/class-5.jpg" alt="" />
+              </div>
+              <div class="ci-text">
+                <span>Training</span>
+                <h4>Boxing</h4>
+                <a href="#"><i class="fa fa-angle-right"></i></a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <!-- ChoseUs Section End -->
+
+    <!-- Pricing Section Begin -->
+    <section class="pricing-section spad">
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-12">
+            <div class="section-title">
+              <span>Our Plan</span>
+              <h2>Choose your pricing plan</h2>
+            </div>
+          </div>
+        </div>
+        <div class="row justify-content-center">
+          <div class="col-lg-4 col-md-8">
+            <div class="ps-item">
+              <h3>Class drop-in</h3>
+              <div class="pi-price">
+                <h2>$ 39.0</h2>
+                <span>SINGLE CLASS</span>
+              </div>
+              <ul>
+                <li>Free riding</li>
+                <li>Unlimited equipments</li>
+                <li>Personal trainer</li>
+                <li>Weight losing classes</li>
+                <li>Month to mouth</li>
+                <li>No time restriction</li>
+              </ul>
+              <a href="#" class="primary-btn pricing-btn">Enroll now</a>
+              <a href="#" class="thumb-icon"><i class="fa fa-picture-o"></i></a>
+            </div>
+          </div>
+          <div class="col-lg-4 col-md-8">
+            <div class="ps-item">
+              <h3>12 Month unlimited</h3>
+              <div class="pi-price">
+                <h2>$ 99.0</h2>
+                <span>SINGLE CLASS</span>
+              </div>
+              <ul>
+                <li>Free riding</li>
+                <li>Unlimited equipments</li>
+                <li>Personal trainer</li>
+                <li>Weight losing classes</li>
+                <li>Month to mouth</li>
+                <li>No time restriction</li>
+              </ul>
+              <a href="#" class="primary-btn pricing-btn">Enroll now</a>
+              <a href="#" class="thumb-icon"><i class="fa fa-picture-o"></i></a>
+            </div>
+          </div>
+          <div class="col-lg-4 col-md-8">
+            <div class="ps-item">
+              <h3>6 Month unlimited</h3>
+              <div class="pi-price">
+                <h2>$ 59.0</h2>
+                <span>SINGLE CLASS</span>
+              </div>
+              <ul>
+                <li>Free riding</li>
+                <li>Unlimited equipments</li>
+                <li>Personal trainer</li>
+                <li>Weight losing classes</li>
+                <li>Month to mouth</li>
+                <li>No time restriction</li>
+              </ul>
+              <a href="#" class="primary-btn pricing-btn">Enroll now</a>
+              <a href="#" class="thumb-icon"><i class="fa fa-picture-o"></i></a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <!-- Pricing Section End -->
+
+    <!-- Gallery Section Begin -->
+    <div class="gallery-section">
+      <div class="gallery">
+        <div class="grid-sizer"></div>
+        <div
+          class="gs-item grid-wide set-bg"
+          data-setbg="img/gallery/gallery-1.jpg"
+        >
+          <a href="img/gallery/gallery-1.jpg" class="thumb-icon image-popup"
+            ><i class="fa fa-picture-o"></i
+          ></a>
+        </div>
+        <div class="gs-item set-bg" data-setbg="img/gallery/gallery-2.jpg">
+          <a href="img/gallery/gallery-2.jpg" class="thumb-icon image-popup"
+            ><i class="fa fa-picture-o"></i
+          ></a>
+        </div>
+        <div class="gs-item set-bg" data-setbg="img/gallery/gallery-3.jpg">
+          <a href="img/gallery/gallery-3.jpg" class="thumb-icon image-popup"
+            ><i class="fa fa-picture-o"></i
+          ></a>
+        </div>
+        <div class="gs-item set-bg" data-setbg="img/gallery/gallery-4.jpg">
+          <a href="img/gallery/gallery-4.jpg" class="thumb-icon image-popup"
+            ><i class="fa fa-picture-o"></i
+          ></a>
+        </div>
+        <div class="gs-item set-bg" data-setbg="img/gallery/gallery-5.jpg">
+          <a href="img/gallery/gallery-5.jpg" class="thumb-icon image-popup"
+            ><i class="fa fa-picture-o"></i
+          ></a>
+        </div>
+        <div
+          class="gs-item grid-wide set-bg"
+          data-setbg="img/gallery/gallery-6.jpg"
+        >
+          <a href="img/gallery/gallery-6.jpg" class="thumb-icon image-popup"
+            ><i class="fa fa-picture-o"></i
+          ></a>
+        </div>
+      </div>
     </div>
-    <!-- features_area_end  -->
+    <!-- Gallery Section End -->
 
-    <div class="priscing_area">
-            <div class="container">
-                    <div class="row">
-                            <div class="col-xl-12">
-                                <div class="section_title text-center mb-73">
-                                    <h3>Our Pricing</h3>
-                                    <p>There are many variations of passages of lorem Ipsum available, but the majority <br> have suffered alteration.</p>
-                                </div>
-                            </div>
-                        </div>
-                <div class="row">
-                    <div class="col-lg-4 col-md-6">
-                        <div class="single_prising text-center">
-                            <div class="prising_header">
-                                    <h3>Beginner</h3>
-                                    <span>$45/m</span>
-                            </div>
-                            <div class="pricing_body">
-                                <ul>
-                                    <li>24h unlimited access</li>
-                                    <li>Trainer Advice</li>
-                                    <li class="off-color">Locker + Bathroom</li>
-                                    <li class="off-color">Personal trainer</li>
-                                </ul>
-                            </div>
-                            <div class="pricing_btn">
-                                    <a href="#" class="boxed-btn3">Join Now</a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-4 col-md-6">
-                        <div class="single_prising text-center">
-                            <div class="prising_header">
-                                    <h3>Expert</h3>
-                                    <span>$45/m</span>
-                            </div>
-                            <div class="pricing_body">
-                                <ul>
-                                    <li>24h unlimited access</li>
-                                    <li>Trainer Advice</li>
-                                    <li class="off-color">Locker + Bathroom</li>
-                                    <li class="off-color">Personal trainer</li>
-                                </ul>
-                            </div>
-                            <div class="pricing_btn">
-                                    <a href="#" class="boxed-btn3">Join Now</a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-4 col-md-6">
-                        <div class="single_prising text-center">
-                            <div class="prising_header">
-                                    <h3>Pro</h3>
-                                    <span>$45/m</span>
-                            </div>
-                            <div class="pricing_body">
-                                <ul>
-                                    <li>24h unlimited access</li>
-                                    <li>Trainer Advice</li>
-                                    <li class="off-color">Locker + Bathroom</li>
-                                    <li class="off-color">Personal trainer</li>
-                                </ul>
-                            </div>
-                            <div class="pricing_btn">
-                                    <a href="#" class="boxed-btn3">Join Now</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+    <!-- Team Section Begin -->
+    <section class="team-section spad">
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-12">
+            <div class="team-title">
+              <div class="section-title">
+                <span>Our Team</span>
+                <h2>TRAIN WITH EXPERTS</h2>
+              </div>
+              <a href="#" class="primary-btn btn-normal appoinment-btn"
+                >appointment</a
+              >
             </div>
+          </div>
         </div>
-
-
-
-    <!-- gallery_start -->
-    <div class="gallery_area">
-        <div class="single_gallery big_img">
-            <div class="hover_pop">
-                    <a class="popup-image" href="img/gallery/1.png">
-                        <i class="ti-plus"></i>
-                    </a>
+        <div class="row">
+          <div class="ts-slider owl-carousel">
+            <div class="col-lg-4">
+              <div class="ts-item set-bg" data-setbg="img/team/team-1.jpg">
+                <div class="ts_text">
+                  <h4>Athart Rachel</h4>
+                  <span>Gym Trainer</span>
+                </div>
+              </div>
             </div>
-            <img src="img/gallery/1.png" alt="">
-        </div>
-        <div class="single_gallery big_img">
-                <div class="hover_pop">
-                        <a class="popup-image" href="img/gallery/2.png">
-                            <i class="ti-plus"></i>
-                        </a>
+            <div class="col-lg-4">
+              <div class="ts-item set-bg" data-setbg="img/team/team-2.jpg">
+                <div class="ts_text">
+                  <h4>Athart Rachel</h4>
+                  <span>Gym Trainer</span>
                 </div>
-            <img src="img/gallery/2.png" alt="">
-        </div>
-        <div class="single_gallery small_img">
-                <div class="hover_pop">
-                        <a class="popup-image" href="img/gallery/3.png">
-                            <i class="ti-plus"></i>
-                        </a>
-                </div>
-            <img src="img/gallery/3.png" alt="">
-        </div>
-        <div class="single_gallery small_img">
-                <div class="hover_pop">
-                        <a class="popup-image" href="img/gallery/4.png">
-                            <i class="ti-plus"></i>
-                        </a>
-                </div>
-                <img src="img/gallery/4.png" alt="">
+              </div>
             </div>
-        <div class="single_gallery big_img">
-                <div class="hover_pop">
-                        <a class="popup-image" href="img/gallery/5.png">
-                            <i class="ti-plus"></i>
-                        </a>
+            <div class="col-lg-4">
+              <div class="ts-item set-bg" data-setbg="img/team/team-3.jpg">
+                <div class="ts_text">
+                  <h4>Athart Rachel</h4>
+                  <span>Gym Trainer</span>
                 </div>
-            <img src="img/gallery/5.png" alt="">
-        </div>
-        <div class="single_gallery big_img">
-                <div class="hover_pop">
-                        <a class="popup-image" href="img/gallery/6.png">
-                            <i class="ti-plus"></i>
-                        </a>
+              </div>
+            </div>
+            <div class="col-lg-4">
+              <div class="ts-item set-bg" data-setbg="img/team/team-4.jpg">
+                <div class="ts_text">
+                  <h4>Athart Rachel</h4>
+                  <span>Gym Trainer</span>
                 </div>
-            <img src="img/gallery/6.png" alt="">
+              </div>
+            </div>
+            <div class="col-lg-4">
+              <div class="ts-item set-bg" data-setbg="img/team/team-5.jpg">
+                <div class="ts_text">
+                  <h4>Athart Rachel</h4>
+                  <span>Gym Trainer</span>
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-4">
+              <div class="ts-item set-bg" data-setbg="img/team/team-6.jpg">
+                <div class="ts_text">
+                  <h4>Athart Rachel</h4>
+                  <span>Gym Trainer</span>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
+      </div>
+    </section>
+    <!-- Team Section End -->
 
+    <!-- Get In Touch Section Begin -->
+    <div class="gettouch-section">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-4">
+            <div class="gt-text">
+              <i class="fa fa-map-marker"></i>
+              <p>
+                Lalitpur<br/>
+                Nepal
+              </p>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="gt-text">
+              <i class="fa fa-mobile"></i>
+              <ul>
+                <li>9876543210</li>
+                <li>9779853426</li>
+              </ul>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="gt-text email">
+              <i class="fa fa-envelope"></i>
+              <p>Support.gymcenter@gmail.com</p>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
-    <!-- gallery_area_end  -->
-    <!-- team_area_start  -->
-    <div class="team_area team_bg_1 overlay2">
-            <div class="container">
-                    <div class="row">
-                            <div class="col-xl-12">
-                                <div class="section_title text-center mb-73">
-                                    <h3>Our Trainers</h3>
-                                    <p>There are many variations of passages of lorem Ipsum available, but the majority <br> have suffered alteration.</p>
-                                </div>
-                            </div>
-                        </div>
-                <div class="row">
-                    <div class="col-lg-4 col-md-6">
-                        <div class="single_team">
-                            <div class="team_thumb">
-                                <img src="img/team/1.png" alt="">
-                                <div class="team_hover">
-                                    <div class="hover_inner text-center">
-                                        <ul>
-                                            <li><a href="#"> <i class="fa fa-facebook"></i> </a></li>
-                                            <li><a href="#"> <i class="fa fa-twitter"></i> </a></li>
-                                            <li><a href="#"> <i class="fa fa-instagram"></i> </a></li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="team_title text-center">
-                                <h3>Jessica Mino</h3>
-                                <p>Woman Trainer</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-4 col-md-6">
-                        <div class="single_team">
-                            <div class="team_thumb">
-                                <img src="img/team/2.png" alt="">
-                                <div class="team_hover">
-                                    <div class="hover_inner text-center">
-                                        <ul>
-                                            <li><a href="#"> <i class="fa fa-facebook"></i> </a></li>
-                                            <li><a href="#"> <i class="fa fa-twitter"></i> </a></li>
-                                            <li><a href="#"> <i class="fa fa-instagram"></i> </a></li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="team_title text-center">
-                                <h3>Amit Khan</h3>
-                                <p>Men Trainer</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-4 col-md-6">
-                        <div class="single_team">
-                            <div class="team_thumb">
-                                <img src="img/team/3.png" alt="">
-                                <div class="team_hover">
-                                    <div class="hover_inner text-center">
-                                        <ul>
-                                            <li><a href="#"> <i class="fa fa-facebook"></i> </a></li>
-                                            <li><a href="#"> <i class="fa fa-twitter"></i> </a></li>
-                                            <li><a href="#"> <i class="fa fa-instagram"></i> </a></li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="team_title text-center">
-                                <h3>Paulo Rolac</h3>
-                                <p>Men Trainer</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+    <!-- Get In Touch Section End -->
+
+    <!-- Footer Section Begin -->
+    <section class="footer-section">
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-4">
+            <div class="fs-about">
+              <div class="fa-logo">
+                <a href="#"><img src="img/logo.png" alt="" /></a>
+              </div>
+              <p></p>
+              <div class="fa-social">
+                <a href="#"><i class="fa fa-facebook"></i></a>
+                <a href="#"><i class="fa fa-twitter"></i></a>
+                <a href="#"><i class="fa fa-youtube-play"></i></a>
+                <a href="#"><i class="fa fa-instagram"></i></a>
+                <a href="#"><i class="fa fa-envelope-o"></i></a>
+              </div>
             </div>
-        </div>
-    <!-- team_area_end  -->
-    
-    <!-- footer_start  -->
-    <footer class="footer">
-        <div class="footer_top">
-            <div class="container">
-                <div class="row">
-                    <div class="col-xl-3 col-md-6 col-lg-3 ">
-                        <div class="footer_widget">
-                            <div class="footer_logo">
-                                <a href="#">
-                                    <img src="img/footer_logo.png" alt="">
-                                </a>
-                            </div>
-                            <p>5th flora, 700/D kings road, green <br> lane New York-1782 <br>
-                                <a href="#">+10 367 826 2567</a> <br>
-                                <a href="#">contact@carpenter.com</a>
-                            </p>
-                            <p>
-
-
-
-                            </p>
-                            
-
-                        </div>
-                    </div>
-                    <div class="col-xl-4 col-md-6 col-lg-4 offset-xl-1">
-                        <div class="footer_widget">
-                            <h3 class="footer_title">
-                                Useful Links
-                            </h3>
-                            <ul class="links">
-                                <li><a href="#">Pricing</a></li>
-                                <li><a href="#">About</a></li>
-                                <li><a href="#"> Gallery</a></li>
-                                <li><a href="#"> Contact</a></li>
-                            </ul>
-                        </div>
-                    </div>
-                    <div class="col-xl-4 col-md-6 col-lg-4">
-                        <div class="footer_widget">
-                            <h3 class="footer_title">
-                                Subscribe
-                            </h3>
-                            <div class="socail_links">
-                                <ul>
-                                    <li>
-                                        <a href="#">
-                                            <i class="ti-facebook"></i>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="#">
-                                            <i class="ti-twitter-alt"></i>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="#">
-                                            <i class="fa fa-instagram"></i>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="#">
-                                            <i class="fa fa-pinterest"></i>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="#">
-                                            <i class="fa fa-youtube-play"></i>
-                                        </a>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+          </div>
+          <div class="col-lg-2 col-md-3 col-sm-6">
+            <div class="fs-widget">
+              <h4>Useful links</h4>
+              <ul>
+                <li><a href="about-us">About</a></li>
+                <li><a href="blog">Blog</a></li>
+                <li><a href="classes">Classes</a></li>
+                <li><a href="contact">Contact</a></li>
+              </ul>
             </div>
+          </div>
+          <div class="col-lg-2 col-md-3 col-sm-6">
+            <div class="fs-widget">
+              <h4>Support</h4>
+              <ul>
+                <li><a href="login">Login</a></li>
+                <li><a href="myaccount">My account</a></li>
+                <li><a href="suibscribe">Subscribe</a></li>
+                <li><a href="contact">Contact</a></li>
+              </ul>
+            </div>
+          </div>
+          <div class="col-lg-4 col-md-6">
+            <div class="fs-widget">
+              <h4>Tips & Guides</h4>
+              <div class="fw-recent">
+                <h6>
+                  <a href="#"
+                    >Physical fitness may help prevent depression, anxiety</a
+                  >
+                </h6>
+                <ul>
+                  <li>3 min read</li>
+                  <li>20 Comment</li>
+                </ul>
+              </div>
+              <div class="fw-recent">
+                <h6>
+                  <a href="#"
+                    >Fitness: The best exercise to lose belly fat and tone
+                    up...</a
+                  >
+                </h6>
+                <ul>
+                  <li>3 min read</li>
+                  <li>20 Comment</li>
+                </ul>
+              </div>
+            </div>
+          </div>
         </div>
-    </footer>
-    <!-- footer_end  -->
+      </div>
+    </section>
+    <!-- Footer Section End -->
 
-    <!-- JS here -->
-    <script src="js/vendor/modernizr-3.5.0.min.js"></script>
-    <script src="js/vendor/jquery-1.12.4.min.js"></script>
-    <script src="js/popper.min.js"></script>
+    <!-- Search model Begin -->
+    <div class="search-model">
+      <div class="h-100 d-flex align-items-center justify-content-center">
+        <div class="search-close-switch">+</div>
+        <form class="search-model-form">
+          <input type="text" id="search-input" placeholder="Search here....." />
+        </form>
+      </div>
+    </div>
+    <!-- Search model end -->
+
+    <!-- Js Plugins -->
+    <script src="js/jquery-3.3.1.min.js"></script>
     <script src="js/bootstrap.min.js"></script>
-    <script src="js/owl.carousel.min.js"></script>
-    <script src="js/isotope.pkgd.min.js"></script>
-    <script src="js/ajax-form.js"></script>
-    <script src="js/waypoints.min.js"></script>
-    <script src="js/jquery.counterup.min.js"></script>
-    <script src="js/imagesloaded.pkgd.min.js"></script>
-    <script src="js/scrollIt.js"></script>
-    <script src="js/jquery.scrollUp.min.js"></script>
-    <script src="js/wow.min.js"></script>
-    <script src="js/gijgo.min.js"></script>
-    <script src="js/nice-select.min.js"></script>
-    <script src="js/jquery.slicknav.min.js"></script>
     <script src="js/jquery.magnific-popup.min.js"></script>
-    <script src="js/plugins.js"></script>
-
-    <!--contact js-->
-    <script src="js/contact.js"></script>
-    <script src="js/jquery.ajaxchimp.min.js"></script>
-    <script src="js/jquery.form.js"></script>
-    <script src="js/jquery.validate.min.js"></script>
-    <script src="js/mail-script.js"></script>
+    <script src="js/masonry.pkgd.min.js"></script>
+    <script src="js/jquery.barfiller.js"></script>
+    <script src="js/jquery.slicknav.js"></script>
+    <script src="js/owl.carousel.min.js"></script>
     <script src="js/main.js"></script>
-
-</body>
-
+  </body>
 </html>
