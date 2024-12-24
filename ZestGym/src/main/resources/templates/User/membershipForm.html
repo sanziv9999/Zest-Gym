@@ -161,7 +161,7 @@
         </div>
         <div class="row justify-content-center">
           <div class="col-lg-8 col-md-10">
-            <form action="#" class="membership-form">
+            <form action="membershipForm" method="post" class="membership-form">
               <div class="form-group">
                 <label for="name">Full Name</label>
                 <input
@@ -226,7 +226,7 @@
               </div>
               <div class="form-group">
                 <label for="plan">Choose Plan</label>
-                <select id="plan" class="form-control" required>
+                <select id="plan" name="membershipPlan" class="form-control" required>
                   <option value="class-drop-in">Class drop-in - $39</option>
                   <option value="12-month-unlimited">
                     12 Month unlimited - $99

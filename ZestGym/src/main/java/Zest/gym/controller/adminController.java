@@ -21,10 +21,12 @@ import Zest.gym.model.AttendanceSheet;
 import Zest.gym.model.Diet;
 import Zest.gym.model.Trainer;
 import Zest.gym.model.membershipDetails;
+import Zest.gym.model.schedule;
 import Zest.gym.model.video;
 import Zest.gym.repository.AttendanceRepository;
 import Zest.gym.repository.dietRepository;
 import Zest.gym.repository.membershipDetailsRepository;
+import Zest.gym.repository.scheduleRepository;
 import Zest.gym.repository.trainerRepository;
 import Zest.gym.repository.videoRepository;
 import jakarta.servlet.http.HttpSession;
@@ -45,6 +47,10 @@ public class adminController {
 	
 	@Autowired
 	private AttendanceRepository aRepo;
+	
+	@Autowired 
+	private scheduleRepository sRepo;
+	
 	
 	
 	
@@ -195,12 +201,12 @@ public class adminController {
 	}
 	
 	
-	@GetMapping("trainerAttendance")
+	@GetMapping("Attendance")
 	public String trainerAttendancepage() {
 		return "Trainer/Tattendance.html";
 	}
 	
-	@PostMapping("trainerAttendance")
+	@PostMapping("Attendance")
 	public String postMethodName(@ModelAttribute AttendanceSheet a, HttpSession session) {
 		if(session != null) {
 //		String email = (String) session.getAttribute("email");
@@ -212,6 +218,17 @@ public class adminController {
 		return "Trainer/Tattendance.html";
 	}
 	
+	
+	@GetMapping("/addSchedule")
+	 public String addSchedule() {
+	 	return "Admin/addSchedule.html";
+	 }
+	 
+	 @PostMapping("/addSchedule")
+	 public String addScheduleData(@ModelAttribute schedule s) {
+	 	sRepo.save(s);
+		return "Admin/addSchedule.html";
+	 }
 	
 	
 	

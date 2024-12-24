@@ -1,5 +1,8 @@
 package Zest.gym.model;
 
+import java.time.LocalDate;
+import java.util.Date;
+
 import org.hibernate.annotations.DynamicUpdate;
 
 import jakarta.persistence.Entity;
@@ -15,11 +18,13 @@ public class membershipOwned {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
+	private String name;
+	private LocalDate dob;
 	private String email;
-	
-	@ManyToOne
-	@JoinColumn(name = "membershipId")
-	private membershipDetails md;
+	private String phone;
+	private String address;
+	private String gender;
+	private String membershipPlan;
 
 	public int getId() {
 		return id;
@@ -37,13 +42,57 @@ public class membershipOwned {
 		this.email = email;
 	}
 
-	public membershipDetails getMd() {
-		return md;
+	
+	public String getName() {
+		return name;
 	}
 
-	public void setMd(membershipDetails md) {
-		this.md = md;
+	public void setName(String name) {
+		this.name = name;
 	}
+
+
+
+	public LocalDate getDob() {
+		return dob;
+	}
+
+	public void setDob(LocalDate dob) {
+		this.dob = dob;
+	}
+
+	public String getPhone() {
+		return phone;
+	}
+
+	public void setPhone(String phone) {
+		this.phone = phone;
+	}
+
+	public String getAddress() {
+		return address;
+	}
+
+	public void setAddress(String address) {
+		this.address = address;
+	}
+
+	public String getGender() {
+		return gender;
+	}
+
+	public void setGender(String gender) {
+		this.gender = gender;
+	}
+
+	public String getMembershipPlan() {
+		return membershipPlan;
+	}
+
+	public void setMembershipPlan(String membershipPlan) {
+		this.membershipPlan = membershipPlan;
+	} 
+	
 	
 	
 	

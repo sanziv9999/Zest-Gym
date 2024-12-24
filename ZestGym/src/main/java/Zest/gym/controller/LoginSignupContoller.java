@@ -1,12 +1,19 @@
 package Zest.gym.controller;
 
+import java.time.LocalDate;
 import java.util.Optional;
 
 import org.apache.commons.codec.digest.DigestUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+
+import Zest.gym.model.AttendanceSheet;
 import Zest.gym.model.User;
+import Zest.gym.model.membershipOwned;
+import Zest.gym.model.schedule;
+import Zest.gym.repository.AttendanceRepository;
+import Zest.gym.repository.membershipOwnedRepository;
 import Zest.gym.repository.userRepository;
 import jakarta.servlet.http.HttpSession;
 
@@ -25,6 +32,13 @@ import org.springframework.web.bind.annotation.RequestBody;
 public class LoginSignupContoller {
 	@Autowired
 	private userRepository uRepo;
+	
+	@Autowired
+	private AttendanceRepository aRepo;
+	
+	@Autowired
+	private membershipOwnedRepository mRepo;
+	
 	
 	
 	@GetMapping("/")
@@ -185,20 +199,19 @@ public class LoginSignupContoller {
 	 	return "User/membership.html";
 	 }
 	 
-	 @GetMapping("/membershipForm-12month")
-	 public String membershipForm12month() {
-	 	return "User/membershipForm.html";
-	 }
-	 
 	 @GetMapping("/membershipForm")
 	 public String membershipForm() {
 	 	return "User/membershipForm.html";
 	 }
 	 
-	 @GetMapping("/attendance")
-	 public String attendance() {
-	 	return "User/attendance.html";
+	 @PostMapping("/membershipForm")
+	 public String membershipFormData(@ModelAttribute membershipOwned m) {
+		 
+		 mRepo.save(m);
+		 
+	 	return "User/membershipForm.html";
 	 }
+	 
 	 //Activities
 	 
 	 @GetMapping("/class-timetable")
@@ -206,10 +219,8 @@ public class LoginSignupContoller {
 	 	return "User/class-timetable.html";
 	 }
 	 
-	 @GetMapping("/addSchedule")
-	 public String addSchedule() {
-	 	return "Admin/addSchedule.html";
-	 }
+	 
+	 
 	 
 	 @GetMapping("/bmi-calculator")
 	 public String bmiCalculator() {
@@ -232,6 +243,24 @@ public class LoginSignupContoller {
 	 public String deit() {
 	 	return "User/diet.html";
 	 }
+	 
+	 @GetMapping("attendance")
+		public String trainerAttendancepage() {
+			return "User/UserAttendance.html";
+		}
+		
+		@PostMapping("attendance")
+		public String postMethodName(@ModelAttribute AttendanceSheet a, HttpSession session) {
+			if(session != null) {
+			String email = (String) session.getAttribute("email");
+//			String email = "a@gmail.com";
+			a.setDate(LocalDate.now());
+			a.setEmail(email);
+			aRepo.save(a);
+			}
+			return "User/UserAttendance.html";
+		}
+		
 	 
 	 
 	 
