@@ -1,50 +1,49 @@
 package Zest.gym.model;
 
+import org.hibernate.annotations.DynamicUpdate;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 
 @Entity
-public class User {
+@DynamicUpdate
+public class membershipOwned {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
-	private String username;
-	private String password;
 	private String email;
-	private String role = "user";
+	
+	@ManyToOne
+	@JoinColumn(name = "membershipId")
+	private membershipDetails md;
+
 	public int getId() {
 		return id;
 	}
+
 	public void setId(int id) {
 		this.id = id;
 	}
-	public String getUsername() {
-		return username;
-	}
-	public void setUsername(String username) {
-		this.username = username;
-	}
-	public String getPassword() {
-		return password;
-	}
-	public void setPassword(String password) {
-		this.password = password;
-	}
+
 	public String getEmail() {
 		return email;
 	}
+
 	public void setEmail(String email) {
 		this.email = email;
 	}
-	public String getRole() {
-		return role;
+
+	public membershipDetails getMd() {
+		return md;
 	}
-	public void setRole(String role) {
-		this.role = role;
+
+	public void setMd(membershipDetails md) {
+		this.md = md;
 	}
-	
 	
 	
 	

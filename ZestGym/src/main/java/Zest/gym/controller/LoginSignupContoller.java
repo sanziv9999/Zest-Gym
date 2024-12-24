@@ -29,18 +29,18 @@ public class LoginSignupContoller {
 	
 	@GetMapping("/")
 	public String LandingPage() {
-		return "landing.html";
+		return "User/landing.html";
 	}
 	
 	
 	@GetMapping("/login")
 	public String LoginPage() {
-		return "login.html";
+		return "User/login.html";
 	}
 	
 	@GetMapping("/register")
 	public String RegistarionPage() {
-		return "register.html";
+		return "User/register.html";
 	}
 	
 	@PostMapping("/register")
@@ -48,14 +48,14 @@ public class LoginSignupContoller {
 		Optional<User> existingUser = uRepo.findByEmail(u.getEmail());
 		if(existingUser.isPresent()) {
 			model.addAttribute("errormessage", "Email already exist! Try new one");
-			return "index.html";
+			return "User/index.html";
 		}
 		
 		String hashPwd = DigestUtils.sha3_256Hex(u.getPassword());
 		u.setPassword(hashPwd);
 		uRepo.save(u);
 		model.addAttribute("message", "Signup successful!!");
-		return "index.html";
+		return "User/index.html";
 	}
 	
 	@PostMapping("/login")
@@ -69,19 +69,19 @@ public class LoginSignupContoller {
 				session.setAttribute("username", username);
 				System.out.println(session.getAttribute("email"));
 				session.setMaxInactiveInterval(1800);
-				return "index.html";
+				return "User/index.html";
 			}
 			
 
 		}
 		model.addAttribute("errormessage", "Username or password incorrect. Please try again!");
-		return "login.html";
+		return "User/login.html";
 	}
 	
 	
 	@GetMapping("/forgotPwd")
 	public String forgotPassword() {
-		return "forgotPwd.html";
+		return "User/forgotPwd.html";
 	}
 	
 	@PostMapping("/forgotPwd")
@@ -90,7 +90,7 @@ public class LoginSignupContoller {
 		session.setAttribute("otp", otp);
 		session.setAttribute("email", email);
 		System.out.println(otp + email);
-		return "otp.html";
+		return "User/otp.html";
 	}
 	
 	
@@ -105,17 +105,17 @@ public class LoginSignupContoller {
 				  System.out.println(session.getAttribute("status"));
 				  session.setAttribute("email", email);
 				  System.out.println(email);
-				  return "resetPwd.html";
+				  return "User/resetPwd.html";
 				  }
 			  else{ 
 					  String status="mismatch"; 
 					  session.setAttribute("status", status);
 					  System.out.println(session.getAttribute("status"));
-					  return "otp.html" ; 
+					  return "User/otp.html" ; 
 			  }
 			  }
 			  
-			  return "forgetPwd.html" ; 
+			  return "User/forgetPwd.html" ; 
 	 }
 	 
 	 
@@ -130,110 +130,107 @@ public class LoginSignupContoller {
 				System.out.println("password changed successfully" + hashPwd);
 				session.invalidate();
 		  }
-		  return "landing.html";
+		  return "User/landing.html";
 		  
 		  
 	  }
 	 
 	 @GetMapping("/about-us")
 	 public String aboutUs() {
-	 	return "about-us.html";
+	 	return "User/about-us.html";
 	 }
 	 
 	 @GetMapping("/team")
 	 public String team() {
-	 	return "team.html";
+	 	return "User/team.html";
 	 }
 	 
 	 
 	 @GetMapping("/gallery")
 	 public String gallery() {
-	 	return "gallery.html";
+	 	return "User/gallery.html";
 	 }
 	 
 	 @GetMapping("/blog")
 	 public String blog() {
-	 	return "blog.html";
+	 	return "User/blog.html";
 	 }
 	 
 	 @GetMapping("/404")
 	 public String error() {
-	 	return "404.html";
+	 	return "User/404.html";
 	 	
 	 }
 	 
 	 @GetMapping("/contact")
 	 public String contact() {
-	 	return "contact.html";
+	 	return "User/contact.html";
 	 	
 	 }
 	 
 	 @GetMapping("/profile")
 	 public String profile() {
-	 	return "contact.html";
+	 	return "User/contact.html";
 	 	
 	 }
 	 
 	 @GetMapping("/index")
 	 public String index() {
-	 	return "index.html";
+	 	return "User/index.html";
 	 }
 	 
 	 
 	 @GetMapping("/membership")
 	 public String membershipPage() {
-	 	return "membership.html";
+	 	return "User/membership.html";
 	 }
 	 
 	 @GetMapping("/membershipForm-12month")
 	 public String membershipForm12month() {
-	 	return "membershipForm.html";
+	 	return "User/membershipForm.html";
 	 }
 	 
 	 @GetMapping("/membershipForm")
 	 public String membershipForm() {
-	 	return "membershipForm.html";
+	 	return "User/membershipForm.html";
 	 }
 	 
 	 @GetMapping("/attendance")
 	 public String attendance() {
-	 	return "attendance.html";
+	 	return "User/attendance.html";
 	 }
-	 
-
-	 
-	 
-	 
-	 
-	 
-	 
 	 //Activities
 	 
 	 @GetMapping("/class-timetable")
 	 public String classTimetable() {
-	 	return "class-timetable.html";
+	 	return "User/class-timetable.html";
+	 }
+	 
+	 @GetMapping("/addSchedule")
+	 public String addSchedule() {
+	 	return "Admin/addSchedule.html";
 	 }
 	 
 	 @GetMapping("/bmi-calculator")
 	 public String bmiCalculator() {
-	 	return "bmi-calculator.html";
+	 	return "User/bmi-calculator.html";
 	 }
 	 
 	 @GetMapping("/activities")
 	 public String activities() {
-	 	return "activities.html";
+	 	return "User/activities.html";
 	 }
 	 
 	 //Workout
 	 
 	 @GetMapping("/video")
 	 public String video() {
-	 	return "video.html";
+	 	return "User/video.html";
 	 }
 	 
 	 @GetMapping("/diet")
 	 public String deit() {
-	 	return "diet.html";
+	 	return "User/diet.html";
 	 }
 	 
 	 
