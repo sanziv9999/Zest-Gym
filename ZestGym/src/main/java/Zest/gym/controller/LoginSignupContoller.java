@@ -75,8 +75,9 @@ public class LoginSignupContoller {
 	@PostMapping("/login")
 	public String loginUser(@ModelAttribute User u, Model model, HttpSession session) {
 		if (uRepo.existsByEmailAndPassword(u.getEmail(), DigestUtils.sha3_256Hex(u.getPassword()))) {
+			String role = uRepo.findRoleByEmail(u.getEmail());
 			String username = uRepo.findUsernameByEmail(u.getEmail());
-			if (username != null) {
+			if (username != null && role.equals("user")) {
 				model.addAttribute("email", u.getEmail());
 				model.addAttribute("message", "Login successful! Please click on dashborad.");
 				session.setAttribute("email", u.getEmail());
@@ -84,6 +85,15 @@ public class LoginSignupContoller {
 				System.out.println(session.getAttribute("email"));
 				session.setMaxInactiveInterval(1800);
 				return "User/index.html";
+			}else {
+				model.addAttribute("email", u.getEmail());
+				model.addAttribute("message", "Login successful! Please click on dashborad.");
+				session.setAttribute("email", u.getEmail());
+				session.setAttribute("username", username);
+				System.out.println(session.getAttribute("email"));
+				System.out.println(session.getAttribute("username"));
+				session.setMaxInactiveInterval(1800);
+				return "Trainer/Tindex.html";
 			}
 			
 
@@ -184,7 +194,9 @@ public class LoginSignupContoller {
 	 
 	 @GetMapping("/profile")
 	 public String profile() {
-	 	return "User/contact.html";
+		 
+		 
+	 	return "User/profile.html";
 	 	
 	 }
 	 

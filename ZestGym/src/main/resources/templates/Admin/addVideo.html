@@ -138,17 +138,17 @@
                                     <form method="post" action="addVideo">
                                         <div class="form-group">
                                             <label for="videoName">Video Name</label>
-                                            <input type="text" class="form-control input-round" id="videoName" name="videoName"
+                                            <input type="text" class="form-control input-round" id="videoName" name="videoTitle"
                                                 placeholder="Video Name">
                                         </div>
                                         <div class="form-group">
                                             <label for="videoLink">Video Link</label>
-                                            <input type="url" class="form-control input-round" id="videoLink" name="videoLink"
+                                            <input type="url" class="form-control input-round" id="videoLink" name="videoUrl"
                                                 placeholder="Video Link">
                                         </div>
                                         <div class="form-group">
                                             <label for="userName">Uploaded By</label>
-                                            <input type="text" class="form-control input-round" id="userName" name="userName"
+                                            <input type="hidden" class="form-control input-round"  id="userName"name="userName" value="${session.username}"
                                                 placeholder="Name">
                                         </div>
                                         <div class="card-action">

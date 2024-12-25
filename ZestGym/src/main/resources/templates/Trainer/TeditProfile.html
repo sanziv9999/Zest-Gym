@@ -8,30 +8,23 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
     <title>Zest Trainer Profile Edit</title>
 
-    <!-- Google Font -->
-    <link
-      href="https://fonts.googleapis.com/css?family=Muli:300,400,500,600,700,800,900&display=swap"
-      rel="stylesheet"
-    />
-    <link
-      href="https://fonts.googleapis.com/css?family=Oswald:300,400,500,600,700&display=swap"
-      rel="stylesheet"
-    />
+    <link href="https://fonts.googleapis.com/css?family=Muli:300,400,500,600,700,800,900&display=swap" rel="stylesheet" />
+  	<link href="https://fonts.googleapis.com/css?family=Oswald:300,400,500,600,700&display=swap" rel="stylesheet" />
 
     <!-- Css Styles -->
-    <link rel="stylesheet" href="css/bootstrap.min.css" type="text/css" />
-    <link rel="stylesheet" href="css/font-awesome.min.css" type="text/css" />
-    <link rel="stylesheet" href="css/flaticon.css" type="text/css" />
-    <link rel="stylesheet" href="css/owl.carousel.min.css" type="text/css" />
-    <link rel="stylesheet" href="css/barfiller.css" type="text/css" />
-    <link rel="stylesheet" href="css/magnific-popup.css" type="text/css" />
-    <link rel="stylesheet" href="css/slicknav.min.css" type="text/css" />
-    <link rel="stylesheet" href="css/style.css" type="text/css" />
+    <link rel="stylesheet" href="/css/bootstrap.min.css" type="text/css" />
+    <link rel="stylesheet" href="/css/font-awesome.min.css" type="text/css" />
+    <link rel="stylesheet" href="/css/flaticon.css" type="text/css" />
+    <link rel="stylesheet" href="/css/owl.carousel.min.css" type="text/css" />
+    <link rel="stylesheet" href="/css/barfiller.css" type="text/css" />
+    <link rel="stylesheet" href="/css/magnific-popup.css" type="text/css" />
+    <link rel="stylesheet" href="/css/slicknav.min.css" type="text/css" />
+    <link rel="stylesheet" href="/css/style.css" type="text/css" />
     <script src="https://cdn.tailwindcss.com"></script>
   </head>
 
   <body>
-    <!-- Page Preloder -->
+   <!-- Page Preloder -->
     <div id="preloder">
       <div class="loader"></div>
     </div>
@@ -47,22 +40,22 @@
       </div>
       <nav class="canvas-menu mobile-menu">
         <ul>
-          <li><a href="Tindex.html">Home</a></li>
-          <li><a href="Tattendance.html">Attendance</a></li>
+          <li><a href="t-index">Home</a></li>
+          <li><a href="t-attendance">Attendance</a></li>
           <li>
             <a href="#">Activities</a>
             <ul class="dropdown">
-              <li><a href="Tclass-timetable.html">Schedules</a></li>
-              <li><a href="Tactivities.html">My Activities</a></li>
+              <li><a href="t-class-timetable">Schedules</a></li>
+              <li><a href="t-activities">My Activities</a></li>
             </ul>
           </li>
           <li>
             <a href="#">Workout</a>
             <ul class="dropdown">
-              <li><a href="Tvideo.html">Video Tutorial</a></li>
+              <li><a href="t-video">Video Tutorial</a></li>
             </ul>
           </li>
-          <li><a href="Tprofile.html"> Profile </a></li>
+          <li><a href="t-profile"> Profile </a></li>
         </ul>
       </nav>
       <div id="mobile-menu-wrap"></div>
@@ -75,30 +68,30 @@
         <div class="row">
           <div class="col-lg-3">
             <div class="logo">
-              <a href="./index.html">
-                <img src="img/logo.png" alt="" />
+              <a href="t-index">
+                <img src="/img/logo.png" alt="" />
               </a>
             </div>
           </div>
           <div class="col-lg-6">
             <nav class="nav-menu">
               <ul>
-                <li><a href="Tindex.html">Home</a></li>
-                <li><a href="Tattendance.html">Attendance</a></li>
+                <li><a href="t-index">Home</a></li>
+                <li><a href="t-attendance">Attendance</a></li>
                 <li>
                   <a href="#">Activities</a>
                   <ul class="dropdown">
-                    <li><a href="Tclass-timetable.html">Schedules</a></li>
-                    <li><a href="Tactivities.html">My Activities</a></li>
+                    <li><a href="t-class-timetable">Schedules</a></li>
+                    <li><a href="t-activities">My Activities</a></li>
                   </ul>
                 </li>
                 <li>
                   <a href="#">Workout</a>
                   <ul class="dropdown">
-                    <li><a href="Tvideo.html">Video Tutorial</a></li>
+                    <li><a href="t-video">Video Tutorial</a></li>
                   </ul>
                 </li>
-                <li><a href="Tprofile.html"> Profile </a></li>
+                <li><a href="t-profile"> Profile </a></li>
               </ul>
             </nav>
           </div>
@@ -115,12 +108,11 @@
         </div>
       </div>
     </header>
-    <!-- Header End -->
 
     <!-- Breadcrumb Section Begin -->
     <section
       class="breadcrumb-section set-bg"
-      data-setbg="img/breadcrumb-bg.jpg"
+      data-setbg="/img/breadcrumb-bg.jpg"
     >
       <div class="container">
         <div class="row">
@@ -145,45 +137,47 @@
         <div class="grid grid-cols-4 sm:grid-cols-12 gap-6 px-4 mt-6">
           <!-- Profile Card -->
           <div class="col-span-4 sm:col-span-3">
-            <div class="bg-white shadow rounded-lg p-6 h-full">
-              <div class="flex flex-col items-center">
-                <!-- Profile Image -->
-                <img
-                  id="profile-photo"
-                  src="https://randomuser.me/api/portraits/men/94.jpg"
-                  class="w-32 h-32 bg-gray-300 rounded-full mb-4"
-                />
+		    <div class="bg-white shadow rounded-lg p-6 h-full">
+		        <div class="flex flex-col items-center">
+		            <!-- Profile Image -->
+		            <form action="/saveProfile" method="post" enctype="multipart/form-data">
+		                <img th:src="@{'/assets/' + ${tList.get().image}}"
+		                     class="w-32 h-32 bg-gray-300 rounded-full mb-4" />
+		
+		                <!-- Profile Info -->
+		                <h1 class="text-xl font-bold" th:text="${tList.get().name}"></h1>
+		                <p class="text-gray-700 mt-2">Zest Gym Trainer</p>
+		
+		                <!-- Update Profile Button and File Upload -->
+		                <div class="mt-4">
+		                    <!-- File Upload -->
+		                    <input type="file" id="file-upload" name="image" class="hidden" onchange="previewImage(event)" />
+		                    <button type="button" onclick="document.getElementById('file-upload').click()" class="text-blue-500 hover:text-blue-700">
+		                        Update Profile
+		                    </button>
+		                </div>
+		
+		                <!-- Hidden Input for ID (if needed for form submission) -->
+		                <input type="hidden" name="id" th:value="${tList.get().id}" />
+		
+		                <!-- Submit Button -->
+		                <div class="mt-4">
+		                    <button type="submit" class="bg-orange-500 hover:bg-orange-600 text-white py-2 px-4 rounded">
+		                        Save Changes
+		                    </button>
+		                </div>
+		            </form>
+		        </div>
+		    </div>
+		</div>
 
-                <!-- Profile Info -->
-                <h1 class="text-xl font-bold">John Doe</h1>
-                <p class="text-gray-700 mt-2">Zest Gym Trainer</p>
-
-                <!-- Update Profile Button and File Upload -->
-                <div class="mt-4">
-                  <!-- File Upload -->
-                  <input
-                    type="file"
-                    id="file-upload"
-                    class="hidden"
-                    onchange="previewImage(event)"
-                  />
-                  <button
-                    type="button"
-                    onclick="document.getElementById('file-upload').click()"
-                    class="text-blue-500 hover:text-blue-700"
-                  >
-                    Update Profile
-                  </button>
-                </div>
-              </div>
-            </div>
-          </div>
 
           <!-- Edit Profile Form -->
           <div class="col-span-4 sm:col-span-9">
             <div class="bg-white shadow rounded-lg p-9 h-full">
               <h2 class="text-2xl font-bold mb-4">Edit Your Information</h2>
-              <form action="#" method="POST">
+              <form action="/saveEditedprofile" method="post">
+              <input type="hidden" name="id" th:value="${tList.get().id}">
                 <div class="mb-4">
                   <label for="name" class="block font-semibold text-gray-700"
                     >Name</label
@@ -192,7 +186,7 @@
                     type="text"
                     id="name"
                     name="name"
-                    value="John Doe"
+                    th:value="${tList.get().name}"
                     class="w-full p-2 mt-2 border border-gray-300 rounded"
                   />
                 </div>
@@ -204,7 +198,7 @@
                     type="text"
                     id="address"
                     name="address"
-                    value="1234 Main Street, Anytown, USA"
+                    th:value="${tList.get().address}"
                     class="w-full p-2 mt-2 border border-gray-300 rounded"
                   />
                 </div>
@@ -216,7 +210,7 @@
                     type="email"
                     id="email"
                     name="email"
-                    value="johndoe@example.com"
+                    th:value="${tList.get().email}"
                     class="w-full p-2 mt-2 border border-gray-300 rounded"
                   />
                 </div>
@@ -228,7 +222,7 @@
                     type="tel"
                     id="contact"
                     name="contact"
-                    value="+1 234 567 890"
+                    th:value="${tList.get().contact}"
                     class="w-full p-2 mt-2 border border-gray-300 rounded"
                   />
                 </div>
@@ -327,14 +321,14 @@
     <!-- Footer Section End -->
 
     <!-- Js Plugins -->
-    <script src="js/jquery-3.3.1.min.js"></script>
-    <script src="js/bootstrap.min.js"></script>
-    <script src="js/jquery.magnific-popup.min.js"></script>
-    <script src="js/masonry.pkgd.min.js"></script>
-    <script src="js/jquery.barfiller.js"></script>
-    <script src="js/jquery.slicknav.js"></script>
-    <script src="js/owl.carousel.min.js"></script>
-    <script src="js/main.js"></script>
+    <script src="/js/jquery-3.3.1.min.js"></script>
+    <script src="/js/bootstrap.min.js"></script>
+    <script src="/js/jquery.magnific-popup.min.js"></script>
+    <script src="/js/masonry.pkgd.min.js"></script>
+    <script src="/js/jquery.barfiller.js"></script>
+    <script src="/js/jquery.slicknav.js"></script>
+    <script src="/js/owl.carousel.min.js"></script>
+    <script src="/js/main.js"></script>
     <script>
       // Function to preview the uploaded image
       function previewImage(event) {

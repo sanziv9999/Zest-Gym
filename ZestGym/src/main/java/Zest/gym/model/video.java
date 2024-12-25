@@ -12,8 +12,8 @@ public class video {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
-	private String videoName;
-	private String videoLink;
+	private String videoTitle;
+	private String videoUrl;
 	private String userName;
 	public int getId() {
 		return id;
@@ -21,17 +21,19 @@ public class video {
 	public void setId(int id) {
 		this.id = id;
 	}
-	public String getVideoName() {
-		return videoName;
+	
+	
+	public String getVideoTitle() {
+		return videoTitle;
 	}
-	public void setVideoName(String videoName) {
-		this.videoName = videoName;
+	public void setVideoTitle(String videoTitle) {
+		this.videoTitle = videoTitle;
 	}
-	public String getVideoLink() {
-		return videoLink;
+	public String getVideoUrl() {
+		return videoUrl;
 	}
-	public void setVideoLink(String videoLink) {
-		this.videoLink = videoLink;
+	public void setVideoUrl(String videoUrl) {
+		this.videoUrl = videoUrl;
 	}
 	public String getUserName() {
 		return userName;

@@ -45,9 +45,7 @@ public class adminController {
 	@Autowired
 	private dietRepository dRepo;
 	
-	@Autowired
-	private AttendanceRepository aRepo;
-	
+
 	@Autowired 
 	private scheduleRepository sRepo;
 	
@@ -201,22 +199,7 @@ public class adminController {
 	}
 	
 	
-	@GetMapping("Attendance")
-	public String trainerAttendancepage() {
-		return "Trainer/Tattendance.html";
-	}
 	
-	@PostMapping("Attendance")
-	public String postMethodName(@ModelAttribute AttendanceSheet a, HttpSession session) {
-		if(session != null) {
-//		String email = (String) session.getAttribute("email");
-		String email = "a@gmail.com";
-		a.setDate(LocalDate.now());
-		a.setEmail(email);
-		aRepo.save(a);
-		}
-		return "Trainer/Tattendance.html";
-	}
 	
 	
 	@GetMapping("/addSchedule")

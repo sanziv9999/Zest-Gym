@@ -64,22 +64,22 @@
       </div>
       <nav class="canvas-menu mobile-menu">
         <ul>
-          <li><a href="Tindex.html">Home</a></li>
-          <li><a href="Tattendance.html">Attendance</a></li>
+          <li><a href="t-index">Home</a></li>
+          <li><a href="t-attendance">Attendance</a></li>
           <li>
             <a href="#">Activities</a>
             <ul class="dropdown">
-              <li><a href="Tclass-timetable.html">Schedules</a></li>
-              <li><a href="Tactivities.html">My Activities</a></li>
+              <li><a href="t-class-timetable">Schedules</a></li>
+              <li><a href="t-activities">My Activities</a></li>
             </ul>
           </li>
           <li>
             <a href="#">Workout</a>
             <ul class="dropdown">
-              <li><a href="Tvideo.html">Video Tutorial</a></li>
+              <li><a href="t-video">Video Tutorial</a></li>
             </ul>
           </li>
-          <li><a href="Tprofile.html"> Profile </a></li>
+          <li><a href="t-profile"> Profile </a></li>
         </ul>
       </nav>
       <div id="mobile-menu-wrap"></div>
@@ -92,7 +92,7 @@
         <div class="row">
           <div class="col-lg-3">
             <div class="logo">
-              <a href="./index.html">
+              <a href="t-index">
                 <img src="img/logo.png" alt="" />
               </a>
             </div>
@@ -100,22 +100,22 @@
           <div class="col-lg-6">
             <nav class="nav-menu">
               <ul>
-                <li><a href="Tindex.html">Home</a></li>
-                <li><a href="Tattendance.html">Attendance</a></li>
+                <li><a href="t-index">Home</a></li>
+                <li><a href="t-attendance">Attendance</a></li>
                 <li>
                   <a href="#">Activities</a>
                   <ul class="dropdown">
-                    <li><a href="Tclass-timetable.html">Schedules</a></li>
-                    <li><a href="Tactivities.html">My Activities</a></li>
+                    <li><a href="t-class-timetable">Schedules</a></li>
+                    <li><a href="t-activities">My Activities</a></li>
                   </ul>
                 </li>
                 <li>
                   <a href="#">Workout</a>
                   <ul class="dropdown">
-                    <li><a href="Tvideo.html">Video Tutorial</a></li>
+                    <li><a href="t-video">Video Tutorial</a></li>
                   </ul>
                 </li>
-                <li><a href="Tprofile.html"> Profile </a></li>
+                <li><a href="t-profile"> Profile </a></li>
               </ul>
             </nav>
           </div>
@@ -132,7 +132,6 @@
         </div>
       </div>
     </header>
-    <!-- Header End -->
 
     <!-- Hero Section Begin -->
     <section class="hero-section">
@@ -181,25 +180,25 @@
         <!-- Add Video Section -->
         <div class="row">
           <div class="col-lg-12">
-            <form
-              id="addVideoForm"
-              onsubmit="return addVideo()"
+            <form method="post" action="addTVideo"
               class="bg-slate-300"
             >
               <input
                 type="text"
-                id="videoUrl"
+                name="videoUrl"
                 placeholder="Enter video URL"
                 class="border-none bg-slate-300 p-2"
                 required
               />
               <input
                 type="text"
-                id="videoTitle"
+                name="videoTitle"
                 placeholder="Enter video title"
                 class="border-none bg-slate-300 p-2 ml-3"
                 required
               />
+              
+              <input type="hidden" name="userName" th:value="${session.username}">
               <button type="submit" class="btn btn-success ml-4">
                 Add Video
               </button>
@@ -222,66 +221,31 @@
         </div>
 
         <!-- Video List -->
-        <div class="row" id="videoContainer">
-          <!-- Example videos, dynamically added will appear here -->
-          <div class="col-md-4 video-item">
-            <iframe
-              width="100%"
-              height="250"
-              src="https://www.youtube.com/embed/Z_dgrjRlD_4"
-              frameborder="0"
-              allowfullscreen
-            ></iframe>
-            <h3>Female Abs Workout Tutorial</h3>
-            <button class="btn btn-danger" onclick="deleteVideo(this)">
-              Delete
-            </button>
-            <button
-              class="btn btn-primary"
-              onclick="editVideo(this, 'https://www.youtube.com/embed/Z_dgrjRlD_4', 'Female Abs Workout Tutorial')"
-            >
-              Edit
-            </button>
-          </div>
-          <div class="col-md-4 video-item">
-            <iframe
-              width="100%"
-              height="250"
-              src="https://www.youtube.com/embed/z0eulElSJK0"
-              frameborder="0"
-              allowfullscreen
-            ></iframe>
-            <h3>Female Biceps Workout Tutorial</h3>
-            <button class="btn btn-danger" onclick="deleteVideo(this)">
-              Delete
-            </button>
-            <button
-              class="btn btn-primary"
-              onclick="editVideo(this, 'https://www.youtube.com/embed/Z_dgrjRlD_4', 'Female Abs Workout Tutorial')"
-            >
-              Edit
-            </button>
-          </div>
-          <div class="col-md-4 video-item">
-            <iframe
-              width="100%"
-              height="250"
-              src="https://www.youtube.com/embed/FJA3R7n_594"
-              frameborder="0"
-              allowfullscreen
-            ></iframe>
-            <h3>Female Legs Workout Tutorial</h3>
-            <button class="btn btn-danger" onclick="deleteVideo(this)">
-              Delete
-            </button>
-            <button
-              class="btn btn-primary"
-              onclick="editVideo(this, 'https://www.youtube.com/embed/Z_dgrjRlD_4', 'Female Abs Workout Tutorial')"
-            >
-              Edit
-            </button>
-          </div>
-        </div>
+        <!-- Video List -->
+		<div class="row" id="videoContainer">
+    <!-- Iterate over the video list passed from the controller -->
+		    <th:block th:each="video : ${vList}">
+		        <div class="col-md-4 video-item">
+		            <!-- Extract YouTube video ID dynamically -->
+		            <iframe
+		                width="100%"
+		                height="250"
+		                th:src="@{'https://www.youtube.com/embed/' + ${#strings.substring(video.videoUrl, video.videoUrl.indexOf('=') + 1)}}"
+		                frameborder="0"
+		                allowfullscreen
+		            ></iframe>
+		            <h3 th:text="${video.videoTitle}">Video Title</h3>
+		            <button class="btn btn-danger" onclick="deleteVideo(this)">
+		                Delete
+		            </button>
+		            <button class="btn btn-primary">
+		                Edit
+		            </button>
+		        </div>
+		    </th:block>
+		</div>
+
+
 
         <!-- No Results Message -->
         <div class="row" id="noResults" style="display: none">
@@ -423,109 +387,35 @@
     <script src="js/owl.carousel.min.js"></script>
     <script src="js/main.js"></script>
     <script>
-      // Function to add a video
-      function addVideo() {
-        const videoUrl = document.getElementById("videoUrl").value;
-        const videoTitle = document.getElementById("videoTitle").value;
-
-        if (videoUrl && videoTitle) {
-          const videoContainer = document.getElementById("videoContainer");
-
-          // Create a new video item
-          const videoItem = document.createElement("div");
-          videoItem.classList.add("col-md-4", "video-item");
-          videoItem.innerHTML = `
-          <iframe width="100%" height="250" src="https://www.youtube.com/embed/${getVideoId(
-            videoUrl
-          )}" frameborder="0" allowfullscreen></iframe>
-          <h3>${videoTitle}</h3>
-          <button class="btn btn-danger" onclick="deleteVideo(this)">Delete</button>
-        `;
-
-          // Append to the video container
-          videoContainer.appendChild(videoItem);
-
-          // Clear the form
-          document.getElementById("videoUrl").value = "";
-          document.getElementById("videoTitle").value = "";
-        }
-
-        return false;
-      }
-
-      // Function to get the video ID from YouTube URL
-      function getVideoId(url) {
-        const regExp =
-          /(?:https?:\/\/(?:www\.)?youtube\.com\/(?:[^\/\n\s]+\/\S+\/|(?:v|e(?:mbed)?)\/|\S*\?v=)|youtu\.be\/)([a-zA-Z0-9_-]{11})/;
-        const match = url.match(regExp);
-        return match ? match[1] : "";
-      }
-
-      // Function to handle video editing
-      function editVideo(button, videoUrl, videoTitle) {
-        // Pre-fill the form with the current video details
-        document.getElementById("videoUrl").value = videoUrl;
-        document.getElementById("videoTitle").value = videoTitle;
-
-        // Change the form's submit behavior to update the video
-        const form = document.getElementById("addVideoForm");
-        form.onsubmit = function () {
-          updateVideo(button, videoUrl); // Pass current video URL for updating
-          return false; // Prevent default form submission
-        };
-      }
-
-      // Function to update the video
-      function updateVideo(button, oldVideoUrl) {
-        const newVideoUrl = document.getElementById("videoUrl").value;
-        const newVideoTitle = document.getElementById("videoTitle").value;
-
-        // Update the video URL and title in the video list
-        const iframe = button.parentElement.querySelector("iframe");
-        iframe.src = newVideoUrl;
-
-        const titleElement = button.parentElement.querySelector("h3");
-        titleElement.innerText = newVideoTitle;
-
-        // Clear the form and reset submit behavior
-        document.getElementById("videoUrl").value = "";
-        document.getElementById("videoTitle").value = "";
-        const form = document.getElementById("addVideoForm");
-        form.onsubmit = function () {
-          addVideo(); // Reset to original add behavior
-          return false;
-        };
-      }
-      // Function to delete a video
-      function deleteVideo(button) {
-        const videoItem = button.closest(".video-item");
-        videoItem.remove();
-      }
-
       // Function to filter videos based on search
       function filterVideos() {
-        const searchQuery = document
-          .getElementById("searchBar")
-          .value.toLowerCase();
-        const videoItems = document.querySelectorAll(".video-item");
+	    var input = document.getElementById('searchBar').value.toUpperCase();
+	    var videoContainer = document.getElementById('videoContainer');
+	    var videoItems = videoContainer.getElementsByClassName('video-item');
+	
+	    var noResults = document.getElementById('noResults');
+	
+	    var found = false;
+	
+	    for (var i = 0; i < videoItems.length; i++) {
+	        var title = videoItems[i].getElementsByTagName("h3")[0].textContent || videoItems[i].getElementsByTagName("h3")[0].innerText;
+	        
+	        if (title.toUpperCase().indexOf(input) > -1) {
+	            videoItems[i].style.display = "";
+	            found = true;
+	        } else {
+	            videoItems[i].style.display = "none";
+	        }
+	    }
+	
+	    // Display no results message if no videos match the search
+	    if (!found) {
+	        noResults.style.display = "block";
+	    } else {
+	        noResults.style.display = "none";
+	    }
+	}
 
-        let resultsFound = false;
-
-        videoItems.forEach((item) => {
-          const title = item.querySelector("h3").textContent.toLowerCase();
-          if (title.includes(searchQuery)) {
-            item.style.display = "";
-            resultsFound = true;
-          } else {
-            item.style.display = "none";
-          }
-        });
-
-        // Show no results message if no matching videos
-        document.getElementById("noResults").style.display = resultsFound
-          ? "none"
-          : "block";
-      }
     </script>
   </body>
 </html>

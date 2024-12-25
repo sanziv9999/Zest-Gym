@@ -26,8 +26,7 @@
 </head>
 
 <body>
-  <!-- Page Preloder -->
-    <div id="preloder">
+ <div id="preloder">
       <div class="loader"></div>
     </div>
 
@@ -42,22 +41,28 @@
       </div>
       <nav class="canvas-menu mobile-menu">
         <ul>
-          <li><a href="t-index">Home</a></li>
-          <li><a href="t-attendance">Attendance</a></li>
+          <li><a href="index">Home</a></li>
+          <li><a href="membership">Membership</a></li>
+          <li><a href="Attendance">Attendance</a></li>
           <li>
             <a href="#">Activities</a>
             <ul class="dropdown">
-              <li><a href="t-class-timetable">Schedules</a></li>
-              <li><a href="t-activities">My Activities</a></li>
+              <li><a href="class-timetable">Schedules</a></li>
+              <li><a href="bmi-calculator">BMI Calculator</a></li>
+              <li><a href="activities">My Activities</a></li>
             </ul>
           </li>
           <li>
             <a href="#">Workout</a>
             <ul class="dropdown">
-              <li><a href="t-video">Video Tutorial</a></li>
+              <li><a href="video">Video Tutorial</a></li>
+              <li><a href="class-timetable">Workouts</a></li>
+              <li><a href="diet">Diet</a></li>
+              <!-- <li><a href="./404.html">404</a></li> -->
             </ul>
           </li>
-          <li><a href="t-profile"> Profile </a></li>
+          <li><a href="contact">Contact</a></li>
+          <li><a href="profile"> Profile </a></li>
         </ul>
       </nav>
       <div id="mobile-menu-wrap"></div>
@@ -70,7 +75,7 @@
         <div class="row">
           <div class="col-lg-3">
             <div class="logo">
-              <a href="t-index">
+              <a href="index">
                 <img src="img/logo.png" alt="" />
               </a>
             </div>
@@ -78,22 +83,28 @@
           <div class="col-lg-6">
             <nav class="nav-menu">
               <ul>
-                <li><a href="t-index">Home</a></li>
-                <li><a href="t-attendance">Attendance</a></li>
+                <li><a href="index">Home</a></li>
+                <li><a href="membership">Membership</a></li>
+                <li><a href="attendance">Attendance</a></li>
                 <li>
                   <a href="#">Activities</a>
                   <ul class="dropdown">
-                    <li><a href="t-class-timetable">Schedules</a></li>
-                    <li><a href="t-activities">My Activities</a></li>
+                    <li><a href="class-timetable">Schedules</a></li>
+                    <li><a href="bmi-calculator">BMI Calculator</a></li>
+                    <li><a href="activities">My Activities</a></li>
                   </ul>
                 </li>
                 <li>
                   <a href="#">Workout</a>
                   <ul class="dropdown">
-                    <li><a href="t-video">Video Tutorial</a></li>
+                    <li><a href="video">Video Tutorial</a></li>
+                    <li><a href="class-timetable">Workouts</a></li>
+                    <li><a href="diet">Diet</a></li>
+                    <!-- <li><a href="./404.html">404</a></li> -->
                   </ul>
                 </li>
-                <li><a href="t-profile"> Profile </a></li>
+                <li><a href="contact">Contact</a></li>
+                <li><a href="profile"> Profile </a></li>
               </ul>
             </nav>
           </div>
@@ -138,10 +149,9 @@
         <div class="col-span-4 sm:col-span-3">
           <div class="bg-white shadow rounded-lg p-6 h-full">
             <div class="flex flex-col items-center">
-              <img th:src="@{'/assets/' + ${tList.get().image}}"
-
+              <img src="https://randomuser.me/api/portraits/men/94.jpg"
                 class="w-32 h-32 bg-gray-300 rounded-full mb-4" />
-              <h1 class="text-xl font-bold" th:text="${tList.get().name}"></h1>
+              <h1 class="text-xl font-bold">John Doe</h1>
               <p class="text-gray-700 mt-2">Zest Gym Trainer</p>
             </div>
           </div>
@@ -164,23 +174,23 @@
               <h2 class="text-xl font-bold mb-4">Personal Information</h2>
               <div class="mb-4">
                 <p class="font-semibold text-gray-700">Name:</p>
-                <p class="text-gray-700" th:text="${tList.get().name}"></p>
+                <p class="text-gray-700">John Doe</p>
               </div>
               <div class="mb-4">
                 <p class="font-semibold text-gray-700">Address:</p>
-                <p class="text-gray-700" th:text="${tList.get().address}"></p>
+                <p class="text-gray-700">1234 Main Street, Anytown, USA</p>
               </div>
               <div class="mb-4">
                 <p class="font-semibold text-gray-700">Email:</p>
-                <p class="text-gray-700" th:text="${tList.get().email}"></p>
+                <p class="text-gray-700">johndoe@example.com</p>
               </div>
               <div class="mb-4">
                 <p class="font-semibold text-gray-700">Contact:</p>
-                <p class="text-gray-700" th:text="${tList.get().contact}"></p>
+                <p class="text-gray-700">+1 234 567 890</p>
               </div>
 
               <div class="mt-6 flex justify-center items-center gap-6 flex-wrap">
-                <a th:href="@{'/editProfile/'+${tList.get().id}}" 
+                <a href="TeditProfile.html"
                   class="bg-orange-500 hover:bg-orange-600 text-white py-2 px-4 rounded transition-all">
                   Edit Profile
                 </a>
