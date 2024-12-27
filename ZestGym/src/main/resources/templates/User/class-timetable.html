@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="zxx">
+<html xmlns:th="http://www.thymeleaf.org">
   <head>
     <meta charset="UTF-8" />
     <meta name="description" content="Gym Template" />
@@ -173,139 +173,297 @@
         </div>
         <div class="row">
           <div class="col-lg-12">
-            <div class="class-timetable">
-              <table>
-                <thead>
-                  <tr>
-                    <th></th>
-                    <th>Monday</th>
-                    <th>Tuesday</th>
-                    <th>Wednesday</th>
-                    <th>Thursday</th>
-                    <th>Friday</th>
-                    <th>Saturday</th>
-                    <th>Sunday</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td class="class-time">6.00am - 8.00am</td>
-                    <td class="dark-bg hover-bg ts-meta" data-tsmeta="workout">
-                      <h5>WEIGHT LOOSE</h5>
-                      <span>RLefew D. Loee</span>
-                    </td>
-                    <td class="hover-bg ts-meta" data-tsmeta="fitness">
-                      <h5>Cardio</h5>
-                      <span>RLefew D. Loee</span>
-                    </td>
-                    <td class="dark-bg hover-bg ts-meta" data-tsmeta="workout">
-                      <h5>Yoga</h5>
-                      <span>Keaf Shen</span>
-                    </td>
-                    <td class="hover-bg ts-meta" data-tsmeta="fitness">
-                      <h5>Fitness</h5>
-                      <span>Kimberly Stone</span>
-                    </td>
-                    <td class="dark-bg blank-td"></td>
-                    <td class="hover-bg ts-meta" data-tsmeta="motivation">
-                      <h5>Boxing</h5>
-                      <span>Rachel Adam</span>
-                    </td>
-                    <td class="dark-bg hover-bg ts-meta" data-tsmeta="workout">
-                      <h5>Body Building</h5>
-                      <span>Robert Cage</span>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td class="class-time">10.00am - 12.00am</td>
-                    <td class="blank-td"></td>
-                    <td class="dark-bg hover-bg ts-meta" data-tsmeta="fitness">
-                      <h5>Fitness</h5>
-                      <span>Kimberly Stone</span>
-                    </td>
-                    <td class="hover-bg ts-meta" data-tsmeta="workout">
-                      <h5>WEIGHT LOOSE</h5>
-                      <span>RLefew D. Loee</span>
-                    </td>
-                    <td
-                      class="dark-bg hover-bg ts-meta"
-                      data-tsmeta="motivation"
-                    >
-                      <h5>Cardio</h5>
-                      <span>RLefew D. Loee</span>
-                    </td>
-                    <td class="hover-bg ts-meta" data-tsmeta="workout">
-                      <h5>Body Building</h5>
-                      <span>Robert Cage</span>
-                    </td>
-                    <td
-                      class="dark-bg hover-bg ts-meta"
-                      data-tsmeta="motivation"
-                    >
-                      <h5>Karate</h5>
-                      <span>Donald Grey</span>
-                    </td>
-                    <td class="blank-td"></td>
-                  </tr>
-                  <tr>
-                    <td class="class-time">5.00pm - 7.00pm</td>
-                    <td class="dark-bg hover-bg ts-meta" data-tsmeta="fitness">
-                      <h5>Boxing</h5>
-                      <span>Rachel Adam</span>
-                    </td>
-                    <td class="hover-bg ts-meta" data-tsmeta="motivation">
-                      <h5>Karate</h5>
-                      <span>Donald Grey</span>
-                    </td>
-                    <td class="dark-bg hover-bg ts-meta" data-tsmeta="workout">
-                      <h5>Body Building</h5>
-                      <span>Robert Cage</span>
-                    </td>
-                    <td class="blank-td"></td>
-                    <td class="dark-bg hover-bg ts-meta" data-tsmeta="workout">
-                      <h5>Yoga</h5>
-                      <span>Keaf Shen</span>
-                    </td>
-                    <td class="hover-bg ts-meta" data-tsmeta="motivation">
-                      <h5>Cardio</h5>
-                      <span>RLefew D. Loee</span>
-                    </td>
-                    <td class="dark-bg hover-bg ts-meta" data-tsmeta="fitness">
-                      <h5>Fitness</h5>
-                      <span>Kimberly Stone</span>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td class="class-time">7.00pm - 9.00pm</td>
-                    <td class="hover-bg ts-meta" data-tsmeta="motivation">
-                      <h5>Cardio</h5>
-                      <span>RLefew D. Loee</span>
-                    </td>
-                    <td class="dark-bg blank-td"></td>
-                    <td class="hover-bg ts-meta" data-tsmeta="fitness">
-                      <h5>Boxing</h5>
-                      <span>Rachel Adam</span>
-                    </td>
-                    <td class="dark-bg hover-bg ts-meta" data-tsmeta="workout">
-                      <h5>Yoga</h5>
-                      <span>Keaf Shen</span>
-                    </td>
-                    <td class="hover-bg ts-meta" data-tsmeta="motivation">
-                      <h5>Karate</h5>
-                      <span>Donald Grey</span>
-                    </td>
-                    <td class="dark-bg hover-bg ts-meta" data-tsmeta="fitness">
-                      <h5>Boxing</h5>
-                      <span>Rachel Adam</span>
-                    </td>
-                    <td class="hover-bg ts-meta" data-tsmeta="workout">
-                      <h5>WEIGHT LOOSE</h5>
-                      <span>RLefew D. Loee</span>
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
+           <div class="class-timetable">
+	   <table>
+	    <thead>
+	        <tr>
+	            <th></th>
+	            <th>Monday</th>
+	            <th>Tuesday</th>
+	            <th>Wednesday</th>
+	            <th>Thursday</th>
+	            <th>Friday</th>
+	            <th>Saturday</th>
+	            <th>Sunday</th>
+	        </tr>
+	    </thead>
+	    <tbody>
+	      <tr>
+    <td class="class-time">6.00am - 8.00am</td>
+
+    <!-- Monday Schedule -->
+    <td th:if="${filteredSchedules['Monday-6:00 AM - 8:00 AM'] != null}" class="dark-bg hover-bg ts-meta">
+        <h5 th:text="${filteredSchedules['Monday-6:00 AM - 8:00 AM'].activity}"></h5>
+        <span th:text="${filteredSchedules['Monday-6:00 AM - 8:00 AM'].trainer}"></span>
+    </td>
+    <td th:if="${filteredSchedules['Monday-6:00 AM - 8:00 AM'] == null}" class="dark-bg hover-bg ts-meta">
+        <h5>N/A</h5>
+    </td>
+
+    <!-- Tuesday Schedule -->
+    <td th:if="${filteredSchedules['Tuesday-6:00 AM - 8:00 AM'] != null}" class="hover-bg ts-meta" data-tsmeta="fitness">
+        <h5 th:text="${filteredSchedules['Tuesday-6:00 AM - 8:00 AM'].activity}"></h5>
+        <span th:text="${filteredSchedules['Tuesday-6:00 AM - 8:00 AM'].trainer}"></span>
+    </td>
+    <td th:if="${filteredSchedules['Tuesday-6:00 AM - 8:00 AM'] == null}" class="hover-bg ts-meta" data-tsmeta="fitness">
+        <h5>N/A</h5>
+    </td>
+
+    <!-- Wednesday Schedule -->
+    <td th:if="${filteredSchedules['Wednesday-6:00 AM - 8:00 AM'] != null}" class="dark-bg hover-bg ts-meta">
+        <h5 th:text="${filteredSchedules['Wednesday-6:00 AM - 8:00 AM'].activity}"></h5>
+        <span th:text="${filteredSchedules['Wednesday-6:00 AM - 8:00 AM'].trainer}"></span>
+    </td>
+    <td th:if="${filteredSchedules['Wednesday-6:00 AM - 8:00 AM'] == null}" class="dark-bg hover-bg ts-meta">
+        <h5>N/A</h5>
+    </td>
+
+    <!-- Thursday Schedule -->
+    <td th:if="${filteredSchedules['Thursday-6:00 AM - 8:00 AM'] != null}" class="hover-bg ts-meta" data-tsmeta="fitness">
+        <h5 th:text="${filteredSchedules['Thursday-6:00 AM - 8:00 AM'].activity}"></h5>
+        <span th:text="${filteredSchedules['Thursday-6:00 AM - 8:00 AM'].trainer}"></span>
+    </td>
+    <td th:if="${filteredSchedules['Thursday-6:00 AM - 8:00 AM'] == null}" class="hover-bg ts-meta" data-tsmeta="fitness">
+        <h5>N/A</h5>
+    </td>
+
+    <!-- Friday Schedule -->
+    <td th:if="${filteredSchedules['Friday-6:00 AM - 8:00 AM'] != null}" class="dark-bg blank-td">
+        <h5 th:text="${filteredSchedules['Friday-6:00 AM - 8:00 AM'].activity}"></h5>
+        <span th:text="${filteredSchedules['Friday-6:00 AM - 8:00 AM'].trainer}"></span>
+    </td>
+    <td th:if="${filteredSchedules['Friday-6:00 AM - 8:00 AM'] == null}" class="dark-bg blank-td">
+        <h5>N/A</h5>
+    </td>
+
+    <!-- Saturday Schedule -->
+    <td th:if="${filteredSchedules['Saturday-6:00 AM - 8:00 AM'] != null}" class="hover-bg ts-meta" data-tsmeta="motivation">
+        <h5 th:text="${filteredSchedules['Saturday-6:00 AM - 8:00 AM'].activity}"></h5>
+        <span th:text="${filteredSchedules['Saturday-6:00 AM - 8:00 AM'].trainer}"></span>
+    </td>
+    <td th:if="${filteredSchedules['Saturday-6:00 AM - 8:00 AM'] == null}" class="hover-bg ts-meta" data-tsmeta="motivation">
+        <h5>N/A</h5>
+    </td>
+
+    <!-- Sunday Schedule -->
+    <td th:if="${filteredSchedules['Sunday-6:00 AM - 8:00 AM'] != null}" class="dark-bg hover-bg ts-meta">
+        <h5 th:text="${filteredSchedules['Sunday-6:00 AM - 8:00 AM'].activity}"></h5>
+        <span th:text="${filteredSchedules['Sunday-6:00 AM - 8:00 AM'].trainer}"></span>
+    </td>
+    <td th:if="${filteredSchedules['Sunday-6:00 AM - 8:00 AM'] == null}" class="dark-bg hover-bg ts-meta">
+        <h5>N/A</h5>
+    </td>
+
+</tr>
+
+<tr>
+    <td class="class-time">10.00am - 12.00am</td>
+
+    <!-- Monday Schedule -->
+    <td th:if="${filteredSchedules['Monday-10:00 AM - 12:00 AM'] != null}" class="dark-bg hover-bg ts-meta">
+        <h5 th:text="${filteredSchedules['Monday-10:00 AM - 12:00 AM'].activity}"></h5>
+        <span th:text="${filteredSchedules['Monday-10:00 AM - 12:00 AM'].trainer}"></span>
+    </td>
+    <td th:if="${filteredSchedules['Monday-10:00 AM - 12:00 AM'] == null}" class="dark-bg hover-bg ts-meta">
+        <h5>N/A</h5>
+    </td>
+
+    <!-- Tuesday Schedule -->
+    <td th:if="${filteredSchedules['Tuesday-10:00 AM - 12:00 AM'] != null}" class="hover-bg ts-meta" data-tsmeta="fitness">
+        <h5 th:text="${filteredSchedules['Tuesday-10:00 AM - 12:00 AM'].activity}"></h5>
+        <span th:text="${filteredSchedules['Tuesday-10:00 AM - 12:00 AM'].trainer}"></span>
+    </td>
+    <td th:if="${filteredSchedules['Tuesday-10:00 AM - 12:00 AM'] == null}" class="hover-bg ts-meta" data-tsmeta="fitness">
+        <h5>N/A</h5>
+    </td>
+
+    <!-- Wednesday Schedule -->
+    <td th:if="${filteredSchedules['Wednesday-10:00 AM - 12:00 AM'] != null}" class="dark-bg hover-bg ts-meta">
+        <h5 th:text="${filteredSchedules['Wednesday-10:00 AM - 12:00 AM'].activity}"></h5>
+        <span th:text="${filteredSchedules['Wednesday-10:00 AM - 12:00 AM'].trainer}"></span>
+    </td>
+    <td th:if="${filteredSchedules['Wednesday-10:00 AM - 12:00 AM'] == null}" class="dark-bg hover-bg ts-meta">
+        <h5>N/A</h5>
+    </td>
+
+    <!-- Thursday Schedule -->
+    <td th:if="${filteredSchedules['Thursday-10:00 AM - 12:00 AM'] != null}" class="hover-bg ts-meta" data-tsmeta="fitness">
+        <h5 th:text="${filteredSchedules['Thursday-10:00 AM - 12:00 AM'].activity}"></h5>
+        <span th:text="${filteredSchedules['Thursday-10:00 AM - 12:00 AM'].trainer}"></span>
+    </td>
+    <td th:if="${filteredSchedules['Thursday-10:00 AM - 12:00 AM'] == null}" class="hover-bg ts-meta" data-tsmeta="fitness">
+        <h5>N/A</h5>
+    </td>
+
+    <!-- Friday Schedule -->
+    <td th:if="${filteredSchedules['Friday-10:00 AM - 12:00 AM'] != null}" class="dark-bg blank-td">
+        <h5 th:text="${filteredSchedules['Friday-10:00 AM - 12:00 AM'].activity}"></h5>
+        <span th:text="${filteredSchedules['Friday-10:00 AM - 12:00 AM'].trainer}"></span>
+    </td>
+    <td th:if="${filteredSchedules['Friday-10:00 AM - 12:00 AM'] == null}" class="dark-bg blank-td">
+        <h5>N/A</h5>
+    </td>
+
+    <!-- Saturday Schedule -->
+    <td th:if="${filteredSchedules['Saturday-10:00 AM - 12:00 AM'] != null}" class="hover-bg ts-meta" data-tsmeta="motivation">
+        <h5 th:text="${filteredSchedules['Saturday-10:00 AM - 12:00 AM'].activity}"></h5>
+        <span th:text="${filteredSchedules['Saturday-10:00 AM - 12:00 AM'].trainer}"></span>
+    </td>
+    <td th:if="${filteredSchedules['Saturday-10:00 AM - 12:00 AM'] == null}" class="hover-bg ts-meta" data-tsmeta="motivation">
+        <h5>N/A</h5>
+    </td>
+
+    <!-- Sunday Schedule -->
+    <td th:if="${filteredSchedules['Sunday-10:00 AM - 12:00 AM'] != null}" class="dark-bg hover-bg ts-meta">
+        <h5 th:text="${filteredSchedules['Sunday-10:00 AM - 12:00 AM'].activity}"></h5>
+        <span th:text="${filteredSchedules['Sunday-10:00 AM - 12:00 AM'].trainer}"></span>
+    </td>
+    <td th:if="${filteredSchedules['Sunday-10:00 AM - 12:00 AM'] == null}" class="dark-bg hover-bg ts-meta">
+        <h5>N/A</h5>
+    </td>
+
+</tr>
+
+<tr>
+    <td class="class-time">5.00pm - 7.00pm</td>
+
+ <!-- Monday Schedule -->
+    <td th:if="${filteredSchedules['Monday-5:00 PM - 7:00 PM'] != null}" class="dark-bg hover-bg ts-meta">
+        <h5 th:text="${filteredSchedules['Monday-5:00 PM - 7:00 PM'].activity}"></h5>
+        <span th:text="${filteredSchedules['Monday-5:00 PM - 7:00 PM'].trainer}"></span>
+    </td>
+    <td th:if="${filteredSchedules['Monday-5:00 PM - 7:00 PM'] == null}" class="dark-bg hover-bg ts-meta">
+        <h5>N/A</h5>
+    </td>
+
+    <!-- Tuesday Schedule -->
+    <td th:if="${filteredSchedules['Tuesday-5:00 PM - 7:00 PM'] != null}" class="hover-bg ts-meta" data-tsmeta="fitness">
+        <h5 th:text="${filteredSchedules['Tuesday-5:00 PM - 7:00 PM'].activity}"></h5>
+        <span th:text="${filteredSchedules['Tuesday-5:00 PM - 7:00 PM'].trainer}"></span>
+    </td>
+    <td th:if="${filteredSchedules['Tuesday-5:00 PM - 7:00 PM'] == null}" class="hover-bg ts-meta" data-tsmeta="fitness">
+        <h5>N/A</h5>
+    </td>
+
+    <!-- Wednesday Schedule -->
+    <td th:if="${filteredSchedules['Wednesday-5:00 PM - 7:00 PM'] != null}" class="dark-bg hover-bg ts-meta">
+        <h5 th:text="${filteredSchedules['Wednesday-5:00 PM - 7:00 PM'].activity}"></h5>
+        <span th:text="${filteredSchedules['Wednesday-5:00 PM - 7:00 PM'].trainer}"></span>
+    </td>
+    <td th:if="${filteredSchedules['Wednesday-5:00 PM - 7:00 PM'] == null}" class="dark-bg hover-bg ts-meta">
+        <h5>N/A</h5>
+    </td>
+
+    <!-- Thursday Schedule -->
+    <td th:if="${filteredSchedules['Thursday-5:00 PM - 7:00 PM'] != null}" class="hover-bg ts-meta" data-tsmeta="fitness">
+        <h5 th:text="${filteredSchedules['Thursday-5:00 PM - 7:00 PM'].activity}"></h5>
+        <span th:text="${filteredSchedules['Thursday-5:00 PM - 7:00 PM'].trainer}"></span>
+    </td>
+    <td th:if="${filteredSchedules['Thursday-5:00 PM - 7:00 PM'] == null}" class="hover-bg ts-meta" data-tsmeta="fitness">
+        <h5>N/A</h5>
+    </td>
+
+    <!-- Friday Schedule -->
+    <td th:if="${filteredSchedules['Friday-5:00 PM - 7:00 PM'] != null}" class="dark-bg blank-td">
+        <h5 th:text="${filteredSchedules['Friday-5:00 PM - 7:00 PM'].activity}"></h5>
+        <span th:text="${filteredSchedules['Friday-5:00 PM - 7:00 PM'].trainer}"></span>
+    </td>
+    <td th:if="${filteredSchedules['Friday-5:00 PM - 7:00 PM'] == null}" class="dark-bg blank-td">
+        <h5>N/A</h5>
+    </td>
+
+    <!-- Saturday Schedule -->
+    <td th:if="${filteredSchedules['Saturday-5:00 PM - 7:00 PM'] != null}" class="hover-bg ts-meta" data-tsmeta="motivation">
+        <h5 th:text="${filteredSchedules['Saturday-5:00 PM - 7:00 PM'].activity}"></h5>
+        <span th:text="${filteredSchedules['Saturday-5:00 PM - 7:00 PM'].trainer}"></span>
+    </td>
+    <td th:if="${filteredSchedules['Saturday-5:00 PM - 7:00 PM'] == null}" class="hover-bg ts-meta" data-tsmeta="motivation">
+        <h5>N/A</h5>
+    </td>
+
+    <!-- Sunday Schedule -->
+    <td th:if="${filteredSchedules['Sunday-5:00 PM - 7:00 PM'] != null}" class="dark-bg hover-bg ts-meta">
+        <h5 th:text="${filteredSchedules['Sunday-5:00 PM - 7:00 PM'].activity}"></h5>
+        <span th:text="${filteredSchedules['Sunday-5:00 PM - 7:00 PM'].trainer}"></span>
+    </td>
+    <td th:if="${filteredSchedules['Sunday-5:00 PM - 7:00 PM'] == null}" class="dark-bg hover-bg ts-meta">
+        <h5>N/A</h5>
+    </td>
+
+</tr>
+
+<tr>
+    <td class="class-time">7.00pm - 9.00pm</td>
+
+ <!-- Monday Schedule -->
+    <td th:if="${filteredSchedules['Monday-7:00 PM - 9:00 PM'] != null}" class="dark-bg hover-bg ts-meta">
+        <h5 th:text="${filteredSchedules['Monday-7:00 PM - 9:00 PM'].activity}"></h5>
+        <span th:text="${filteredSchedules['Monday-7:00 PM - 9:00 PM'].trainer}"></span>
+    </td>
+    <td th:if="${filteredSchedules['Monday-7:00 PM - 9:00 PM'] == null}" class="dark-bg hover-bg ts-meta">
+        <h5>N/A</h5>
+    </td>
+
+    <!-- Tuesday Schedule -->
+    <td th:if="${filteredSchedules['Tuesday-7:00 PM - 9:00 PM'] != null}" class="hover-bg ts-meta" data-tsmeta="fitness">
+        <h5 th:text="${filteredSchedules['Tuesday-7:00 PM - 9:00 PM'].activity}"></h5>
+        <span th:text="${filteredSchedules['Tuesday-7:00 PM - 9:00 PM'].trainer}"></span>
+    </td>
+    <td th:if="${filteredSchedules['Tuesday-7:00 PM - 9:00 PM'] == null}" class="hover-bg ts-meta" data-tsmeta="fitness">
+        <h5>N/A</h5>
+    </td>
+
+    <!-- Wednesday Schedule -->
+    <td th:if="${filteredSchedules['Wednesday-7:00 PM - 9:00 PM'] != null}" class="dark-bg hover-bg ts-meta">
+        <h5 th:text="${filteredSchedules['Wednesday-7:00 PM - 9:00 PM'].activity}"></h5>
+        <span th:text="${filteredSchedules['Wednesday-7:00 PM - 9:00 PM'].trainer}"></span>
+    </td>
+    <td th:if="${filteredSchedules['Wednesday-7:00 PM - 9:00 PM'] == null}" class="dark-bg hover-bg ts-meta">
+        <h5>N/A</h5>
+    </td>
+
+    <!-- Thursday Schedule -->
+    <td th:if="${filteredSchedules['Thursday-7:00 PM - 9:00 PM'] != null}" class="hover-bg ts-meta" data-tsmeta="fitness">
+        <h5 th:text="${filteredSchedules['Thursday-7:00 PM - 9:00 PM'].activity}"></h5>
+        <span th:text="${filteredSchedules['Thursday-7:00 PM - 9:00 PM'].trainer}"></span>
+    </td>
+    <td th:if="${filteredSchedules['Thursday-7:00 PM - 9:00 PM'] == null}" class="hover-bg ts-meta" data-tsmeta="fitness">
+        <h5>N/A</h5>
+    </td>
+
+    <!-- Friday Schedule -->
+    <td th:if="${filteredSchedules['Friday-7:00 PM - 9:00 PM'] != null}" class="dark-bg blank-td">
+        <h5 th:text="${filteredSchedules['Friday-7:00 PM - 9:00 PM'].activity}"></h5>
+        <span th:text="${filteredSchedules['Friday-7:00 PM - 9:00 PM'].trainer}"></span>
+    </td>
+    <td th:if="${filteredSchedules['Friday-7:00 PM - 9:00 PM'] == null}" class="dark-bg blank-td">
+        <h5>N/A</h5>
+    </td>
+
+    <!-- Saturday Schedule -->
+    <td th:if="${filteredSchedules['Saturday-7:00 PM - 9:00 PM'] != null}" class="hover-bg ts-meta" data-tsmeta="motivation">
+        <h5 th:text="${filteredSchedules['Saturday-7:00 PM - 9:00 PM'].activity}"></h5>
+        <span th:text="${filteredSchedules['Saturday-7:00 PM - 9:00 PM'].trainer}"></span>
+    </td>
+    <td th:if="${filteredSchedules['Saturday-7:00 PM - 9:00 PM'] == null}" class="hover-bg ts-meta" data-tsmeta="motivation">
+        <h5>N/A</h5>
+    </td>
+
+    <!-- Sunday Schedule -->
+    <td th:if="${filteredSchedules['Sunday-7:00 PM - 9:00 PM'] != null}" class="dark-bg hover-bg ts-meta">
+        <h5 th:text="${filteredSchedules['Sunday-7:00 PM - 9:00 PM'].activity}"></h5>
+        <span th:text="${filteredSchedules['Sunday-7:00 PM - 9:00 PM'].trainer}"></span>
+    </td>
+    <td th:if="${filteredSchedules['Sunday-7:00 PM - 9:00 PM'] == null}" class="dark-bg hover-bg ts-meta">
+        <h5>N/A</h5>
+    </td>
+
+</tr>
+	        <!-- Repeat for other time slots (5.00pm - 7.00pm, 7.00pm - 9.00pm) -->
+	    </tbody>
+	</table>
+	</div>
+
           </div>
         </div>
       </div>

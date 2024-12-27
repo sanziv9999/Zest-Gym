@@ -1,6 +1,10 @@
 package Zest.gym.controller;
 
 import java.time.LocalDate;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import org.apache.commons.codec.digest.DigestUtils;
@@ -10,11 +14,12 @@ import org.springframework.ui.Model;
 
 import Zest.gym.model.AttendanceSheet;
 import Zest.gym.model.User;
-import Zest.gym.model.membershipOwned;
-import Zest.gym.model.schedule;
+import Zest.gym.model.MembershipOwned;
+import Zest.gym.model.Schedule;
 import Zest.gym.repository.AttendanceRepository;
-import Zest.gym.repository.membershipOwnedRepository;
-import Zest.gym.repository.userRepository;
+import Zest.gym.repository.MembershipOwnedRepository;
+import Zest.gym.repository.ScheduleRepository;
+import Zest.gym.repository.UserRepository;
 import jakarta.servlet.http.HttpSession;
 
 import org.springframework.web.bind.annotation.GetMapping;
@@ -31,13 +36,17 @@ import org.springframework.web.bind.annotation.RequestBody;
 @Controller
 public class LoginSignupContoller {
 	@Autowired
-	private userRepository uRepo;
+	private UserRepository uRepo;
 	
 	@Autowired
 	private AttendanceRepository aRepo;
 	
 	@Autowired
-	private membershipOwnedRepository mRepo;
+	private MembershipOwnedRepository mRepo;
+	
+	@Autowired
+	private ScheduleRepository sRepo;
+	
 	
 	
 	
@@ -110,7 +119,7 @@ public class LoginSignupContoller {
 	
 	@PostMapping("/forgotPwd")
 	public String forgotPasswordEmail(Model model,HttpSession session, @RequestParam("email") String email){
-		int otp = new mailSender().sendOtp(email);
+		int otp = new MailSender().sendOtp(email);
 		session.setAttribute("otp", otp);
 		session.setAttribute("email", email);
 		System.out.println(otp + email);
@@ -150,7 +159,7 @@ public class LoginSignupContoller {
 			  	String hashPwd = DigestUtils.sha3_256Hex(newPassword);
 				u.setPassword(hashPwd);
 			  	uRepo.updatePasswordByEmail(email, hashPwd);
-				new mailSender().sendPasswordChangeMessage(email);
+				new MailSender().sendPasswordChangeMessage(email);
 				System.out.println("password changed successfully" + hashPwd);
 				session.invalidate();
 		  }
@@ -217,23 +226,41 @@ public class LoginSignupContoller {
 	 }
 	 
 	 @PostMapping("/membershipForm")
-	 public String membershipFormData(@ModelAttribute membershipOwned m) {
-		 
-		 mRepo.save(m);
-		 
+	 public String membershipFormData(@ModelAttribute MembershipOwned m) {
+		mRepo.save(m);
 	 	return "User/membershipForm.html";
 	 }
 	 
 	 //Activities
-	 
 	 @GetMapping("/class-timetable")
-	 public String classTimetable() {
-	 	return "User/class-timetable.html";
+	 public String getClassTimetable(Model model) {
+	     List<Schedule> schedules = sRepo.findSchedulesByDaysAndTimeSlots();
+
+	     // Filter the schedules for each day and time slot
+	     Map<String, Schedule> filteredSchedules = new HashMap<>();
+	     for (Schedule schedule : schedules) {
+	         String key = schedule.getDay() + "-" + schedule.getTimeSlot();
+	         filteredSchedules.put(key, schedule);
+	     }
+
+	     model.addAttribute("filteredSchedules", filteredSchedules);
+
+	     // Log the schedules for debugging
+	     if (schedules != null && !schedules.isEmpty()) {
+	         System.out.println("Schedules for specific days and time slots:");
+	         for (Schedule schedule : schedules) {
+	             System.out.println("Day: " + schedule.getDay() +
+	                                ", Time Slot: " + schedule.getTimeSlot() +
+	                                ", Trainer: " + schedule.getTrainer() +
+	                                ", Activity: " + schedule.getActivity());
+	         }
+	     } else {
+	         System.out.println("No schedules found for the specified days and time slots.");
+	     }
+
+	     return "User/class-timetable";
 	 }
-	 
-	 
-	 
-	 
+
 	 @GetMapping("/bmi-calculator")
 	 public String bmiCalculator() {
 	 	return "User/bmi-calculator.html";
@@ -245,7 +272,6 @@ public class LoginSignupContoller {
 	 }
 	 
 	 //Workout
-	 
 	 @GetMapping("/video")
 	 public String video() {
 	 	return "User/video.html";
@@ -258,20 +284,19 @@ public class LoginSignupContoller {
 	 
 	 @GetMapping("attendance")
 		public String trainerAttendancepage() {
-			return "User/UserAttendance.html";
+			return "User/userAttendance.html";
 		}
 		
-		@PostMapping("attendance")
-		public String postMethodName(@ModelAttribute AttendanceSheet a, HttpSession session) {
-			if(session != null) {
-			String email = (String) session.getAttribute("email");
-//			String email = "a@gmail.com";
-			a.setDate(LocalDate.now());
-			a.setEmail(email);
-			aRepo.save(a);
-			}
-			return "User/UserAttendance.html";
+	@PostMapping("attendance")
+	public String postMethodName(@ModelAttribute AttendanceSheet a, HttpSession session) {
+		if(session != null) {
+		String email = (String) session.getAttribute("email");
+		a.setDate(LocalDate.now());
+		a.setEmail(email);
+		aRepo.save(a);
 		}
+		return "User/userAttendance.html";
+	}
 		
 	 
 	 

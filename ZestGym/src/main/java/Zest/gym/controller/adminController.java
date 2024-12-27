@@ -6,10 +6,12 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.LocalDate;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -20,39 +22,34 @@ import org.springframework.util.StringUtils;
 import Zest.gym.model.AttendanceSheet;
 import Zest.gym.model.Diet;
 import Zest.gym.model.Trainer;
-import Zest.gym.model.membershipDetails;
-import Zest.gym.model.schedule;
-import Zest.gym.model.video;
+import Zest.gym.model.MembershipDetails;
+import Zest.gym.model.Schedule;
+import Zest.gym.model.Video;
 import Zest.gym.repository.AttendanceRepository;
-import Zest.gym.repository.dietRepository;
-import Zest.gym.repository.membershipDetailsRepository;
-import Zest.gym.repository.scheduleRepository;
-import Zest.gym.repository.trainerRepository;
-import Zest.gym.repository.videoRepository;
+import Zest.gym.repository.DietRepository;
+import Zest.gym.repository.MembershipDetailsRepository;
+import Zest.gym.repository.ScheduleRepository;
+import Zest.gym.repository.TrainerRepository;
+import Zest.gym.repository.VideoRepository;
 import jakarta.servlet.http.HttpSession;
 
 @Controller
-public class adminController {
+public class AdminController {
 	@Autowired
-	private membershipDetailsRepository mRepo;
+	private MembershipDetailsRepository mRepo;
 	
 	@Autowired
-	private trainerRepository tRepo;
+	private TrainerRepository tRepo;
 	
 	@Autowired
-	private videoRepository vRepo;
+	private VideoRepository vRepo;
 	
 	@Autowired
-	private dietRepository dRepo;
+	private DietRepository dRepo;
 	
 
 	@Autowired 
-	private scheduleRepository sRepo;
-	
-	
-	
-	
-	
+	private ScheduleRepository sRepo;
 	
 	@GetMapping("/adminDash")
 	public String admminDashboard() {
@@ -71,7 +68,7 @@ public class adminController {
 	}
 	
 	@PostMapping("/addMembership")
-	public String addMembershipDetails(@ModelAttribute membershipDetails m) {
+	public String addMembershipDetails(@ModelAttribute MembershipDetails m) {
 		
 		mRepo.save(m);
 		
@@ -132,7 +129,7 @@ public class adminController {
 	
 	
 	@PostMapping("/addVideo")
-	public String addVideoData(@ModelAttribute video v) {
+	public String addVideoData(@ModelAttribute Video v) {
 		
 		vRepo.save(v);
 		return "Admin/addVideo.html";
@@ -203,12 +200,15 @@ public class adminController {
 	
 	
 	@GetMapping("/addSchedule")
-	 public String addSchedule() {
+	 public String addSchedule(Model model) {
+	
+	 List<Trainer> trainers = tRepo.findAll();
+     model.addAttribute("trainers", trainers);
 	 	return "Admin/addSchedule.html";
 	 }
 	 
 	 @PostMapping("/addSchedule")
-	 public String addScheduleData(@ModelAttribute schedule s) {
+	 public String addScheduleData(@ModelAttribute Schedule s) {
 	 	sRepo.save(s);
 		return "Admin/addSchedule.html";
 	 }

@@ -5,6 +5,6 @@ import org.springframework.stereotype.Repository;
 
 import Zest.gym.model.Diet;
 @Repository
-public interface dietRepository extends JpaRepository<Diet, Integer> {
+public interface DietRepository extends JpaRepository<Diet, Integer> {
 
 }

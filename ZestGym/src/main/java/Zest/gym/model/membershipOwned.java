@@ -14,7 +14,7 @@ import jakarta.persistence.ManyToOne;
 
 @Entity
 @DynamicUpdate
-public class membershipOwned {
+public class MembershipOwned {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;

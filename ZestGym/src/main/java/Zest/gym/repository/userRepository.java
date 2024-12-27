@@ -7,7 +7,7 @@ import org.springframework.data.jpa.repository.Query;
 
 import Zest.gym.model.User;
 
-public interface userRepository extends JpaRepository<User, Integer>{
+public interface UserRepository extends JpaRepository<User, Integer>{
 	
 	boolean existsByEmailAndPassword(String email, String password);
 	

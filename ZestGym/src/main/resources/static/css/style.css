@@ -39,6 +39,27 @@ body {
 	-webkit-font-smoothing: antialiased;
 	font-smoothing: antialiased;
 }
+.class-timetable table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.class-timetable table th,
+.class-timetable table td {
+    border: 1px solid #ddd;
+    text-align: center;
+    padding: 8px;
+}
+
+.class-timetable table th {
+    background-color: #f4f4f4;
+}
+.current-day {
+    background-color: #f9f9f9;
+    font-weight: bold;
+}
+
+
 
 h1,
 h2,
@@ -3257,4 +3278,6 @@ ol {
 	.search-model-form input {
 		font-size: 28px;
 	}
+	
+	
 }

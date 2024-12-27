@@ -11,14 +11,14 @@ import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
-public class mailSender {
+public class MailSender {
 	
 	public int sendOtp(String recipientEmail) {
         final String username = "zestgym7@gmail.com";
         final String password = "xvyucjfrqzmqbnhq";
 
         // Generate 4-digit OTP
-        int otp = otpCodeGenerator.generateUniqueNumber();
+        int otp = OtpCodeGenerator.generateUniqueNumber();
 
         Properties props = new Properties();
         props.put("mail.smtp.auth", true);

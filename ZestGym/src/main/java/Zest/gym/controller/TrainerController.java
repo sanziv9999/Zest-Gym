@@ -23,10 +23,10 @@ import org.springframework.web.multipart.MultipartFile;
 
 import Zest.gym.model.AttendanceSheet;
 import Zest.gym.model.Trainer;
-import Zest.gym.model.video;
+import Zest.gym.model.Video;
 import Zest.gym.repository.AttendanceRepository;
-import Zest.gym.repository.trainerRepository;
-import Zest.gym.repository.videoRepository;
+import Zest.gym.repository.TrainerRepository;
+import Zest.gym.repository.VideoRepository;
 import jakarta.servlet.http.HttpSession;
 
 
@@ -38,11 +38,11 @@ public class TrainerController {
 	private AttendanceRepository aRepo;
 	
 	@Autowired
-	private trainerRepository tRepo; 
+	private TrainerRepository tRepo; 
 	
 
 	@Autowired
-	private videoRepository vRepo;
+	private VideoRepository vRepo;
 	
 	
 	@GetMapping("t-index")
@@ -168,8 +168,8 @@ public class TrainerController {
 	
 	
 	@GetMapping("t-video")
-	public String trainerVideo(@ModelAttribute video v, Model model) {
-		List<video> vList = vRepo.findAll();
+	public String trainerVideo(@ModelAttribute Video v, Model model) {
+		List<Video> vList = vRepo.findAll();
 		model.addAttribute("vList", vList);
 		return "Trainer/Tvideo.html";
 	}
@@ -209,10 +209,10 @@ public class TrainerController {
 	
 	
 	@PostMapping("/addTVideo")
-	public String addVideoData(@ModelAttribute video v, Model model) {
+	public String addVideoData(@ModelAttribute Video v, Model model) {
 		
 		vRepo.save(v);
-		List<video> vList = vRepo.findAll();
+		List<Video> vList = vRepo.findAll();
 		model.addAttribute("vList", vList);
 		return "Trainer/Tvideo.html";
 	}

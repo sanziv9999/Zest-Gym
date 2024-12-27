@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class otpCodeGenerator {
+public class OtpCodeGenerator {
 	 public static void main(String[] args) {
 	        int uniqueNumber = generateUniqueNumber();
 	        System.out.println(uniqueNumber);
