@@ -208,8 +208,10 @@ public class AdminController {
 	 }
 	 
 	 @PostMapping("/addSchedule")
-	 public String addScheduleData(@ModelAttribute Schedule s) {
+	 public String addScheduleData(@ModelAttribute Schedule s, Model model) {
 	 	sRepo.save(s);
+	 	 List<Trainer> trainers = tRepo.findAll();
+	     model.addAttribute("trainers", trainers);
 		return "Admin/addSchedule.html";
 	 }
 	

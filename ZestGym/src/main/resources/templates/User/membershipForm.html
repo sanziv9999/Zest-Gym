@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="zxx">
+<html lang="zxx" xmlns:th="http://www.thymeleaf.org">
   <head>
     <meta charset="UTF-8" />
     <meta name="description" content="Gym Template" />
@@ -154,7 +154,7 @@
         <div class="row">
           <div class="col-lg-12">
             <div class="section-title">
-              <h2 style="color: black">Class drop-in - $39</h2>
+              <h2 style="color: black"></h2>
               <span>Membership Form</span>
             </div>
           </div>
@@ -224,18 +224,21 @@
                   <option value="other">Other</option>
                 </select>
               </div>
-              <div class="form-group">
-                <label for="plan">Choose Plan</label>
-                <select id="plan" name="membershipPlan" class="form-control" required>
-                  <option value="class-drop-in-$39">Class drop-in - $39</option>
-                  <option value="12-month-unlimited-$99">
-                    12 Month unlimited - $99
-                  </option>
-                  <option value="6-month-unlimited-$59">
-                    6 Month unlimited - $59
-                  </option>
-                </select>
-              </div>
+			  <div class="form-group">
+			    <label for="plan">Choose Plan</label>
+			    <select id="plan" name="membershipPlan" class="form-control" required>
+			        <option value="" disabled selected>Select a plan</option>
+			        <!-- Loop through the membershipDetailList -->
+			        <th:block th:each="membership : ${membershipDetailList}">
+			            <option th:value="${membership.membershipName + '-'+'$'+ membership.price + '-' + membership.duration}">
+			                <span th:text="${membership.membershipName}"></span> - $
+			                <span th:text="${membership.price}"></span> - 
+			                <span th:text="${membership.duration}"></span>
+			            </option>
+			        </th:block>
+			    </select>
+			</div>
+
               <div class="form-group">
                 <label for="message">Additional Message</label>
                 <textarea

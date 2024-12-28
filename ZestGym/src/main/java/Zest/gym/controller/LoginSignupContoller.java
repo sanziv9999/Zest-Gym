@@ -1,11 +1,14 @@
 package Zest.gym.controller;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.apache.commons.codec.digest.DigestUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,17 +16,24 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 
 import Zest.gym.model.AttendanceSheet;
+import Zest.gym.model.Diet;
+import Zest.gym.model.MembershipDetails;
 import Zest.gym.model.User;
+import Zest.gym.model.Video;
 import Zest.gym.model.MembershipOwned;
 import Zest.gym.model.Schedule;
 import Zest.gym.repository.AttendanceRepository;
+import Zest.gym.repository.DietRepository;
+import Zest.gym.repository.MembershipDetailsRepository;
 import Zest.gym.repository.MembershipOwnedRepository;
 import Zest.gym.repository.ScheduleRepository;
 import Zest.gym.repository.UserRepository;
+import Zest.gym.repository.VideoRepository;
 import jakarta.servlet.http.HttpSession;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import org.springframework.web.bind.annotation.RequestParam;
@@ -47,12 +57,46 @@ public class LoginSignupContoller {
 	@Autowired
 	private ScheduleRepository sRepo;
 	
+	@Autowired
+	private MembershipDetailsRepository mbRepo;
+	
+	@Autowired
+	private VideoRepository vRepo;
+	
+	@Autowired
+	private DietRepository dRepo;
+	
+	
 	
 	
 	
 	@GetMapping("/")
-	public String LandingPage() {
-		return "User/landing.html";
+	public String LandingPage(HttpSession session, Model model) {
+		String userEmail = (String) session.getAttribute("email");
+
+	     // Fetch the user's membership status based on their email
+	     List<MembershipOwned> membershipStatus = mRepo.findByEmail(userEmail);
+
+	     // List to hold extracted membership details
+	     List<Map<String, String>> membershipDetails = new ArrayList<>();
+
+	     // Extract membership name, price, and duration for each membership status
+	     for (MembershipOwned membershipOwned : membershipStatus) {
+	         String membershipPlan = membershipOwned.getMembershipPlan(); // Assuming this field contains the membership plan details
+
+	         // Create a map to hold extracted name, price, and duration
+	         Map<String, String> details = new HashMap<>();
+	         details.put("name", extractName(membershipPlan));
+	         details.put("price", extractPrice(membershipPlan));
+	         details.put("duration", extractDuration(membershipPlan));
+
+	         // Add the details map to the list
+	         membershipDetails.add(details);
+	     }
+
+	     // Add the extracted details to the model
+	     model.addAttribute("membershipStatus", membershipDetails);
+	     return "User/landing.html";
 	}
 	
 	
@@ -67,7 +111,7 @@ public class LoginSignupContoller {
 	}
 	
 	@PostMapping("/register")
-	public String userRegistration(@ModelAttribute User u, Model model) {
+	public String userRegistration(@ModelAttribute User u, Model model, HttpSession session) {
 		Optional<User> existingUser = uRepo.findByEmail(u.getEmail());
 		if(existingUser.isPresent()) {
 			model.addAttribute("errormessage", "Email already exist! Try new one");
@@ -78,6 +122,30 @@ public class LoginSignupContoller {
 		u.setPassword(hashPwd);
 		uRepo.save(u);
 		model.addAttribute("message", "Signup successful!!");
+		String userEmail = (String) session.getAttribute("email");
+
+	     // Fetch the user's membership status based on their email
+	     List<MembershipOwned> membershipStatus = mRepo.findByEmail(userEmail);
+
+	     // List to hold extracted membership details
+	     List<Map<String, String>> membershipDetails = new ArrayList<>();
+
+	     // Extract membership name, price, and duration for each membership status
+	     for (MembershipOwned membershipOwned : membershipStatus) {
+	         String membershipPlan = membershipOwned.getMembershipPlan(); // Assuming this field contains the membership plan details
+
+	         // Create a map to hold extracted name, price, and duration
+	         Map<String, String> details = new HashMap<>();
+	         details.put("name", extractName(membershipPlan));
+	         details.put("price", extractPrice(membershipPlan));
+	         details.put("duration", extractDuration(membershipPlan));
+
+	         // Add the details map to the list
+	         membershipDetails.add(details);
+	     }
+
+	     // Add the extracted details to the model
+	     model.addAttribute("membershipStatus", membershipDetails);
 		return "User/index.html";
 	}
 	
@@ -93,7 +161,31 @@ public class LoginSignupContoller {
 				session.setAttribute("username", username);
 				System.out.println(session.getAttribute("email"));
 				session.setMaxInactiveInterval(1800);
-				return "User/index.html";
+				String userEmail = (String) session.getAttribute("email");
+
+			     // Fetch the user's membership status based on their email
+			     List<MembershipOwned> membershipStatus = mRepo.findByEmail(userEmail);
+
+			     // List to hold extracted membership details
+			     List<Map<String, String>> membershipDetails = new ArrayList<>();
+
+			     // Extract membership name, price, and duration for each membership status
+			     for (MembershipOwned membershipOwned : membershipStatus) {
+			         String membershipPlan = membershipOwned.getMembershipPlan(); // Assuming this field contains the membership plan details
+
+			         // Create a map to hold extracted name, price, and duration
+			         Map<String, String> details = new HashMap<>();
+			         details.put("name", extractName(membershipPlan));
+			         details.put("price", extractPrice(membershipPlan));
+			         details.put("duration", extractDuration(membershipPlan));
+
+			         // Add the details map to the list
+			         membershipDetails.add(details);
+			     }
+
+			     // Add the extracted details to the model
+			     model.addAttribute("membershipStatus", membershipDetails);
+			     return "User/index.html";
 			}else {
 				model.addAttribute("email", u.getEmail());
 				model.addAttribute("message", "Login successful! Please click on dashborad.");
@@ -153,7 +245,7 @@ public class LoginSignupContoller {
 	 
 	 
 	 @PostMapping("/newPassword")
-	  public String newPassword(@ModelAttribute User u, HttpSession session, @RequestParam("newPassword") String newPassword){
+	  public String newPassword(@ModelAttribute User u, HttpSession session, Model model, @RequestParam("newPassword") String newPassword){
 		  String email =  (String) session.getAttribute("email");
 		  if(email != null) {
 			  	String hashPwd = DigestUtils.sha3_256Hex(newPassword);
@@ -163,6 +255,30 @@ public class LoginSignupContoller {
 				System.out.println("password changed successfully" + hashPwd);
 				session.invalidate();
 		  }
+		  String userEmail = (String) session.getAttribute("email");
+
+		     // Fetch the user's membership status based on their email
+		     List<MembershipOwned> membershipStatus = mRepo.findByEmail(userEmail);
+
+		     // List to hold extracted membership details
+		     List<Map<String, String>> membershipDetails = new ArrayList<>();
+
+		     // Extract membership name, price, and duration for each membership status
+		     for (MembershipOwned membershipOwned : membershipStatus) {
+		         String membershipPlan = membershipOwned.getMembershipPlan(); // Assuming this field contains the membership plan details
+
+		         // Create a map to hold extracted name, price, and duration
+		         Map<String, String> details = new HashMap<>();
+		         details.put("name", extractName(membershipPlan));
+		         details.put("price", extractPrice(membershipPlan));
+		         details.put("duration", extractDuration(membershipPlan));
+
+		         // Add the details map to the list
+		         membershipDetails.add(details);
+		     }
+
+		     // Add the extracted details to the model
+		     model.addAttribute("membershipStatus", membershipDetails);
 		  return "User/landing.html";
 		  
 		  
@@ -214,20 +330,86 @@ public class LoginSignupContoller {
 	 	return "User/index.html";
 	 }
 	 
-	 
 	 @GetMapping("/membership")
-	 public String membershipPage() {
-	 	return "User/membership.html";
+	 public String getMembership(Model model, HttpSession session) {
+	     // Get the user email from the session
+	     String userEmail = (String) session.getAttribute("email");
+
+	     // Fetch the user's membership status based on their email
+	     List<MembershipOwned> membershipStatus = mRepo.findByEmail(userEmail);
+
+	     // List to hold extracted membership details
+	     List<Map<String, String>> membershipDetails = new ArrayList<>();
+
+	     // Extract membership name, price, and duration for each membership status
+	     for (MembershipOwned membershipOwned : membershipStatus) {
+	         String membershipPlan = membershipOwned.getMembershipPlan(); // Assuming this field contains the membership plan details
+
+	         // Create a map to hold extracted name, price, and duration
+	         Map<String, String> details = new HashMap<>();
+	         details.put("name", extractName(membershipPlan));
+	         details.put("price", extractPrice(membershipPlan));
+	         details.put("duration", extractDuration(membershipPlan));
+
+	         // Add the details map to the list
+	         membershipDetails.add(details);
+	     }
+
+	     // Add the extracted details to the model
+	     model.addAttribute("membershipStatus", membershipDetails);
+
+	     // Return the view name
+	     return "User/membership";
 	 }
-	 
+
+	 // Extract name from the membershipPlan (before the first '-')
+	 private String extractName(String membershipPlan) {
+	     int endIndex = membershipPlan.indexOf('-');
+	     if (endIndex > 0) {
+	         return membershipPlan.substring(0, endIndex).trim(); // Extract name before the first '-'
+	     }
+	     return membershipPlan.trim(); // Return the whole string if no '-' is found
+	 }
+
+	 // Extract price from the membershipPlan (between '$' and '-')
+	 private String extractPrice(String membershipPlan) {
+	     int startIndex = membershipPlan.lastIndexOf('$') + 1;
+	     int endIndex = membershipPlan.indexOf('-', startIndex);
+	     if (startIndex < endIndex && startIndex >= 0) {
+	         return membershipPlan.substring(startIndex, endIndex).trim(); // Extract price between '$' and '-'
+	     }
+	     return ""; // Return empty string if extraction fails
+	 }
+
+	 private String extractDuration(String membershipPlan) {
+		    // Start from the last character
+		    int startIndex = membershipPlan.length() - 1;
+
+		    // Find the position of the first '-' from the last character
+		    int endIndex = membershipPlan.lastIndexOf('-', startIndex);
+
+		    // Check if valid indices were found
+		    if (startIndex > 0 && endIndex > 0 && endIndex < startIndex) {
+		        return membershipPlan.substring(endIndex + 1, startIndex).trim(); // Extract the duration from the end till '-'
+		    }
+		    return ""; // Return empty string if extraction fails
+		}
+
+
+
 	 @GetMapping("/membershipForm")
-	 public String membershipForm() {
+	 public String membershipForm(Model model) {
+		List<MembershipDetails> membershipDetailList = mbRepo.findAll();
+		model.addAttribute("membershipDetailList", membershipDetailList);
+		
 	 	return "User/membershipForm.html";
 	 }
 	 
 	 @PostMapping("/membershipForm")
-	 public String membershipFormData(@ModelAttribute MembershipOwned m) {
+	 public String membershipFormData(@ModelAttribute MembershipOwned m, Model model) {
 		mRepo.save(m);
+		List<MembershipDetails> membershipDetailList = mbRepo.findAll();
+		model.addAttribute("membershipDetailList", membershipDetailList);
 	 	return "User/membershipForm.html";
 	 }
 	 
@@ -273,28 +455,174 @@ public class LoginSignupContoller {
 	 
 	 //Workout
 	 @GetMapping("/video")
-	 public String video() {
+	 public String video(Model model) {
+		List<Video> vList = vRepo.findAll();
+		model.addAttribute("vList", vList);
 	 	return "User/video.html";
 	 }
 	 
 	 @GetMapping("/diet")
-	 public String deit() {
+	 public String deit(Model model) {
+		 List<Diet> dietList = dRepo.findAll();
+		 model.addAttribute("dietList", dietList);
 	 	return "User/diet.html";
 	 }
 	 
-	 @GetMapping("attendance")
-		public String trainerAttendancepage() {
-			return "User/userAttendance.html";
+	 @GetMapping("/attendance")
+	 public String trainerAttendancePage(HttpSession session, Model model) {
+	     // Get the current user's email from the session
+	     String userEmail = (String) session.getAttribute("email");
+
+	     if (userEmail != null) {
+	         // Fetch today's attendance record
+	         Optional<AttendanceSheet> attendanceOptional = aRepo.findByDateAndEmail(LocalDate.now(), userEmail);
+
+	         if (attendanceOptional.isPresent()) {
+	             // Attendance exists for today
+	             model.addAttribute("attendanceStatus", "Present");
+	             System.out.println("Present");
+	         } else {
+	             // No attendance record for today
+	             model.addAttribute("attendanceStatus", "Absent");
+	             System.out.println("Absent");
+	         }
+
+	         // Check if attendance exists for today
+	         AttendanceSheet attendanceSheet = attendanceOptional.orElse(null);
+
+	         LocalDate currentDate = LocalDate.now();
+	         int totalDaysInMonth = currentDate.lengthOfMonth(); // Dynamically calculates the days in the current month
+	         model.addAttribute("totalDaysInMonth", totalDaysInMonth);
+	         System.out.println(totalDaysInMonth);
+
+	         Long totalPresent = aRepo.countCurrentMonthByEmail(userEmail);
+	         model.addAttribute("presentDays", totalPresent);
+
+	         // Fetch all attendance records for this user
+	         model.addAttribute("attendanceList", aRepo.findByEmail(userEmail));
+
+	         // Fetch distinct days from the date column for the specific email
+	         List<Integer> distinctDays = aRepo.findDistinctDaysByEmail(userEmail);
+	         model.addAttribute("distinctDays", distinctDays);
+	         System.out.println(distinctDays);
+
+	         // Pass attendance status to the model
+	         model.addAttribute("attendanceSheet", attendanceSheet);
+	         
+	         int streak = calculateStreak(distinctDays);
+	         model.addAttribute("streak", streak);
+	         System.out.println("Current Streak: " + streak);
+	         
+	         
+	         int daysPassed = currentDate.getDayOfMonth(); // Total days up to today
+	         model.addAttribute("totalDaysInMonth", totalDaysInMonth);
+	         model.addAttribute("daysPassed", daysPassed);
+
+	         // Calculate absent days
+	         int totalAbsentDays = daysPassed - totalPresent.intValue();
+	         model.addAttribute("absentDays", totalAbsentDays);
+	         System.out.println(totalAbsentDays);
+
+
+	     } else {
+	         model.addAttribute("error", "No user email found in session.");
+	     }
+
+	     return "User/userAttendance.html";
+	 }
+
+	 private int calculateStreak(List<Integer> distinctDays) {
+		    if (distinctDays == null || distinctDays.isEmpty()) {
+		        return 0; // No attendance records
+		    }
+
+		    // Sort the list in ascending order
+		    Collections.sort(distinctDays);
+
+		    // Initialize streak counter
+		    int streak = 1; // At least one day (if list is not empty)
+
+		    // Traverse the list from the second last element to the start
+		    for (int i = distinctDays.size() - 1; i > 0; i--) {
+		        // Check if the current day and the previous day differ by 1
+		        if (distinctDays.get(i) - distinctDays.get(i - 1) == 1) {
+		            streak++;
+		        } else {
+		            // Break the streak if there's a gap
+		            break;
+		        }
+		    }
+
+		    return streak;
 		}
+
 		
-	@PostMapping("attendance")
-	public String postMethodName(@ModelAttribute AttendanceSheet a, HttpSession session) {
+	@PostMapping("/attendance")
+	public String postMethodName(@ModelAttribute AttendanceSheet a, HttpSession session, Model model) {
 		if(session != null) {
 		String email = (String) session.getAttribute("email");
 		a.setDate(LocalDate.now());
 		a.setEmail(email);
 		aRepo.save(a);
 		}
+		
+		 String userEmail = (String) session.getAttribute("email");
+
+	     if (userEmail != null) {
+	         // Fetch today's attendance record
+	         Optional<AttendanceSheet> attendanceOptional = aRepo.findByDateAndEmail(LocalDate.now(), userEmail);
+
+	         if (attendanceOptional.isPresent()) {
+	             // Attendance exists for today
+	             model.addAttribute("attendanceStatus", "Present");
+	             System.out.println("Present");
+	         } else {
+	             // No attendance record for today
+	             model.addAttribute("attendanceStatus", "Absent");
+	             System.out.println("Absent");
+	         }
+
+	         // Check if attendance exists for today
+	         AttendanceSheet attendanceSheet = attendanceOptional.orElse(null);
+
+	         LocalDate currentDate = LocalDate.now();
+	         int totalDaysInMonth = currentDate.lengthOfMonth(); // Dynamically calculates the days in the current month
+	         model.addAttribute("totalDaysInMonth", totalDaysInMonth);
+	         System.out.println(totalDaysInMonth);
+
+	         Long totalPresent = aRepo.countCurrentMonthByEmail(userEmail);
+	         model.addAttribute("presentDays", totalPresent);
+
+	         // Fetch all attendance records for this user
+	         model.addAttribute("attendanceList", aRepo.findByEmail(userEmail));
+
+	         // Fetch distinct days from the date column for the specific email
+	         List<Integer> distinctDays = aRepo.findDistinctDaysByEmail(userEmail);
+	         model.addAttribute("distinctDays", distinctDays);
+	         System.out.println(distinctDays);
+
+	         // Pass attendance status to the model
+	         model.addAttribute("attendanceSheet", attendanceSheet);
+	         
+	         int streak = calculateStreak(distinctDays);
+	         model.addAttribute("streak", streak);
+	         System.out.println("Current Streak: " + streak);
+	         
+	         
+	         int daysPassed = currentDate.getDayOfMonth(); // Total days up to today
+	         model.addAttribute("totalDaysInMonth", totalDaysInMonth);
+	         model.addAttribute("daysPassed", daysPassed);
+
+	         // Calculate absent days
+	         int totalAbsentDays = daysPassed - totalPresent.intValue();
+	         model.addAttribute("absentDays", totalAbsentDays);
+	         System.out.println(totalAbsentDays);
+
+
+	     } else {
+	         model.addAttribute("error", "No user email found in session.");
+	     }
+
 		return "User/userAttendance.html";
 	}
 		

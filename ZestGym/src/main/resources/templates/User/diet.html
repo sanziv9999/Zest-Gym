@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="zxx">
+<html lang="zxx" xmlns:th="http://www.thymeleaf.org">
 
 <head>
     <meta charset="UTF-8">
@@ -201,70 +201,46 @@
     <!-- Hero Section End -->
 
     <!-- Workout Section Begin -->
-    <section class="workout-section spad">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-12">
-                    <div class="section-title">
-                        <h2 style="color: black;">Diet Plans</h2>
-                    </div>
-                    <div class="row">
-                        <!-- First Card -->
-                        <div class="col-md-4 mb-4">
-                            <div class="card">
-                                <img src="img/delicious/1.png" class="card-img-top" alt="Full Body Workout">
-                                <div class="card-body">
-                                    <div class="d-flex justify-content-between align-items-center">
-                                        <h5 class="card-title">Full Body Workout</h5>
-                                        <!-- Bookmark icon on the right -->
-                                        <button class="btn btn-link bookmark-btn" onclick="toggleBookmark(this)">
-                                            <i class="fa fa-bookmark-o" aria-hidden="true"></i>
-                                        </button>
-                                    </div>
-                                    <p class="card-text">This workout includes exercises for all major muscle groups.
-                                    </p>
+<!-- Workout Section Begin -->
+<section class="workout-section spad">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="section-title">
+                    <h2 style="color: black;">Diet Plans</h2>
+                </div>
+                <div class="row">
+                    <!-- Dynamic Cards Begin -->
+                    <div class="col-md-4 mb-4" th:each="diet : ${dietList}">
+                        <div class="card">
+                            <!-- Dynamically Fetch Image -->
+                            <img th:src="@{'/assets/' + ${diet.image}}" class="card-img-top" alt="Diet Image">
+                            <div class="card-body">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <!-- Dynamically Fetch Diet Name -->
+                                    <h5 class="card-title" th:text="${diet.dietName}">Diet Name</h5>
+                                    <!-- Bookmark icon on the right -->
+                                    <button class="btn btn-link bookmark-btn" onclick="toggleBookmark(this)">
+                                        <i class="fa fa-bookmark-o" aria-hidden="true"></i>
+                                    </button>
                                 </div>
-                            </div>
-                        </div>
-                        <!-- Second Card -->
-                        <div class="col-md-4 mb-4">
-                            <div class="card">
-                                <img src="/img/delicious/2.png"
-                                    class="card-img-top" alt="Cardio Routine">
-                                <div class="card-body">
-                                    <div class="d-flex justify-content-between align-items-center">
-                                        <h5 class="card-title">Cardio Routine</h5>
-                                        <!-- Bookmark icon on the right -->
-                                        <button class="btn btn-link bookmark-btn" onclick="toggleBookmark(this)">
-                                            <i class="fa fa-bookmark-o" aria-hidden="true"></i>
-                                        </button>
-                                    </div>
-                                    <p class="card-text">A high-intensity cardio routine to burn calories.</p>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- Third Card -->
-                        <div class="col-md-4 mb-4">
-                            <div class="card">
-                                <img src="img/delicious/3.png"
-                                    class="card-img-top" alt="Strength Training">
-                                <div class="card-body">
-                                    <div class="d-flex justify-content-between align-items-center">
-                                        <h5 class="card-title">Strength Training</h5>
-                                        <!-- Bookmark icon on the right -->
-                                        <button class="btn btn-link bookmark-btn" onclick="toggleBookmark(this)">
-                                            <i class="fa fa-bookmark-o" aria-hidden="true"></i>
-                                        </button>
-                                    </div>
-                                    <p class="card-text">Build muscle strength with this comprehensive workout.</p>
-                                </div>
+                                <!-- Dynamically Fetch Description -->
+                                <p class="card-text" th:text="${diet.description}">
+                                    Diet description goes here.
+                                </p>
                             </div>
                         </div>
                     </div>
+                    <!-- Dynamic Cards End -->
                 </div>
             </div>
         </div>
-    </section>
+    </div>
+</section>
+<!-- Workout Section End -->
+
+<!-- Workout Section End -->
+
     <!-- Workout Section End -->
 
     <!-- Get In Touch Section Begin -->

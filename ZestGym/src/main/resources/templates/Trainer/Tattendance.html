@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="zxx">
+<html lang="zxx" xmlns:th="http://www.thymeleaf.org">
 
 <head>
   <meta charset="UTF-8" />
@@ -213,7 +213,7 @@
   </section>
   <!-- Breadcrumb Section End -->
 
-  <div class="container">
+ <div class="container">
     <div class="row attendance-wrapper mt-5 mb-5">
       <!-- Attendance Info Section -->
       <div class="col-lg-5">
@@ -221,15 +221,23 @@
           <h3>Attendance Information</h3>
           <p>
             <strong>Total Check-ins:</strong>
-            <span id="totalCheckins">0</span> days
+            <span id="totalCheckins" th:text="${presentDays}"></span> days
           </p>
-          <p><strong>Streak:</strong> <span id="streak">0</span> days</p>
+          <p><strong>Streak:</strong> <span id="streak" th:text="${streak}" ></span> days</p>
+          
           <p>
-            <strong>Absent Days:</strong> <span id="absentDays">0</span> days
+            <strong>Absent Days:</strong> <span id="absentDays" th:text="${absentDays}"></span> days
           </p>
-         <form action="/trainerAttendance" method="POST">
-      		<button type="submit" class="attendance-btn" id="checkInBtn">Check In</button>
-	    </form>
+          <p>
+            <strong>Total Days:</strong> <span id="absentDays" th:text="${totalDaysInMonth}"></span> days
+          </p>
+       		<form action="/t-attendance" method="POST">
+		    <button type="submit" class="attendance-btn" id="checkInBtn"
+		            th:disabled="${attendanceStatus == 'Present'}"
+		            th:text="${attendanceStatus == 'Present' ? 'Already Checked In' : 'Check In'}">
+			    </button>
+			</form>
+
         </div>
       </div>
 
@@ -237,7 +245,7 @@
       <div class="col-lg-7">
         <div class="section-title">
           <h2 style="color: black">Calendar</h2>
-          <span>Please Click on Today's Date to Check In</span>
+         
         </div>
 
         <!-- Message Section -->
@@ -247,6 +255,7 @@
       </div>
     </div>
   </div>
+
 
 
   <!-- Get In Touch Section Begin -->
@@ -354,114 +363,54 @@
   </footer>
   <!-- Footer Section End -->
 
-  <script>// Get the current date
-    const currentDate = new Date();
-    const currentDateString = currentDate.toISOString().split("T")[0]; // Format: YYYY-MM-DD
+   <script th:inline="javascript">
+        // Pass distinct days from the backend to JavaScript
+        const distinctDays = /*[[${distinctDays}]]*/ []; // Example: [1, 5, 10, 15]
 
-    // Store the check-in data (can be replaced with server-side storage in real apps)
-    let checkins = [];
+        // Initialize the calendar
+        const currentDate = new Date();
+        function initializeCalendar() {
+            const calendar = document.getElementById("calendar");
 
-    // Initialize the calendar with the current date and other days disabled
-    function initializeCalendar() {
-      const calendar = document.getElementById("calendar");
+            // Get current month and year
+            const month = currentDate.getMonth();
+            const year = currentDate.getFullYear();
 
-      // Get current month and year
-      const month = currentDate.getMonth();
-      const year = currentDate.getFullYear();
+            // First day of the month
+            const firstDay = new Date(year, month, 1).getDay();
+            const lastDate = new Date(year, month + 1, 0).getDate();
 
-      // Create the calendar days for the current month
-      const firstDay = new Date(year, month, 1).getDay(); // Day of the week the month starts on
-      const lastDate = new Date(year, month + 1, 0).getDate(); // Last date of the month
+            // Clear previous calendar cells
+            calendar.innerHTML = "";
 
-      // Clear any existing calendar cells
-      calendar.innerHTML = "";
+            // Add empty cells before the first day
+            for (let i = 0; i < firstDay; i++) {
+                const emptyCell = document.createElement("div");
+                calendar.appendChild(emptyCell);
+            }
 
-      // Add empty cells before the first day
-      for (let i = 0; i < firstDay; i++) {
-        const emptyCell = document.createElement("div");
-        calendar.appendChild(emptyCell);
-      }
+            // Add days of the month
+            for (let day = 1; day <= lastDate; day++) {
+                const dayCell = document.createElement("div");
+                dayCell.textContent = day;
 
-      // Add day cells to the calendar
-      for (let day = 1; day <= lastDate; day++) {
-        const dayCell = document.createElement("div");
-        dayCell.textContent = day;
-        dayCell.setAttribute("data-date", `${year}-${month + 1}-${day}`);
-        calendar.appendChild(dayCell);
+                // Highlight days that are present in distinctDays
+                if (distinctDays.includes(day)) {
+                    dayCell.classList.add("checked"); // Green for days with attendance
+                }
 
-        // If it's today, highlight it and add a listener for check-in
-        if (day === currentDate.getDate()) {
-          dayCell.classList.add("today");
-          dayCell.addEventListener("click", () => handleCheckIn(dayCell.getAttribute("data-date")));
+                // Highlight today's date
+                if (day === currentDate.getDate()) {
+                    dayCell.classList.add("today");
+                }
+
+                calendar.appendChild(dayCell);
+            }
         }
-      }
-    }
 
-    // Handle the check-in functionality
-    function handleCheckIn(date) {
-      // Check if the date is today
-      if (date !== currentDateString) {
-        document.getElementById("checkinMessage").textContent = "You can only check in for today!";
-        return;
-      }
-
-      // Check if already checked in
-      if (checkins.includes(date)) {
-        document.getElementById("checkinMessage").textContent = "You have already checked in for today!";
-        return;
-      }
-
-      // Clear any previous message
-      document.getElementById("checkinMessage").textContent = "";
-
-      // Record the check-in for today
-      checkins.push(date);
-      document.getElementById("totalCheckins").textContent = checkins.length;
-      updateAttendanceDisplay();
-      showCheckInToast();
-    }
-
-    // Update the display with attendance info
-    function updateAttendanceDisplay() {
-      const streak = calculateStreak();
-      document.getElementById("streak").textContent = streak;
-      document.getElementById("absentDays").textContent = checkins.length ? 0 : 1;
-    }
-
-    // Calculate streak
-    function calculateStreak() {
-      let streak = 0;
-      let currentDate = new Date();
-
-      for (let i = 0; i < checkins.length; i++) {
-        const checkInDate = new Date(checkins[i]);
-        if (checkInDate.setHours(0, 0, 0, 0) === currentDate.setHours(0, 0, 0, 0) - streak * 24 * 60 * 60 * 1000) {
-          streak++;
-        } else {
-          break;
-        }
-      }
-      return streak;
-    }
-
-    // Show toast notification
-    function showCheckInToast() {
-      const toast = document.getElementById("checkinToast");
-      const toastBody = toast.querySelector(".toast-body");
-
-      toastBody.innerHTML = `
-        <p>You have successfully checked in!</p>
-        <p><strong>Streak:</strong> ${document.getElementById("streak").textContent} days</p>
-        <p><strong>Absent Days:</strong> ${document.getElementById("absentDays").textContent} days</p>
-        <p><strong>Total Check-Ins:</strong> ${document.getElementById("totalCheckins").textContent} days</p>
-      `;
-
-      $(toast).toast("show");
-    }
-
-    // Initialize calendar when page loads
-    window.onload = initializeCalendar;
-  </script>
+        // Initialize the calendar on page load
+        window.onload = initializeCalendar;
+    </script>
 
   <!-- Js Plugins -->
   <script src="js/jquery-3.3.1.min.js"></script>

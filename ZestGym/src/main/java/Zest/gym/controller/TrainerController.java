@@ -5,6 +5,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.LocalDate;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -181,20 +182,158 @@ public class TrainerController {
 	
 	
 	
-	@GetMapping("t-attendance")
-	public String trainerAttendancepage() {
+	@GetMapping("/t-attendance")
+	public String trainerAttendancepage(HttpSession session, Model model) {
+		String userEmail = (String) session.getAttribute("email");
+
+	     if (userEmail != null) {
+	         // Fetch today's attendance record
+	         Optional<AttendanceSheet> attendanceOptional = aRepo.findByDateAndEmail(LocalDate.now(), userEmail);
+
+	         if (attendanceOptional.isPresent()) {
+	             // Attendance exists for today
+	             model.addAttribute("attendanceStatus", "Present");
+	             System.out.println("Present");
+	         } else {
+	             // No attendance record for today
+	             model.addAttribute("attendanceStatus", "Absent");
+	             System.out.println("Absent");
+	         }
+
+	         // Check if attendance exists for today
+	         AttendanceSheet attendanceSheet = attendanceOptional.orElse(null);
+
+	         LocalDate currentDate = LocalDate.now();
+	         int totalDaysInMonth = currentDate.lengthOfMonth(); // Dynamically calculates the days in the current month
+	         model.addAttribute("totalDaysInMonth", totalDaysInMonth);
+	         System.out.println(totalDaysInMonth);
+
+	         Long totalPresent = aRepo.countCurrentMonthByEmail(userEmail);
+	         model.addAttribute("presentDays", totalPresent);
+
+	         // Fetch all attendance records for this user
+	         model.addAttribute("attendanceList", aRepo.findByEmail(userEmail));
+
+	         // Fetch distinct days from the date column for the specific email
+	         List<Integer> distinctDays = aRepo.findDistinctDaysByEmail(userEmail);
+	         model.addAttribute("distinctDays", distinctDays);
+	         System.out.println(distinctDays);
+
+	         // Pass attendance status to the model
+	         model.addAttribute("attendanceSheet", attendanceSheet);
+	         
+	         int streak = calculateStreak(distinctDays);
+	         model.addAttribute("streak", streak);
+	         System.out.println("Current Streak: " + streak);
+	         
+	         
+	         int daysPassed = currentDate.getDayOfMonth(); // Total days up to today
+	         model.addAttribute("totalDaysInMonth", totalDaysInMonth);
+	         model.addAttribute("daysPassed", daysPassed);
+
+	         // Calculate absent days
+	         int totalAbsentDays = daysPassed - totalPresent.intValue();
+	         model.addAttribute("absentDays", totalAbsentDays);
+	         System.out.println(totalAbsentDays);
+
+
+	     } else {
+	         model.addAttribute("error", "No user email found in session.");
+	     }
 		return "Trainer/Tattendance.html";
 	}
 	
-	@PostMapping("trainerAttendance")
-	public String postMethodName(@ModelAttribute AttendanceSheet a, HttpSession session) {
+	 private int calculateStreak(List<Integer> distinctDays) {
+		    if (distinctDays == null || distinctDays.isEmpty()) {
+		        return 0; // No attendance records
+		    }
+
+		    // Sort the list in ascending order
+		    Collections.sort(distinctDays);
+
+		    // Initialize streak counter
+		    int streak = 1; // At least one day (if list is not empty)
+
+		    // Traverse the list from the second last element to the start
+		    for (int i = distinctDays.size() - 1; i > 0; i--) {
+		        // Check if the current day and the previous day differ by 1
+		        if (distinctDays.get(i) - distinctDays.get(i - 1) == 1) {
+		            streak++;
+		        } else {
+		            // Break the streak if there's a gap
+		            break;
+		        }
+		    }
+
+		    return streak;
+		}
+
+	
+	@PostMapping("/t-attendance")
+	public String postMethodName(@ModelAttribute AttendanceSheet a, HttpSession session, Model model) {
 		if(session != null) {
 		String email = (String) session.getAttribute("email");
-//		String email = "a@gmail.com";
 		a.setDate(LocalDate.now());
 		a.setEmail(email);
 		aRepo.save(a);
 		}
+		
+		String userEmail = (String) session.getAttribute("email");
+
+	     if (userEmail != null) {
+	         // Fetch today's attendance record
+	         Optional<AttendanceSheet> attendanceOptional = aRepo.findByDateAndEmail(LocalDate.now(), userEmail);
+
+	         if (attendanceOptional.isPresent()) {
+	             // Attendance exists for today
+	             model.addAttribute("attendanceStatus", "Present");
+	             System.out.println("Present");
+	         } else {
+	             // No attendance record for today
+	             model.addAttribute("attendanceStatus", "Absent");
+	             System.out.println("Absent");
+	         }
+
+	         // Check if attendance exists for today
+	         AttendanceSheet attendanceSheet = attendanceOptional.orElse(null);
+
+	         LocalDate currentDate = LocalDate.now();
+	         int totalDaysInMonth = currentDate.lengthOfMonth(); // Dynamically calculates the days in the current month
+	         model.addAttribute("totalDaysInMonth", totalDaysInMonth);
+	         System.out.println(totalDaysInMonth);
+
+	         Long totalPresent = aRepo.countCurrentMonthByEmail(userEmail);
+	         model.addAttribute("presentDays", totalPresent);
+
+	         // Fetch all attendance records for this user
+	         model.addAttribute("attendanceList", aRepo.findByEmail(userEmail));
+
+	         // Fetch distinct days from the date column for the specific email
+	         List<Integer> distinctDays = aRepo.findDistinctDaysByEmail(userEmail);
+	         model.addAttribute("distinctDays", distinctDays);
+	         System.out.println(distinctDays);
+
+	         // Pass attendance status to the model
+	         model.addAttribute("attendanceSheet", attendanceSheet);
+	         
+	         int streak = calculateStreak(distinctDays);
+	         model.addAttribute("streak", streak);
+	         System.out.println("Current Streak: " + streak);
+	         
+	         
+	         int daysPassed = currentDate.getDayOfMonth(); // Total days up to today
+	         model.addAttribute("totalDaysInMonth", totalDaysInMonth);
+	         model.addAttribute("daysPassed", daysPassed);
+
+	         // Calculate absent days
+	         int totalAbsentDays = daysPassed - totalPresent.intValue();
+	         model.addAttribute("absentDays", totalAbsentDays);
+	         System.out.println(totalAbsentDays);
+
+
+	     } else {
+	         model.addAttribute("error", "No user email found in session.");
+	     }
 		return "Trainer/Tattendance.html";
 	}
 	
