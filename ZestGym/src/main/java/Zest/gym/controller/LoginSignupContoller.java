@@ -1,5 +1,9 @@
 package Zest.gym.controller;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -14,6 +18,7 @@ import org.apache.commons.codec.digest.DigestUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.StringUtils;
 
 import Zest.gym.model.AttendanceSheet;
 import Zest.gym.model.Diet;
@@ -22,6 +27,7 @@ import Zest.gym.model.User;
 import Zest.gym.model.Video;
 import Zest.gym.model.MembershipOwned;
 import Zest.gym.model.Schedule;
+import Zest.gym.model.Trainer;
 import Zest.gym.repository.AttendanceRepository;
 import Zest.gym.repository.DietRepository;
 import Zest.gym.repository.MembershipDetailsRepository;
@@ -37,6 +43,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.bind.annotation.RequestBody;
 
 
@@ -318,17 +325,115 @@ public class LoginSignupContoller {
 	 }
 	 
 	 @GetMapping("/profile")
-	 public String profile() {
-		 
-		 
-	 	return "User/profile.html";
+	 public String profile( HttpSession session, Model model) {
+		 String email =  (String) session.getAttribute("email");
+		 Optional<User> uList = uRepo.findByEmail(email);
+		 model.addAttribute("uList", uList);
+ 		return "User/profile.html";
 	 	
 	 }
+	 
+	 @GetMapping("/editUserProfile/{id}")
+		public String editProfile(@PathVariable int id, Model model) {
+			Optional<User> uList = uRepo.findById(id);
+			model.addAttribute("uList", uList);
+			return "User/userProfileEdit.html";
+		}
 	 
 	 @GetMapping("/index")
 	 public String index() {
 	 	return "User/index.html";
 	 }
+	 
+	 @PostMapping("/saveUserEditedprofile")
+		public String postMethodName(HttpSession session, 
+		                              @RequestParam int id,
+		                              @RequestParam String name, 
+		                              @RequestParam String address, 
+		                              @RequestParam String email, 
+		                              @RequestParam String contact,  
+		                              Model model) {
+		    
+		    Optional<User> u = uRepo.findById(id);
+		    
+		    if (u.isPresent()) {  // Ensure the Optional contains a value
+		        User user = u.get();  // Retrieve the actual Trainer object
+		        user.setUsername(name);
+		        user.setAddress(address);
+		        user.setContact(contact);
+		        user.setEmail(email);
+		        uRepo.save(user);  // Save the updated trainer object
+		        
+		        // Get the email from the session and find the updated trainer details
+		        String semail = (String) session.getAttribute("email");
+		        Optional<User> uList = uRepo.findByEmail(semail);
+		        
+		        model.addAttribute("uList", uList);
+		        return "User/profile.html";  // Return the profile page with updated info
+		    }
+
+		    // If the trainer with the given id was not found
+		    String semail = (String) session.getAttribute("email");
+		    Optional<User> uList = uRepo.findByEmail(semail);
+		    model.addAttribute("uList", uList);
+		    return "User/profile.html";  // Return the profile page if no trainer was found
+		}
+	 
+	 @PostMapping("/saveUserProfile")
+		public String saveProfile(@RequestParam("image") MultipartFile Fimage, 
+		                          @RequestParam("id") int id, HttpSession session, 
+		                          Model model) {
+		    Optional<User> userOpt = uRepo.findById(id);
+		    
+		    if (userOpt.isPresent()) {
+		        User user = userOpt.get();
+		        
+		        String uploadDir = Paths.get("src", "main", "resources", "static", "assets").toString();
+		        if (!Fimage.isEmpty()) {
+		            try {
+		                // Get the original filename
+		                String imageName = StringUtils.cleanPath(Fimage.getOriginalFilename());
+		                
+		                // Define the path to save the image (e.g., in the "uploads" directory)
+		                Path imagePath = Paths.get(uploadDir, imageName);
+
+		                // Create the directory if it doesn't exist
+		                Files.createDirectories(imagePath.getParent());
+
+		                // Save the image file to the defined path
+		                Fimage.transferTo(imagePath);
+
+		                // Save the image name (or relative path) to the trainer object
+		                user.setUserimage(imageName);  // You can serve images from the static folder using this URL
+		            } catch (IOException e) {
+		                // If there was an error uploading, show an error message and redirect back
+		                model.addAttribute("error", "Failed to upload image.");
+		                String semail = (String) session.getAttribute("email");
+		        	    Optional<User> uList = uRepo.findByEmail(semail);
+		        	    model.addAttribute("uList", uList);
+		                return "User/profile.html";  
+		            }
+		        }
+
+		        // Save the trainer data (including the updated image path)
+		        uRepo.save(user);
+		        
+		        String semail = (String) session.getAttribute("email");
+			    Optional<User> uList = uRepo.findByEmail(semail);
+			    model.addAttribute("uList", uList);
+		        return "User/profile.html";   
+		    }
+
+		    // If the trainer with the given id was not found, return an error page or the form
+		    model.addAttribute("error", "User not found");
+		    String semail = (String) session.getAttribute("email");
+		    Optional<User> uList = uRepo.findByEmail(semail);
+		    model.addAttribute("uList", uList);
+	        return "User/profile.html";   
+		}
+
+		
+	 
 	 
 	 @GetMapping("/membership")
 	 public String getMembership(Model model, HttpSession session) {

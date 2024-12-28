@@ -13,6 +13,10 @@ public class User {
 	private String username;
 	private String password;
 	private String email;
+	private String contact;
+	private String address;
+	private String userimage;
+	
 	private String role = "user";
 	public int getId() {
 		return id;
@@ -43,6 +47,24 @@ public class User {
 	}
 	public void setRole(String role) {
 		this.role = role;
+	}
+	public String getContact() {
+		return contact;
+	}
+	public void setContact(String contact) {
+		this.contact = contact;
+	}
+	public String getAddress() {
+		return address;
+	}
+	public void setAddress(String address) {
+		this.address = address;
+	}
+	public String getUserimage() {
+		return userimage;
+	}
+	public void setUserimage(String userimage) {
+		this.userimage = userimage;
 	}
 	
 	
