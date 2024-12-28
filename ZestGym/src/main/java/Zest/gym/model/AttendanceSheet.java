@@ -1,6 +1,6 @@
 package Zest.gym.model;
 
-import java.sql.Date;
+
 import java.time.LocalDate;
 
 import jakarta.persistence.Entity;

@@ -189,10 +189,11 @@ public class LoginSignupContoller {
 			         // Add the details map to the list
 			         membershipDetails.add(details);
 			     }
-
 			     // Add the extracted details to the model
 			     model.addAttribute("membershipStatus", membershipDetails);
 			     return "User/index.html";
+			     
+			     
 			}else {
 				model.addAttribute("email", u.getEmail());
 				model.addAttribute("message", "Login successful! Please click on dashborad.");
@@ -341,7 +342,31 @@ public class LoginSignupContoller {
 		}
 	 
 	 @GetMapping("/index")
-	 public String index() {
+	 public String index(HttpSession session, Model model) {
+		 String userEmail = (String) session.getAttribute("email");
+
+	     // Fetch the user's membership status based on their email
+	     List<MembershipOwned> membershipStatus = mRepo.findByEmail(userEmail);
+
+	     // List to hold extracted membership details
+	     List<Map<String, String>> membershipDetails = new ArrayList<>();
+
+	     // Extract membership name, price, and duration for each membership status
+	     for (MembershipOwned membershipOwned : membershipStatus) {
+	         String membershipPlan = membershipOwned.getMembershipPlan(); // Assuming this field contains the membership plan details
+
+	         // Create a map to hold extracted name, price, and duration
+	         Map<String, String> details = new HashMap<>();
+	         details.put("name", extractName(membershipPlan));
+	         details.put("price", extractPrice(membershipPlan));
+	         details.put("duration", extractDuration(membershipPlan));
+
+	         // Add the details map to the list
+	         membershipDetails.add(details);
+	     }
+
+	     // Add the extracted details to the model
+	     model.addAttribute("membershipStatus", membershipDetails);
 	 	return "User/index.html";
 	 }
 	 

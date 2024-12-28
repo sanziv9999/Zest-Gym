@@ -6,20 +6,26 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 
+import org.apache.catalina.User;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.util.StringUtils;
 
-import Zest.gym.model.AttendanceSheet;
+
 import Zest.gym.model.Diet;
 import Zest.gym.model.Trainer;
 import Zest.gym.model.MembershipDetails;
@@ -30,8 +36,9 @@ import Zest.gym.repository.DietRepository;
 import Zest.gym.repository.MembershipDetailsRepository;
 import Zest.gym.repository.ScheduleRepository;
 import Zest.gym.repository.TrainerRepository;
+import Zest.gym.repository.UserRepository;
 import Zest.gym.repository.VideoRepository;
-import jakarta.servlet.http.HttpSession;
+
 
 @Controller
 public class AdminController {
@@ -47,9 +54,14 @@ public class AdminController {
 	@Autowired
 	private DietRepository dRepo;
 	
-
+	@Autowired
+	private UserRepository uRepo;
+	
 	@Autowired 
 	private ScheduleRepository sRepo;
+	
+	@Autowired
+	private AttendanceRepository aRepo;
 	
 	@GetMapping("/adminDash")
 	public String admminDashboard() {
@@ -137,7 +149,21 @@ public class AdminController {
 	
 	
 	@GetMapping("/manageAttendance")
-	public String manageAttendance() {
+	public String manageAttendance(Model model) {
+		List<Object[]> distinctAttendance = aRepo.findAttendanceByDistinctEmail();
+
+	    // Prepare a model attribute for attendance data
+	    List<Map<String, Object>> attendanceData = new ArrayList<>();
+
+	    for (Object[] result : distinctAttendance) {
+	        Map<String, Object> data = new HashMap<>();
+	        data.put("email", result[0]);  // Email address
+	        data.put("attendanceCount", result[1]);  // Attendance count
+	        attendanceData.add(data);
+	    }
+
+	    // Add data to the model
+	    model.addAttribute("attendanceData", attendanceData);
 		return "Admin/manageAttendance.html";
 	}
 	
@@ -145,15 +171,42 @@ public class AdminController {
 	public String manageDiet() {
 		return "Admin/manageDiet.html";
 	}
+	
+	
 	@GetMapping("/manageTrainer")
 	public String manageTraine() {
 		return "Admin/manageTrainer.html";
 	}
 	
 	@GetMapping("/manageUser")
-	public String manageTrainer() {
-		return "Admin/manageTrainer.html";
+	public String manageUser(Model model) {
+		List<Zest.gym.model.User> users = uRepo.findAll(); // Fetch all users from the database
+	    model.addAttribute("users", users); // Add the user list to the model
+		return "Admin/manageUser.html";
 	}
+	
+	@GetMapping("/deleteUser/{id}")
+	public String deleteUser(@PathVariable int id, Model model) {
+	    uRepo.deleteById(id); // Delete user by ID
+	    List<Zest.gym.model.User> users = uRepo.findAll(); // Fetch all users from the database
+	    model.addAttribute("users", users);
+	    return "redirect:/manageUser"; // Redirect to the user management page
+	}
+	
+	@PostMapping("/updateRole")
+	public String updateUserRole(@RequestParam("id") int id, @RequestParam("role") String role, Model model) {
+	    Optional<Zest.gym.model.User> optionalUser = uRepo.findById(id); // Find the user by ID
+	    if (optionalUser.isPresent()) {
+	        Zest.gym.model.User user = optionalUser.get();
+	        user.setRole(role); // Update the role
+	        List<Zest.gym.model.User> users = uRepo.findAll(); // Fetch all users from the database
+		    model.addAttribute("users", users);
+	        uRepo.save(user); // Save the changes
+	    }
+	    return "redirect:/manageUser"; // Redirect back to the manage user page
+	}
+
+
 	@GetMapping("/manageVideo")
 	public String manageVideo() {
 		return "Admin/manageVideo.html";

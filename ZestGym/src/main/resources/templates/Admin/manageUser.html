@@ -1,16 +1,16 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 
 <head>
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
     <title>Zest Admin Dashboard</title>
     <meta name="viewport"
         content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no" />
-    <link rel="stylesheet" href="assets/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="admin/css/bootstrap.min.css" />
     <link rel="stylesheet"
         href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" />
-    <link rel="stylesheet" href="assets/css/ready.css" />
-    <link rel="stylesheet" href="assets/css/demo.css" />
+    <link rel="stylesheet" href="admin/css/ready.css" />
+    <link rel="stylesheet" href="admin/css/demo.css" />
 </head>
 
 <body>
@@ -140,43 +140,45 @@
                                 </div>
                                 <div class="card-body">
                                     <div class="table-responsive">
-                                        <table class="table table-head-bg-success table-striped table-hover">
-                                            <thead>
-                                                <tr>
-                                                    <th scope="col">User Id</th>
-                                                    <th scope="col">Name</th>
-                                                    <th scope="col">Email</th>
-                                                    <th scope="col">Contact</th>
-                                                    <th scope="col">Address</th>
-                                                    <th></th>
-                                                    <th></th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                <tr>
-                                                    <td>1</td>
-                                                    <td>Mark</td>
-                                                    <td>test@gmail.com</td>
-                                                    <td>9876543210</td>
-                                                    <td>Nepal</td>
-                                                    <!-- <td><a href="editUser.html"><button class="btn btn-success">Edit</button></a></td> -->
-                                                    <td>
-                                                        <button class="btn btn-danger">Delete</button>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td>2</td>
-                                                    <td>Jacob</td>
-                                                    <td>test@gmail.com</td>
-                                                    <td>Nepal</td>
-                                                    <td>9876543210</td>
-                                                    <!-- <td><button class="btn btn-success">Edit</button></td> -->
-                                                    <td>
-                                                        <button class="btn btn-danger">Delete</button>
-                                                    </td>
-                                                </tr>
-                                            </tbody>
-                                        </table>
+                                     <table class="table table-head-bg-success table-striped table-hover">
+									    <thead>
+									        <tr>
+									            <th scope="col">User Id</th>
+									            <th scope="col">Name</th>
+									            <th scope="col">Email</th>
+									            <th scope="col">Contact</th>
+									            <th scope="col">Address</th>
+									            <th scope="col">Role</th>
+									            <th></th>
+									        </tr>
+									    </thead>
+									    <tbody>
+									        <tr th:each="user : ${users}">
+									            <td th:text="${user.id}"></td>
+									            <td th:text="${user.username}"></td>
+									            <td th:text="${user.email}"></td>
+									            <td th:text="${user.contact}"></td>
+									            <td th:text="${user.address}"></td>
+									            <td>
+									                <form th:action="@{/updateRole}" method="post">
+									                    <input type="hidden" name="id" th:value="${user.id}">
+									                    <select name="role" class="form-control" th:value="${user.role}">
+									                        <option value="user" th:selected="${user.role == 'user'}">User</option>
+									                        <option value="trainer" th:selected="${user.role == 'trainer'}">Trainer</option>
+									                    </select>
+									                    <button type="submit" class="btn btn-primary mt-2">Update Role</button>
+									                </form>
+									            </td>
+									            <td>
+									                <a th:href="@{'/deleteUser/' + ${user.id}}">
+									                    <button class="btn btn-danger">Delete</button>
+									                </a>
+									            </td>
+									        </tr>
+									    </tbody>
+									</table>
+
+
                                     </div>
                                     <ul class="pagination pg-primary">
                                         <li class="page-item">
@@ -210,10 +212,10 @@
         </div>
     </div>
 
-    <script src="assets/js/core/jquery.3.2.1.min.js"></script>
-    <script src="assets/js/core/popper.min.js"></script>
-    <script src="assets/js/core/bootstrap.min.js"></script>
-    <script src="assets/js/ready.min.js"></script>
+    <script src="admin/js/core/jquery.3.2.1.min.js"></script>
+    <script src="admin/js/core/popper.min.js"></script>
+    <script src="admin/js/core/bootstrap.min.js"></script>
+    <script src="admin/js/ready.min.js"></script>
 </body>
 
 </html>

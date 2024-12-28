@@ -26,4 +26,7 @@ public interface AttendanceRepository extends JpaRepository<AttendanceSheet, Int
 	  List<Integer> findDistinctDaysByEmail(@Param("email") String email);
 
 
+	  @Query("SELECT a.email, COUNT(a) FROM AttendanceSheet a GROUP BY a.email")
+	  List<Object[]> findAttendanceByDistinctEmail();
+
 }
