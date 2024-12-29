@@ -296,70 +296,66 @@
     <!-- ChoseUs Section End -->
 
     <!-- Pricing Section Begin -->
-     <section class="pricing-section spad">
-		      <div class="container" th:if="${membershipStatus == null}">
-		        <div class="row">
-		          <div class="col-lg-12">
-		            <div class="section-title">
-		              <span>Our Plan</span>
-		              <h2>Choose your pricing plan</h2>
-		            </div>
-		          </div>
-		        </div>
-		        <div class="row justify-content-center">
-		  <!-- Loop through membershipDetails -->
-				  <div th:each="membership : ${membershipDetails}" class="col-lg-4 col-md-8">
-				    <div class="ps-item">
-				      <h3 th:text="${membership.membershipName}">Membership Name</h3>
-				      <div class="pi-price">
-				        <h2 th:text="${'#' + membership.price}"></h2>
-				        <span th:text="${membership.duration}">Membership Duration</span>
-				      </div>
-				      <ul>
-				        <li th:text="${membership.description}">Membership Description</li>
-				        <!-- Add additional membership details if required -->
-				      </ul>
-				      <a href="membershipForm" class="primary-btn pricing-btn">Enroll now</a>
-				      <a href="#" class="thumb-icon"><i class="fa fa-picture-o"></i></a>
-				    </div>
-				  </div>
-				</div>
-		
-		      </div>
-      
-      
-			<div class="container">
-			    <div class="row">
-			        <div class="col-lg-12">
-			            <div class="section-title">
-			                <span>Our Plan</span>
-			                <h2>You have activated a plan</h2>
-			            </div>
-			        </div>
-			    </div>
-			    <div class="row justify-content-center">
-			        <!-- Loop through membershipStatus -->
-			        <div th:each="membership : ${membershipStatus}" class="col-lg-4 col-md-8">
-			            <div class="ps-item">
-			                <!-- Display membership name -->
-			                <h3 th:text="${membership.name}">Membership Name</h3>
-			                <div class="pi-price">
-			                    <!-- Display price -->
-			                    <h2 th:text="${membership.price}"></h2>
-			                    <!-- Display duration -->
-			                    <span th:text="${membership.duration}">Membership Duration</span>
-			                </div>
-			                <ul>
-			                    <li th:text="'The ' + ${membership.name} + ' is a membership which is very beneficial in terms of cost ' + ${membership.price} + ' and also ' + ${membership.duration}">Membership Description</li>
-			                </ul>
-			                <!-- Non-clickable button -->
-			                <a href="#" class="primary-btn pricing-btn disabled-btn">Active</a>
-			                <a href="#" class="thumb-icon"><i class="fa fa-picture-o"></i></a>
-			            </div>
-			        </div>
-			    </div>
-			</div>
-			</section>
+    <section class="pricing-section spad">
+    <!-- Display this block if membershipStatus is not null and not empty -->
+    <div class="container" th:if="${membershipStatus != null and !#lists.isEmpty(membershipStatus)}">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="section-title">
+                    <span>Our Plan</span>
+                    <h2>You have activated a plan</h2>
+                </div>
+            </div>
+        </div>
+        <div class="row justify-content-center">
+            <!-- Loop through membershipStatus -->
+            <div th:each="membership : ${membershipStatus}" class="col-lg-4 col-md-8">
+                <div class="ps-item">
+                    <h3 th:text="${membership.name}">Membership Name</h3>
+                    <div class="pi-price">
+                        <h2 th:text="${membership.price}"></h2>
+                        <span th:text="${membership.duration}">Membership Duration</span>
+                    </div>
+                    <ul>
+                        <li th:text="'The ' + ${membership.name} + ' is a membership which is very beneficial in terms of cost ' + ${membership.price} + ' and also ' + ${membership.duration}">Membership Description</li>
+                    </ul>
+                    <a href="#" class="primary-btn pricing-btn disabled-btn">Active</a>
+                    <a href="#" class="thumb-icon"><i class="fa fa-picture-o"></i></a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Display this block if membershipStatus is null or empty -->
+    <div class="container" th:if="${membershipStatus == null or #lists.isEmpty(membershipStatus)}">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="section-title">
+                    <span>Our Plan</span>
+                    <h2>Choose your pricing plan</h2>
+                </div>
+            </div>
+        </div>
+        <div class="row justify-content-center">
+            <!-- Loop through membershipDetails -->
+            <div th:each="md : ${md}" class="col-lg-4 col-md-8">
+                <div class="ps-item">
+                    <h3 th:text="${md.membershipName}">Membership Name</h3>
+                    <div class="pi-price">
+                        <h2 th:text="'#' + ${md.price}"></h2>
+                        <span th:text="${md.duration}">Membership Duration</span>
+                    </div>
+                    <ul>
+                        <li th:text="${md.description}">Membership Description</li>
+                    </ul>
+                    <a href="membershipForm" class="primary-btn pricing-btn">Enroll now</a>
+                    <a href="#" class="thumb-icon"><i class="fa fa-picture-o"></i></a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
     <!-- Pricing Section End -->
 
     <!-- Gallery Section Begin -->

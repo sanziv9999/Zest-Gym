@@ -101,6 +101,8 @@ public class LoginSignupContoller {
 	         membershipDetails.add(details);
 	     }
 
+	     List<MembershipDetails> md = mbRepo.findAll();
+	     model.addAttribute("md", md);
 	     // Add the extracted details to the model
 	     model.addAttribute("membershipStatus", membershipDetails);
 	     return "User/landing.html";
@@ -150,6 +152,8 @@ public class LoginSignupContoller {
 	         // Add the details map to the list
 	         membershipDetails.add(details);
 	     }
+	     
+	 
 
 	     // Add the extracted details to the model
 	     model.addAttribute("membershipStatus", membershipDetails);
@@ -190,6 +194,8 @@ public class LoginSignupContoller {
 			         membershipDetails.add(details);
 			     }
 			     // Add the extracted details to the model
+			     List<MembershipDetails> md = mbRepo.findAll();
+			     model.addAttribute("md", md);
 			     model.addAttribute("membershipStatus", membershipDetails);
 			     return "User/index.html";
 			     
@@ -487,6 +493,9 @@ public class LoginSignupContoller {
 
 	     // Add the extracted details to the model
 	     model.addAttribute("membershipStatus", membershipDetails);
+	     
+	     List<MembershipDetails> md = mbRepo.findAll();
+	     model.addAttribute("md", md);
 
 	     // Return the view name
 	     return "User/membership";
