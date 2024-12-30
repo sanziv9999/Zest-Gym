@@ -217,6 +217,16 @@ public class LoginSignupContoller {
 		return "User/login.html";
 	}
 	
+	@GetMapping("logout")
+	public String logout(Model model, HttpSession session) {
+		
+		session.invalidate();
+	   List<MembershipDetails> md = mbRepo.findAll();
+		model.addAttribute("md", md);
+		return "User/index.html";
+	}
+	
+	
 	
 	@GetMapping("/forgotPwd")
 	public String forgotPassword() {
@@ -334,46 +344,66 @@ public class LoginSignupContoller {
 	 @GetMapping("/profile")
 	 public String profile( HttpSession session, Model model) {
 		 String email =  (String) session.getAttribute("email");
-		 Optional<User> uList = uRepo.findByEmail(email);
-		 model.addAttribute("uList", uList);
- 		return "User/profile.html";
+		 if(email != null) {
+			 Optional<User> uList = uRepo.findByEmail(email);
+			 model.addAttribute("uList", uList);
+			return "User/profile.html";
+		 }
+		 List<MembershipDetails> md = mbRepo.findAll();
+	     model.addAttribute("md", md);
+	     return "User/index.html";
+	
 	 	
 	 }
 	 
 	 @GetMapping("/editUserProfile/{id}")
-		public String editProfile(@PathVariable int id, Model model) {
-			Optional<User> uList = uRepo.findById(id);
-			model.addAttribute("uList", uList);
-			return "User/userProfileEdit.html";
+		public String editProfile(@PathVariable int id, Model model, HttpSession session) {
+		 	String userEmail = (String) session.getAttribute("email");
+		 	if(userEmail != null) {
+		 		Optional<User> uList = uRepo.findById(id);
+				model.addAttribute("uList", uList);
+				return "User/userProfileEdit.html";
+		 	}
+		 	 List<MembershipDetails> md = mbRepo.findAll();
+		     model.addAttribute("md", md);
+		     return "User/index.html";
 		}
 	 
 	 @GetMapping("/index")
 	 public String index(HttpSession session, Model model) {
 		 String userEmail = (String) session.getAttribute("email");
+		 if(userEmail != null) {
+			 List<MembershipOwned> membershipStatus = mRepo.findByEmail(userEmail);
 
-	     // Fetch the user's membership status based on their email
-	     List<MembershipOwned> membershipStatus = mRepo.findByEmail(userEmail);
+		     // List to hold extracted membership details
+		     List<Map<String, String>> membershipDetails = new ArrayList<>();
 
-	     // List to hold extracted membership details
-	     List<Map<String, String>> membershipDetails = new ArrayList<>();
+		     // Extract membership name, price, and duration for each membership status
+		     for (MembershipOwned membershipOwned : membershipStatus) {
+		         String membershipPlan = membershipOwned.getMembershipPlan(); // Assuming this field contains the membership plan details
 
-	     // Extract membership name, price, and duration for each membership status
-	     for (MembershipOwned membershipOwned : membershipStatus) {
-	         String membershipPlan = membershipOwned.getMembershipPlan(); // Assuming this field contains the membership plan details
+		         // Create a map to hold extracted name, price, and duration
+		         Map<String, String> details = new HashMap<>();
+		         details.put("name", extractName(membershipPlan));
+		         details.put("price", extractPrice(membershipPlan));
+		         details.put("duration", extractDuration(membershipPlan));
 
-	         // Create a map to hold extracted name, price, and duration
-	         Map<String, String> details = new HashMap<>();
-	         details.put("name", extractName(membershipPlan));
-	         details.put("price", extractPrice(membershipPlan));
-	         details.put("duration", extractDuration(membershipPlan));
+		         // Add the details map to the list
+		         membershipDetails.add(details);
+		     }
+		     List<MembershipDetails> md = mbRepo.findAll();
+		     model.addAttribute("md", md);
 
-	         // Add the details map to the list
-	         membershipDetails.add(details);
-	     }
+		     // Add the extracted details to the model
+		     model.addAttribute("membershipStatus", membershipDetails);
+		 	return "User/index.html";
+			 
+		 }
+		 List<MembershipDetails> md = mbRepo.findAll();
+	     model.addAttribute("md", md);
 
-	     // Add the extracted details to the model
-	     model.addAttribute("membershipStatus", membershipDetails);
-	 	return "User/index.html";
+	 	return "User/landing.html";
+	     
 	 }
 	 
 	 @PostMapping("/saveUserEditedprofile")
@@ -384,83 +414,101 @@ public class LoginSignupContoller {
 		                              @RequestParam String email, 
 		                              @RequestParam String contact,  
 		                              Model model) {
-		    
-		    Optional<User> u = uRepo.findById(id);
-		    
-		    if (u.isPresent()) {  // Ensure the Optional contains a value
-		        User user = u.get();  // Retrieve the actual Trainer object
-		        user.setUsername(name);
-		        user.setAddress(address);
-		        user.setContact(contact);
-		        user.setEmail(email);
-		        uRepo.save(user);  // Save the updated trainer object
-		        
-		        // Get the email from the session and find the updated trainer details
-		        String semail = (String) session.getAttribute("email");
-		        Optional<User> uList = uRepo.findByEmail(semail);
-		        
-		        model.addAttribute("uList", uList);
-		        return "User/profile.html";  // Return the profile page with updated info
-		    }
+		 String userEmail = (String) session.getAttribute("email");
+		    if(userEmail!=null) {
+		    	Optional<User> u = uRepo.findById(id);
+			    
+			    if (u.isPresent()) {  // Ensure the Optional contains a value
+			        User user = u.get();  // Retrieve the actual Trainer object
+			        user.setUsername(name);
+			        user.setAddress(address);
+			        user.setContact(contact);
+			        user.setEmail(email);
+			        uRepo.save(user);  // Save the updated trainer object
+			        
+			        // Get the email from the session and find the updated trainer details
+			        String semail = (String) session.getAttribute("email");
+			        Optional<User> uList = uRepo.findByEmail(semail);
+			        
+			        model.addAttribute("uList", uList);
+			        return "User/profile.html";  // Return the profile page with updated info
+			    }
 
-		    // If the trainer with the given id was not found
-		    String semail = (String) session.getAttribute("email");
-		    Optional<User> uList = uRepo.findByEmail(semail);
-		    model.addAttribute("uList", uList);
-		    return "User/profile.html";  // Return the profile page if no trainer was found
+			    // If the trainer with the given id was not found
+			    String semail = (String) session.getAttribute("email");
+			    Optional<User> uList = uRepo.findByEmail(semail);
+			    model.addAttribute("uList", uList);
+			    return "User/profile.html";  // Return the profile page if no trainer was found
+		    }
+		    List<MembershipDetails> md = mbRepo.findAll();
+		    model.addAttribute("md", md);
+
+		 	return "User/landing.html";
+		    
+		    
+		    
 		}
 	 
 	 @PostMapping("/saveUserProfile")
 		public String saveProfile(@RequestParam("image") MultipartFile Fimage, 
 		                          @RequestParam("id") int id, HttpSession session, 
 		                          Model model) {
-		    Optional<User> userOpt = uRepo.findById(id);
-		    
-		    if (userOpt.isPresent()) {
-		        User user = userOpt.get();
-		        
-		        String uploadDir = Paths.get("src", "main", "resources", "static", "assets").toString();
-		        if (!Fimage.isEmpty()) {
-		            try {
-		                // Get the original filename
-		                String imageName = StringUtils.cleanPath(Fimage.getOriginalFilename());
-		                
-		                // Define the path to save the image (e.g., in the "uploads" directory)
-		                Path imagePath = Paths.get(uploadDir, imageName);
+		 
+		 	String userEmail = (String) session.getAttribute("email");
+		 	if(userEmail!=null) {
+		 		Optional<User> userOpt = uRepo.findById(id);
+			    
+			    if (userOpt.isPresent()) {
+			        User user = userOpt.get();
+			        
+			        String uploadDir = Paths.get("src", "main", "resources", "static", "assets").toString();
+			        if (!Fimage.isEmpty()) {
+			            try {
+			                // Get the original filename
+			                String imageName = StringUtils.cleanPath(Fimage.getOriginalFilename());
+			                
+			                // Define the path to save the image (e.g., in the "uploads" directory)
+			                Path imagePath = Paths.get(uploadDir, imageName);
 
-		                // Create the directory if it doesn't exist
-		                Files.createDirectories(imagePath.getParent());
+			                // Create the directory if it doesn't exist
+			                Files.createDirectories(imagePath.getParent());
 
-		                // Save the image file to the defined path
-		                Fimage.transferTo(imagePath);
+			                // Save the image file to the defined path
+			                Fimage.transferTo(imagePath);
 
-		                // Save the image name (or relative path) to the trainer object
-		                user.setUserimage(imageName);  // You can serve images from the static folder using this URL
-		            } catch (IOException e) {
-		                // If there was an error uploading, show an error message and redirect back
-		                model.addAttribute("error", "Failed to upload image.");
-		                String semail = (String) session.getAttribute("email");
-		        	    Optional<User> uList = uRepo.findByEmail(semail);
-		        	    model.addAttribute("uList", uList);
-		                return "User/profile.html";  
-		            }
-		        }
+			                // Save the image name (or relative path) to the trainer object
+			                user.setUserimage(imageName);  // You can serve images from the static folder using this URL
+			            } catch (IOException e) {
+			                // If there was an error uploading, show an error message and redirect back
+			                model.addAttribute("error", "Failed to upload image.");
+			                String semail = (String) session.getAttribute("email");
+			        	    Optional<User> uList = uRepo.findByEmail(semail);
+			        	    model.addAttribute("uList", uList);
+			                return "User/profile.html";  
+			            }
+			        }
 
-		        // Save the trainer data (including the updated image path)
-		        uRepo.save(user);
-		        
-		        String semail = (String) session.getAttribute("email");
+			        // Save the trainer data (including the updated image path)
+			        uRepo.save(user);
+			        
+			        String semail = (String) session.getAttribute("email");
+				    Optional<User> uList = uRepo.findByEmail(semail);
+				    model.addAttribute("uList", uList);
+			        return "User/profile.html";   
+			    }
+
+			    // If the trainer with the given id was not found, return an error page or the form
+			    model.addAttribute("error", "User not found");
+			    String semail = (String) session.getAttribute("email");
 			    Optional<User> uList = uRepo.findByEmail(semail);
 			    model.addAttribute("uList", uList);
 		        return "User/profile.html";   
-		    }
+		 	}
+		 	 List<MembershipDetails> md = mbRepo.findAll();
+		     model.addAttribute("md", md);
 
-		    // If the trainer with the given id was not found, return an error page or the form
-		    model.addAttribute("error", "User not found");
-		    String semail = (String) session.getAttribute("email");
-		    Optional<User> uList = uRepo.findByEmail(semail);
-		    model.addAttribute("uList", uList);
-	        return "User/profile.html";   
+		 	return "User/landing.html";
+		    
 		}
 
 		
@@ -537,11 +585,21 @@ public class LoginSignupContoller {
 
 
 	 @GetMapping("/membershipForm")
-	 public String membershipForm(Model model) {
-		List<MembershipDetails> membershipDetailList = mbRepo.findAll();
-		model.addAttribute("membershipDetailList", membershipDetailList);
+	 public String membershipForm(Model model, HttpSession session) {
+		 String userEmail = (String) session.getAttribute("email");
+		 if(userEmail != null) {
+		 	List<MembershipDetails> membershipDetailList = mbRepo.findAll();
+			model.addAttribute("membershipDetailList", membershipDetailList);
+				
+		 	return "User/membershipForm.html";
+		 }
+		 List<MembershipDetails> md = mbRepo.findAll();
+	     model.addAttribute("md", md);
+
+	 	return "User/landing.html";
+	     
+		 
 		
-	 	return "User/membershipForm.html";
 	 }
 	 
 	 @PostMapping("/membershipForm")
@@ -661,13 +719,19 @@ public class LoginSignupContoller {
 	         int totalAbsentDays = daysPassed - totalPresent.intValue();
 	         model.addAttribute("absentDays", totalAbsentDays);
 	         System.out.println(totalAbsentDays);
+	         
+	         return "User/userAttendance.html";
 
 
 	     } else {
 	         model.addAttribute("error", "No user email found in session.");
-	     }
+	         List<MembershipDetails> md = mbRepo.findAll();
+		     model.addAttribute("md", md);
 
-	     return "User/userAttendance.html";
+	 		return "User/landing.html";
+		     
+	     }
+	    
 	 }
 
 	 private int calculateStreak(List<Integer> distinctDays) {
@@ -756,13 +820,18 @@ public class LoginSignupContoller {
 	         int totalAbsentDays = daysPassed - totalPresent.intValue();
 	         model.addAttribute("absentDays", totalAbsentDays);
 	         System.out.println(totalAbsentDays);
+	         return "User/userAttendance.html";
 
 
 	     } else {
 	         model.addAttribute("error", "No user email found in session.");
+	         List<MembershipDetails> md = mbRepo.findAll();
+		     model.addAttribute("md", md);
+
+	 		return "User/landing.html";
 	     }
 
-		return "User/userAttendance.html";
+		
 	}
 		
 	 

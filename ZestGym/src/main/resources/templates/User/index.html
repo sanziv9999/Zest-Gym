@@ -138,7 +138,8 @@
                 <div class="hi-text">
                   <span>Shape your body</span>
                   <h1>Be <strong>strong</strong> traning hard</h1>
-                  <a href="login" class="primary-btn">Get Started</a>
+                  <a href="logout" class="primary-btn" th:if="${session.email!=null}">Logout</a>
+                  <a href="login" class="primary-btn" th:if="${session.email==null}">Get Started</a>
                 </div>
               </div>
             </div>
@@ -313,7 +314,7 @@
                 <div class="ps-item">
                     <h3 th:text="${membership.name}">Membership Name</h3>
                     <div class="pi-price">
-                        <h2 th:text="${membership.price}"></h2>
+                        <h2 th:text="${membership.price}*130"></h2>
                         <span th:text="${membership.duration}">Membership Duration</span>
                     </div>
                     <ul>
@@ -342,7 +343,7 @@
                 <div class="ps-item">
                     <h3 th:text="${md.membershipName}">Membership Name</h3>
                     <div class="pi-price">
-                        <h2 th:text="'#' + ${md.price}"></h2>
+                        <h2 th:text="'#' + ${md.price}*130"></h2>
                         <span th:text="${md.duration}">Membership Duration</span>
                     </div>
                     <ul>
