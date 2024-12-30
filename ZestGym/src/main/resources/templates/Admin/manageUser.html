@@ -14,110 +14,112 @@
 </head>
 
 <body>
-    <div class="wrapper">
-        <div class="main-header">
-            <div class="logo-header">
-                <a href="index.html" class="logo"> User Dashboard </a>
-                <button class="navbar-toggler sidenav-toggler ml-auto" type="button" data-toggle="collapse"
-                    data-target="#sidebar" aria-controls="sidebar" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <button class="topbar-toggler more">
-                    <i class="la la-ellipsis-v"></i>
-                </button>
-            </div>
-            <nav class="navbar navbar-header navbar-expand-lg">
-                <div class="container-fluid">
-                    <form class="navbar-left navbar-form nav-search mr-md-3" action="">
-                        <div class="input-group">
-                            <input type="text" placeholder="Search ..." class="form-control" />
-                            <div class="input-group-append">
-                                <span class="input-group-text">
-                                    <i class="la la-search search-icon"></i>
-                                </span>
-                            </div>
-                        </div>
-                    </form>
-                    <ul class="navbar-nav topbar-nav ml-md-auto align-items-center">
-                        <li class="nav-item dropdown">
-                            <a class="dropdown-toggle profile-pic" data-toggle="dropdown" href="#"
-                                aria-expanded="false">
-                                <img src="assets/img/profile.jpg" alt="user-img" width="36" class="img-circle" />
-                                <span>Admin</span>
-                            </a>
-                            <ul class="dropdown-menu dropdown-user">
-                                <li>
-                                    <div class="user-box">
-                                        <div class="u-img">
-                                            <img src="assets/img/profile.jpg" alt="user" />
-                                        </div>
-                                        <div class="u-text">
-                                            <h4>Admin</h4>
-                                            <p class="text-muted">admin@gmail.com</p>
-                                            <a href="adminProfile.html" class="btn btn-rounded btn-danger btn-sm">View
-                                                Profile</a>
-                                        </div>
-                                    </div>
-                                </li>
-                                <div class="dropdown-divider"></div>
-                                <a class="dropdown-item" href="adminProfile.html"><i class="ti-user"></i> My Profile</a>
-                                <div class="dropdown-divider"></div>
-                                <a class="dropdown-item" href="adminLogin.html"><i class="fa fa-power-off"></i> Logout</a>
-                            </ul>
-                        </li>
-                    </ul>
-                </div>
-            </nav>
-        </div>
+    	<div class="wrapper">
+		<div class="main-header">
+			<div class="logo-header">
+				<a href="index.html" class="logo">
+					Admin Dashboard
+				</a>
+				<button class="navbar-toggler sidenav-toggler ml-auto" type="button" data-toggle="collapse"
+					data-target="collapse" aria-controls="sidebar" aria-expanded="false" aria-label="Toggle navigation">
+					<span class="navbar-toggler-icon"></span>
+				</button>
+				<button class="topbar-toggler more"><i class="la la-ellipsis-v"></i></button>
+			</div>
+			<nav class="navbar navbar-header navbar-expand-lg">
+				<div class="container-fluid">
+					<!--Search-->
+					<form class="navbar-left navbar-form nav-search mr-md-3" action="">
+						<div class="input-group">
+							<input type="text" placeholder="Search ..." class="form-control">
+							<div class="input-group-append">
+								<span class="input-group-text">
+									<i class="la la-search search-icon"></i>
+								</span>
+							</div>
+						</div>
+					</form>
 
-        <!--Sidebar-->
-        <div class="sidebar">
+					<ul class="navbar-nav topbar-nav ml-md-auto align-items-center">
+						<li class="nav-item dropdown">
+							<a class="dropdown-toggle profile-pic" data-toggle="dropdown" href="#"
+								aria-expanded="false"> <img src="assets/img/profile.jpg" alt="user-img" width="36"
+									class="img-circle"><span>Admin</span></span> </a>
+							<ul class="dropdown-menu dropdown-user">
+								<li>
+									<div class="user-box">
+										<div class="u-img"><img src="assets/img/profile.jpg" alt="user"></div>
+										<div class="u-text">
+											<h4>Admin</h4>
+											<p class="text-muted">admin@gmail.com</p><a href="adminProfile.html"
+												class="btn btn-rounded btn-danger btn-sm">View Profile</a>
+										</div>
+									</div>
+								</li>
+								<div class="dropdown-divider"></div>
+								<a class="dropdown-item" href="adminProfile.html"><i class="ti-user"></i> My Profile</a>
+								<div class="dropdown-divider"></div>
+								<a class="dropdown-item" href="adminLogin.html"><i class="fa fa-power-off"></i> Logout</a>
+							</ul>
+						</li>
+					</ul>
+				</div>
+			</nav>
+		</div>
+		<!--Sidebar-->
+		    <div class="sidebar">
             <div class="scrollbar-inner sidebar-wrapper">
                 <ul class="nav">
                     <li class="nav-item active">
-                        <a href="index.html">
+                        <a href="adminDash">
                             <i class="la la-dashboard"></i>
                             <p>Dashboard</p>
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="manageUser.html">
+                        <a href="manageUser">
                             <i class="la la-users"></i>
                             <p>Manage User</p>
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="manageTrainer.html">
+                        <a href="manageTrainer">
                             <i class="la la-user"></i>
                             <p>Manage Trainer</p>
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="manageAttendance.html">
+                        <a href="manageAttendance">
                             <i class="la la-table"></i>
                             <p>Attendance</p>
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="manageMembership.html">
+                        <a href="manageMembership">
                             <i class="la la-cc-mastercard"></i>
                             <p>Membership</p>
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="manageDiet.html">
+                        <a href="manageDiet">
                             <i class="la la-coffee"></i>
                             <p>Diet</p>
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="manageVideo.html">
+						<a href="manageSchedule">
+							<i class="la la-calendar"></i>
+							<p>Manage Schedule</p>
+						</a>
+					</li>
+                    <li class="nav-item">
+                        <a href="manageVideo">
                             <i class="la la-file"></i>
                             <p>Manage Video</p>
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="adminLogin.html">
+                        <a href="adminLogout">
                             <i class="la la-power-off"></i>
                             <p>Log Out</p>
                         </a>

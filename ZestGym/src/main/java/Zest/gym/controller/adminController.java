@@ -69,12 +69,23 @@ public class AdminController {
 	}
 	
 	
-	@GetMapping("/adminLogin")
+	@GetMapping("/admin")
 	public String admminLoginPage() {
 		return "Admin/adminLogin.html";
 	}
 	
-	@GetMapping("/addMembership")
+	@PostMapping("adminLogin")
+	public String adminLogin(@RequestParam("username") String username, @RequestParam("password") String password) {
+		if(username.equals("admin") && password.equals("admin@123")) {
+			return "Admin/index.html";
+		}
+		return "Admin/adminLogin.html";
+		
+		
+	}
+	@PostMapping
+	
+	@GetMapping("/manageMembership")
 	public String addMembership() {
 		return "Admin/addMembership.html";
 	}
@@ -252,7 +263,7 @@ public class AdminController {
 	
 	
 	
-	@GetMapping("/addSchedule")
+	@GetMapping("/manageSchedule")
 	 public String addSchedule(Model model) {
 	
 	 List<Trainer> trainers = tRepo.findAll();
