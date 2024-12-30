@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 
 <head>
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
@@ -157,32 +157,19 @@
                           <th scope="col"></th>
                         </tr>
                       </thead>
-                      <tbody>
-                        <tr data-diet-id="1">
-                          <td>1</td>
-                          <td><img src="path/to/diet1.jpg" alt="Diet 1 Image" style="width: 50px; height: auto;"></td>
-                          <td>Keto Diet</td>
-                          <td>A high-fat, low-carbohydrate diet that helps in weight loss.</td>
-                          <td>
-                            <a href="editDiet.html?dietId=1"><button class="btn btn-success">Edit</button></a>
-                          </td>
-                          <td> <button class="btn btn-danger" onclick="deleteDiet(1)">Delete</button>
-                          </td>
-                        </tr>
-                        <tr data-diet-id="2">
-                          <td>2</td>
-                          <td><img src="path/to/diet2.jpg" alt="Diet 2 Image" style="width: 50px; height: auto;"></td>
-                          <td>Mediterranean Diet</td>
-                          <td>A diet inspired by the eating habits of Mediterranean countries, focusing on fruits,
-                            vegetables, and healthy fats.</td>
-                          <td>
-                            <a href="editDiet.html?dietId=2"><button class="btn btn-success">Edit</button></a>
-                          </td>
-                          <td> <button class="btn btn-danger" onclick="deleteDiet(2)">Delete</button>
-                          </td>
-                        </tr>
-                        <!-- More rows as needed -->
-                      </tbody>
+                       <tr th:each="diet : ${dList}">
+			            <td th:text="${diet.id}"></td>
+			            <td>
+						    <img th:src="@{'/assets/' + ${diet.image}}" alt="Trainer Image" style="width:3cm; height: 3cm;">
+						</td>
+			            <td th:text="${diet.dietName}"></td>
+			            <td th:text="${diet.description}"></td>
+						<td>
+						    <a th:href="@{'/deleteDiet/' + ${diet.id}}">
+						        <button class="btn btn-danger" id="deleteModal">Delete</button>
+						    </a>
+						</td>
+			        </tr>
                     </table>
                   </div>
 
@@ -222,6 +209,68 @@
   <script src="admin/js/core/popper.min.js"></script>
   <script src="admin/js/core/bootstrap.min.js"></script>
   <script src="admin/js/ready.min.js"></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+        // Select all delete buttons
+        const deleteButtons = document.querySelectorAll(".btn-danger");
+
+        deleteButtons.forEach(button => {
+            button.addEventListener("click", function (event) {
+                event.preventDefault();
+
+                // Get the delete URL from the button's parent link
+                const deleteUrl = this.closest("a").getAttribute("href");
+
+                // Check if a modal already exists; if so, remove it
+                const existingModal = document.getElementById("deleteModal");
+                if (existingModal) {
+                    existingModal.remove();
+                }
+
+                // Create the confirmation modal
+                const modalHTML = `
+                    <div id="deleteModal" class="modal" tabindex="-1" role="dialog" style="display: block; background: rgba(0,0,0,0.5); position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 1050;">
+                        <div class="modal-dialog" role="document" style="margin: 10% auto; max-width: 500px;">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title">Confirm Deletion</h5>
+                                    <button type="button" class="close" aria-label="Close" onclick="closeModal()">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <p>Do you want to delete this record?</p>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-danger" id="confirmDeleteButton">Yes</button>
+                                    <button type="button" class="btn btn-secondary" onclick="closeModal()">No</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+
+                // Append the modal to the body
+                document.body.insertAdjacentHTML("beforeend", modalHTML);
+
+                // Attach click event to the confirm delete button
+                const confirmButton = document.getElementById("confirmDeleteButton");
+                confirmButton.addEventListener("click", function () {
+                    // Redirect to the delete URL
+                    window.location.href = deleteUrl;
+                });
+            });
+        });
+    });
+
+    // Function to close the modal
+    function closeModal() {
+        const modal = document.getElementById("deleteModal");
+        if (modal) {
+            modal.remove();
+        }
+    }
+</script>
 </body>
 
 </html>

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org"> 
   <head>
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
     <title>Zest Admin Dashboard</title>
@@ -173,7 +173,7 @@
                   <div class="card-header">
                     <h4 class="card-title">Table</h4>
                     <p class="card-category mb-2">Video Table</p>
-                    <a href="addVideo.html">
+                    <a href="addVideo">
                       <button class="btn btn-primary">Add Video</button>
                     </a>
                   </div>
@@ -193,60 +193,19 @@
                           </tr>
                         </thead>
                         <tbody>
-                          <tr>
-                            <td>1</td>
-                            <td>
-                              <a
-                                href="https://www.example.com/video1"
-                                target="_blank"
-                                >https://www.example.com/video1</a
-                              >
-                            </td>
-                            <td>Introduction to Gym</td>
-                            <td>Mark</td>
-                            <td>
-                              <a href="editVideo.html?videoId=1"
-                                ><button class="btn btn-success">
-                                  Edit
-                                </button></a
-                              >
-                            </td>
-                            <td>
-                              <button
-                                class="btn btn-danger"
-                                onclick="deleteVideo(1)"
-                              >
-                                Delete
-                              </button>
-                            </td>
-                          </tr>
-                          <tr>
-                            <td>2</td>
-                            <td>
-                              <a
-                                href="https://www.example.com/video2"
-                                target="_blank"
-                                >https://www.example.com/video2</a
-                              >
-                            </td>
-                            <td>Advanced Workout Tips</td>
-                            <td>Jacob</td>
-                            <td>
-                              <a href="editVideo.html?videoId=2"
-                                ><button class="btn btn-success">
-                                  Edit
-                                </button></a
-                              >
-                            </td>
-                            <td>
-                              <button
-                                class="btn btn-danger"
-                                onclick="deleteVideo(2)"
-                              >
-                                Delete
-                              </button>
-                            </td>
-                          </tr>
+                          <tr th:each="v : ${vList}">
+			            <td th:text="${v.id}"></td>
+			            <td>
+						   <a th:href=${v.videoUrl} th:text="${v.videoUrl}"></a>
+						</td>
+			            <td th:text="${v.videoTitle}"></td>
+			            <td th:text="${v.userName}"></td>
+						<td>
+						    <a th:href="@{'/deleteVideo/' + ${v.id}}">
+						        <button class="btn btn-danger" id="deleteModal">Delete</button>
+						    </a>
+						</td>
+			        </tr>
                           <!-- More rows as needed -->
                         </tbody>
                       </table>
@@ -288,5 +247,67 @@
     <script src="admin/js/core/popper.min.js"></script>
     <script src="admin/js/core/bootstrap.min.js"></script>
     <script src="admin/js/ready.min.js"></script>
+       <script>
+    document.addEventListener("DOMContentLoaded", function () {
+        // Select all delete buttons
+        const deleteButtons = document.querySelectorAll(".btn-danger");
+
+        deleteButtons.forEach(button => {
+            button.addEventListener("click", function (event) {
+                event.preventDefault();
+
+                // Get the delete URL from the button's parent link
+                const deleteUrl = this.closest("a").getAttribute("href");
+
+                // Check if a modal already exists; if so, remove it
+                const existingModal = document.getElementById("deleteModal");
+                if (existingModal) {
+                    existingModal.remove();
+                }
+
+                // Create the confirmation modal
+                const modalHTML = `
+                    <div id="deleteModal" class="modal" tabindex="-1" role="dialog" style="display: block; background: rgba(0,0,0,0.5); position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 1050;">
+                        <div class="modal-dialog" role="document" style="margin: 10% auto; max-width: 500px;">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title">Confirm Deletion</h5>
+                                    <button type="button" class="close" aria-label="Close" onclick="closeModal()">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <p>Do you want to delete this record?</p>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-danger" id="confirmDeleteButton">Yes</button>
+                                    <button type="button" class="btn btn-secondary" onclick="closeModal()">No</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+
+                // Append the modal to the body
+                document.body.insertAdjacentHTML("beforeend", modalHTML);
+
+                // Attach click event to the confirm delete button
+                const confirmButton = document.getElementById("confirmDeleteButton");
+                confirmButton.addEventListener("click", function () {
+                    // Redirect to the delete URL
+                    window.location.href = deleteUrl;
+                });
+            });
+        });
+    });
+
+    // Function to close the modal
+    function closeModal() {
+        const modal = document.getElementById("deleteModal");
+        if (modal) {
+            modal.remove();
+        }
+    }
+</script>
   </body>
 </html>

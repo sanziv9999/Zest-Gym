@@ -38,6 +38,7 @@ import Zest.gym.repository.ScheduleRepository;
 import Zest.gym.repository.TrainerRepository;
 import Zest.gym.repository.UserRepository;
 import Zest.gym.repository.VideoRepository;
+import jakarta.servlet.http.HttpSession;
 
 
 @Controller
@@ -64,8 +65,13 @@ public class AdminController {
 	private AttendanceRepository aRepo;
 	
 	@GetMapping("/adminDash")
-	public String admminDashboard() {
-		return "Admin/index.html";
+	public String admminDashboard(HttpSession session) {
+		if ( session.getAttribute("username")!= null) {
+			return "Admin/index.html";
+		}
+		return "Admin/adminLogin.html";
+		
+		
 	}
 	
 	
@@ -75,15 +81,16 @@ public class AdminController {
 	}
 	
 	@PostMapping("adminLogin")
-	public String adminLogin(@RequestParam("username") String username, @RequestParam("password") String password) {
+	public String adminLogin(HttpSession session, @RequestParam("username") String username, @RequestParam("password") String password) {
 		if(username.equals("admin") && password.equals("admin@123")) {
+			session.setAttribute("username",username);
+			session.setMaxInactiveInterval(1300);
 			return "Admin/index.html";
 		}
 		return "Admin/adminLogin.html";
 		
 		
 	}
-	@PostMapping
 	
 	@GetMapping("/manageMembership")
 	public String addMembership() {
@@ -152,8 +159,9 @@ public class AdminController {
 	
 	
 	@PostMapping("/addVideo")
-	public String addVideoData(@ModelAttribute Video v) {
-		
+	public String addVideoData(@ModelAttribute Video v, HttpSession session) {
+		session.getAttribute("username");
+		System.out.println(session.getAttribute("username"));
 		vRepo.save(v);
 		return "Admin/addVideo.html";
 	}
@@ -179,13 +187,19 @@ public class AdminController {
 	}
 	
 	@GetMapping("/manageDiet")
-	public String manageDiet() {
+	public String manageDiet(Model model) {
+		
+		List<Diet> dList = dRepo.findAll();
+		model.addAttribute("dList", dList);
 		return "Admin/manageDiet.html";
 	}
 	
 	
 	@GetMapping("/manageTrainer")
-	public String manageTraine() {
+	public String manageTraine(Model model) {
+		List<Trainer> tList = tRepo.findAll();
+		model.addAttribute("tList", tList);
+		
 		return "Admin/manageTrainer.html";
 	}
 	
@@ -204,6 +218,30 @@ public class AdminController {
 	    return "redirect:/manageUser"; // Redirect to the user management page
 	}
 	
+	@GetMapping("/deleteDiet/{id}")
+	public String deleteDiet(@PathVariable int id, Model model) {
+	    dRepo.deleteById(id); // Delete user by ID
+		List<Diet> dList = dRepo.findAll();
+		model.addAttribute("dList", dList);
+	    return "redirect:/manageDiet"; // Redirect to the user management page
+	}
+	
+	@GetMapping("/deleteTrainer/{id}")
+	public String deleteTrainer(@PathVariable int id, Model model) {
+	    tRepo.deleteById(id); // Delete user by ID
+	    List<Trainer> tList = tRepo.findAll();
+		model.addAttribute("tList", tList);
+	    return "redirect:/manageTrainer"; // Redirect to the user management page
+	}
+	
+	@GetMapping("/deleteVideo/{id}")
+	public String deleteVideo(@PathVariable int id, Model model) {
+	    vRepo.deleteById(id); // Delete user by ID
+	    List<Video> vList = vRepo.findAll();
+		model.addAttribute("vList", vList);
+	    return "redirect:/manageVideo"; // Redirect to the user management page
+	}
+	
 	@PostMapping("/updateRole")
 	public String updateUserRole(@RequestParam("id") int id, @RequestParam("role") String role, Model model) {
 	    Optional<Zest.gym.model.User> optionalUser = uRepo.findById(id); // Find the user by ID
@@ -219,7 +257,10 @@ public class AdminController {
 
 
 	@GetMapping("/manageVideo")
-	public String manageVideo() {
+	public String manageVideo(Model model) {
+		
+		List<Video> vList = vRepo.findAll();
+		model.addAttribute("vList", vList);
 		return "Admin/manageVideo.html";
 	}
 	
@@ -278,6 +319,14 @@ public class AdminController {
 	     model.addAttribute("trainers", trainers);
 		return "Admin/addSchedule.html";
 	 }
+	 
+	 @GetMapping("adminLogout")
+	 public String adminLogout(HttpSession session) {
+	 	session.invalidate();
+	 	
+	 	return "Admin/adminLogin.html";
+	 }
+	 
 	
 	
 	

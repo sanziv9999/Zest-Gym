@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 
 <head>
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
@@ -159,29 +159,25 @@
                                                     <th></th>
                                                 </tr>
                                             </thead>
-                                            <tbody>
-                                                <tr>
-                                                    <td>1</td>
-                                                    <td>Mark</td>
-                                                    <td>test@gmail.com</td>
-                                                    <td>9876543210</td>
-                                                    <td>Image</td>
-                                                    <td>Nepal</td>
-                                                    <td><a href="editTrainer.html"><button
-                                                                class="btn btn-success">Edit</button></a></td>
-                                                    <td><button class="btn btn-danger">Delete</button></td>
-                                                </tr>
-                                                <tr>
-                                                    <td>2</td>
-                                                    <td>Jacob</td>
-                                                    <td>test@gmail.com</td>
-                                                    <td>Nepal</td>
-                                                    <td>Image</td>
-                                                    <td>9876543210</td>
-                                                    <td><button class="btn btn-success">Edit</button></td>
-                                                    <td><button class="btn btn-danger">Delete</button></td>
-                                                </tr>
-                                            </tbody>
+                                             <tbody>
+									        <tr th:each="trainer : ${tList}">
+									            <td th:text="${trainer.id}"></td>
+									            <td th:text="${trainer.name}"></td>
+									            <td th:text="${trainer.email}"></td>
+									            <td th:text="${trainer.contact}"></td>
+									            <td>
+												    <img th:src="@{'/assets/' + ${trainer.image}}" alt="Trainer Image" style="width:3cm; height: 3cm;">
+												</td>
+
+									            <td th:text="${trainer.address}"></td>
+									            <td>
+									                <a th:href="@{'/deleteTrainer/' + ${trainer.id}}">
+									                    <button class="btn btn-danger" id="deleteModal">Delete</button>
+									                </a>
+									            </td>
+									        </tr>
+									    </tbody>
+                                            
                                         </table>
                                     </div>
                                     <ul class="pagination pg-primary">
@@ -214,6 +210,71 @@
     <script src="admin/js/core/popper.min.js"></script>
     <script src="admin/js/core/bootstrap.min.js"></script>
     <script src="admin/js/ready.min.js"></script>
+     <script>
+    document.addEventListener("DOMContentLoaded", function () {
+        // Select all delete buttons
+        const deleteButtons = document.querySelectorAll(".btn-danger");
+
+        deleteButtons.forEach(button => {
+            button.addEventListener("click", function (event) {
+                event.preventDefault();
+
+                // Get the delete URL from the button's parent link
+                const deleteUrl = this.closest("a").getAttribute("href");
+
+                // Check if a modal already exists; if so, remove it
+                const existingModal = document.getElementById("deleteModal");
+                if (existingModal) {
+                    existingModal.remove();
+                }
+
+                // Create the confirmation modal
+                const modalHTML = `
+                    <div id="deleteModal" class="modal" tabindex="-1" role="dialog" style="display: block; background: rgba(0,0,0,0.5); position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 1050;">
+                        <div class="modal-dialog" role="document" style="margin: 10% auto; max-width: 500px;">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title">Confirm Deletion</h5>
+                                    <button type="button" class="close" aria-label="Close" onclick="closeModal()">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <p>Do you want to delete this record?</p>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-danger" id="confirmDeleteButton">Yes</button>
+                                    <button type="button" class="btn btn-secondary" onclick="closeModal()">No</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+
+                // Append the modal to the body
+                document.body.insertAdjacentHTML("beforeend", modalHTML);
+
+                // Attach click event to the confirm delete button
+                const confirmButton = document.getElementById("confirmDeleteButton");
+                confirmButton.addEventListener("click", function () {
+                    // Redirect to the delete URL
+                    window.location.href = deleteUrl;
+                });
+            });
+        });
+    });
+
+    // Function to close the modal
+    function closeModal() {
+        const modal = document.getElementById("deleteModal");
+        if (modal) {
+            modal.remove();
+        }
+    }
+</script>
+
+
+    
 </body>
 
 </html>

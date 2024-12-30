@@ -173,7 +173,7 @@
 									            </td>
 									            <td>
 									                <a th:href="@{'/deleteUser/' + ${user.id}}">
-									                    <button class="btn btn-danger">Delete</button>
+									                    <button class="btn btn-danger" id="deleteModal">Delete</button>
 									                </a>
 									            </td>
 									        </tr>
@@ -218,6 +218,70 @@
     <script src="admin/js/core/popper.min.js"></script>
     <script src="admin/js/core/bootstrap.min.js"></script>
     <script src="admin/js/ready.min.js"></script>
+    <script>
+    document.addEventListener("DOMContentLoaded", function () {
+        // Select all delete buttons
+        const deleteButtons = document.querySelectorAll(".btn-danger");
+
+        deleteButtons.forEach(button => {
+            button.addEventListener("click", function (event) {
+                event.preventDefault();
+
+                // Get the delete URL from the button's parent link
+                const deleteUrl = this.closest("a").getAttribute("href");
+
+                // Check if a modal already exists; if so, remove it
+                const existingModal = document.getElementById("deleteModal");
+                if (existingModal) {
+                    existingModal.remove();
+                }
+
+                // Create the confirmation modal
+                const modalHTML = `
+                    <div id="deleteModal" class="modal" tabindex="-1" role="dialog" style="display: block; background: rgba(0,0,0,0.5); position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 1050;">
+                        <div class="modal-dialog" role="document" style="margin: 10% auto; max-width: 500px;">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title">Confirm Deletion</h5>
+                                    <button type="button" class="close" aria-label="Close" onclick="closeModal()">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <p>Do you want to delete this record?</p>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-danger" id="confirmDeleteButton">Yes</button>
+                                    <button type="button" class="btn btn-secondary" onclick="closeModal()">No</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+
+                // Append the modal to the body
+                document.body.insertAdjacentHTML("beforeend", modalHTML);
+
+                // Attach click event to the confirm delete button
+                const confirmButton = document.getElementById("confirmDeleteButton");
+                confirmButton.addEventListener("click", function () {
+                    // Redirect to the delete URL
+                    window.location.href = deleteUrl;
+                });
+            });
+        });
+    });
+
+    // Function to close the modal
+    function closeModal() {
+        const modal = document.getElementById("deleteModal");
+        if (modal) {
+            modal.remove();
+        }
+    }
+</script>
+
+    
 </body>
 
 </html>
