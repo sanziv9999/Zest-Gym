@@ -201,10 +201,7 @@ public class LoginSignupContoller {
 			     
 			     
 			}
-//			else if(username != null && role.equals("admin")) {
-//				return "Admin/index.html";
-//				
-//			}
+
 			else {
 				model.addAttribute("email", u.getEmail());
 				model.addAttribute("message", "Login successful! Please click on dashborad.");

@@ -61,13 +61,12 @@ public class TrainerController {
 	}
 	@GetMapping("t-profile")
 	public String trainerProfile(HttpSession session, @ModelAttribute Trainer t, Model model) {
-		
-		String email =  (String) session.getAttribute("email");
-		Optional<Trainer> tList = tRepo.findByEmail(email);
-		model.addAttribute("tList", tList);
-		return "Trainer/Tprofile.html";
+	    String email = (String) session.getAttribute("email");
+	    Optional<Trainer> tList = tRepo.findByEmail(email);
+	    tList.ifPresent(trainer -> model.addAttribute("tList", trainer));  // Only add to model if present
+	    return "Trainer/Tprofile.html";
 	}
-	
+
 	@GetMapping("/editProfile/{id}")
 	public String editProfile(@PathVariable int id, Model model) {
 		Optional<Trainer> tList = tRepo.findById(id);
