@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,9 +9,15 @@
     <!-- Bootstrap Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.8.1/font/bootstrap-icons.min.css">
     <style>
-        .bi-eye-slash,
-        .bi-eye-fill {
+        .bi-eye-slash, .bi-eye-fill {
             cursor: pointer;
+        }
+        .error {
+            color: red;
+            font-size: 0.875rem;
+        }
+        .hidden {
+            display: none;
         }
     </style>
 </head>
@@ -21,29 +27,39 @@
         <div class="bg-gray-200 flex flex-col sm:flex-row rounded-2xl shadow-lg w-full sm:w-[90%] lg:w-3/4 xl:w-1/2">
             <!--Image (hidden on small screens)-->
             <div class="sm:w-1/2 sm:block hidden">
-                <img src="/img/signup.jpg" alt="Login Image" class="rounded-2xl w-full  mt-3 ml-3">
+                <img src="/img/signup.jpg" alt="Login Image" class="rounded-2xl w-full mt-3 ml-3">
             </div>
-            
+
             <!--Form-->
             <div class="flex flex-col justify-center items-center px-8 py-6 sm:w-full sm:max-w-md w-full">
                 <h2 class="font-bold text-2xl text-center mt-8">Register</h2>
                 <p class="text-center mt-2">Please sign up to login to your account</p>
 
-                <form action="register" method="post" class="flex flex-col gap-4 w-full">
+                <p th:text="${errormessage}" style="color: red;"></p>
+                <p th:text="${status}" style="color: green;"></p>
+
+                <form id="registerForm" action="register" method="post" class="flex flex-col gap-4 w-full">
                     <input class="p-3 mt-8 rounded-xl border w-full" type="text" name="username" id="username" placeholder="Enter Username" required>
+                    <div id="usernameError" class="error hidden"></div>
                     <input class="p-3 mt-3 rounded-xl border w-full" type="email" name="email" id="email" placeholder="Enter Email" required>
+                    <div id="emailError" class="error hidden"></div>
+                    
                     <div class="relative">
                         <input class="p-3 mt-3 rounded-xl border w-full" type="password" name="password" id="password" placeholder="Enter Password" required>
                         <i id="togglePassword" class="bi bi-eye-slash absolute top-1/2 right-3 transform -translate-y-1/4"></i>
                     </div>
-                    <button class="bg-[#e65252] text-white py-3 rounded-2xl mt-4">Register Now</button>
+                    <div id="passwordError" class="error hidden"></div>
+
+                    <button type="submit" class="bg-[#e65252] text-white py-3 rounded-2xl mt-4" id="registerBtn">Register Now</button>
                 </form>
                 <hr class="border-gray-500 mt-10">
                 <p class="mt -7 text-center">Already have an account? <strong><a href="login">Login</a></strong></p>
             </div>
         </div>
-    </section>  
+    </section>
+
     <script>
+        // Toggle for Password Field
         document.getElementById('togglePassword').addEventListener('click', function () {
             var passwordField = document.getElementById('password');
             var passwordFieldType = passwordField.getAttribute('type');
@@ -55,6 +71,24 @@
                 passwordField.setAttribute('type', 'password');
                 this.classList.remove('bi-eye-fill');
                 this.classList.add('bi-eye-slash');
+            }
+        });
+
+        // Form Validation
+        document.getElementById('registerForm').addEventListener('submit', function (e) {
+            var password = document.getElementById('password').value;
+
+            // Reset previous error messages
+            document.getElementById('passwordError').classList.add('hidden');
+
+            // Regex for password validation (at least 8 characters, 1 uppercase, 1 lowercase, 1 number, 1 special character)
+            var passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+
+            if (!passwordRegex.test(password)) {
+                e.preventDefault();
+                document.getElementById('passwordError').classList.remove('hidden');
+                document.getElementById('passwordError').textContent = "Password must be at least 8 characters long, with at least one uppercase letter, one lowercase letter, one number, and one special character.";
+                return;
             }
         });
     </script>

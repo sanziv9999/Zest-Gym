@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en"  xmlns:th="http://www.thymeleaf.org">
 
 <head>
     <meta charset="UTF-8">
@@ -27,6 +27,8 @@
             <div class="flex flex-col justify-center items-center px-8 py-6 sm:w-full sm:max-w-md w-full">
                 <h2 class="font-bold text-2xl text-center mt-8">Login</h2>
                 <p class="text-center mt-2">Please log in to access your account</p>
+                <p th:text="${errormessage}" style="color: red;"></p>
+         		<p th:text="${status}" style="color: green;"></p>
                 <!--Login Form-->
                 <form action="login" method="post" class="flex flex-col gap-4 w-full">
                     <input class="p-3 mt-8 rounded-xl border w-full" type="text" name="email" id="email"

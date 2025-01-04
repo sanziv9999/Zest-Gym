@@ -136,13 +136,13 @@ public class LoginSignupContoller {
 		Optional<User> existingUser = uRepo.findByEmail(u.getEmail());
 		if(existingUser.isPresent()) {
 			model.addAttribute("errormessage", "Email already exist! Try new one");
-			return "User/index.html";
+			return "User/register.html";
 		}
 		
 		String hashPwd = DigestUtils.sha3_256Hex(u.getPassword());
 		u.setPassword(hashPwd);
 		uRepo.save(u);
-		model.addAttribute("message", "Signup successful!!");
+		model.addAttribute("status", "Signup successful!! Please try logging in.");
 		String userEmail = (String) session.getAttribute("email");
 
 	     // Fetch the user's membership status based on their email
@@ -169,7 +169,7 @@ public class LoginSignupContoller {
 
 	     // Add the extracted details to the model
 	     model.addAttribute("membershipStatus", membershipDetails);
-	     return "User/login.html";
+	     return "User/register.html";
 	}
 	
 	@PostMapping("/login")
@@ -613,7 +613,7 @@ public class LoginSignupContoller {
 		 List<MembershipDetails> md = mbRepo.findAll();
 	     model.addAttribute("md", md);
 
-	 	return "User/landing.html";
+	 	return "User/login.html";
 	     
 		 
 		
