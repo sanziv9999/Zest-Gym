@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en"  xmlns:th="http://www.thymeleaf.org">
 
 <head>
     <meta charset="UTF-8">
@@ -42,6 +42,12 @@
                         <input type="text" class="otp-input" maxlength="1" id="otp3" oninput="moveFocus(this, 'otp4')" required aria-label="OTP digit 3">
                         <input type="text" class="otp-input" maxlength="1" id="otp4" oninput="combineOtp()" required aria-label="OTP digit 4">
                     </div>
+                    
+                    <p th:text="${session.status}" 
+					   th:class="${status == 'matched' ? 'text-green-500' : 'text-red-500'}"
+					   style="text-align: center;"></p>
+
+
                     <input type="hidden" name="otpcode" id="otpcode">
                     <button type="submit" class="bg-[#e65252] text-white py-3 rounded-2xl mt-4 w-40 mx-auto">
                         Submit OTP
