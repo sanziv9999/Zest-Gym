@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="zxx">
+<html lang="zxx" xmlns:th="http://www.thymeleaf.org">
   <head>
     <meta charset="UTF-8" />
     <meta name="description" content="Gym Template" />
@@ -143,40 +143,30 @@
         <div class="flex flex-col lg:flex-row gap-8">
           <!-- Form Section (Left Side) -->
           <div class="lg:w-1/2 bg-gray-200 p-6 rounded-sm">
-            <div class="activities-form">
-              <form id="activityForm">
-                <div class="form-group mb-4">
-                  <label for="activity" class="block text-gray-700"
-                    >Activity</label
-                  >
-                  <input
-                    type="text"
-                    class="form-control w-full p-2 mt-1 border rounded"
-                    id="activity"
-                    name="activity"
-                    placeholder="Enter activity (e.g., Swimming, Golf)"
-                    required
-                  />
-                </div>
-                <div class="form-group mb-4">
-                  <label for="time" class="block text-gray-700">Time</label>
-                  <input
-                    type="time"
-                    class="form-control w-full p-2 mt-1 border rounded"
-                    id="time"
-                    name="time"
-                    placeholder="Enter time (e.g., 6:00 AM - 7:00 AM)"
-                    required
-                  />
-                </div>
-                <button
-                  type="submit"
-                  class="btn btn-primary w-auto py-2 bg-black text-white rounded"
-                >
-                  Add Activity
-                </button>
-              </form>
-            </div>
+            <div class="schedule-list">
+		  <h2 class="text-xl font-bold mb-4">Available Schedules</h2>
+		  <table class="table-auto w-full border-collapse border border-gray-300">
+		    <thead>
+		      <tr class="bg-gray-200">
+		        <th class="border border-gray-300 px-4 py-2">Day</th>
+		        <th class="border border-gray-300 px-4 py-2">Time Slot</th>
+		        <th class="border border-gray-300 px-4 py-2">Activity</th>
+		        <th class="border border-gray-300 px-4 py-2">Trainer</th>
+
+		      </tr>
+		    </thead>
+		    <tbody>
+		      <!-- Iterate over the schedule data -->
+		      <tr th:each="schedule : ${schedules}">
+		        <td class="border border-gray-300 px-4 py-2" th:text="${schedule.day}"></td>
+		        <td class="border border-gray-300 px-4 py-2" th:text="${schedule.timeSlot}"></td>
+		        <td class="border border-gray-300 px-4 py-2" th:text="${schedule.activity}"></td>
+		        <td class="border border-gray-300 px-4 py-2" th:text="${schedule.trainer}"></td>
+		        
+		      </tr>
+		    </tbody>
+		  </table>
+		</div>
           </div>
 
           <!-- Activities List Section (Right Side) -->
@@ -186,6 +176,22 @@
                 Your Activities
               </h3>
               <ul id="activities" class="list-none space-y-2">
+              <th:block th:each="schedule : ${trainerSchedule}">
+		        <li class="py-4">
+		          <div class="flex flex-col space-y-1">
+		            <span class="text-lg font-semibold text-gray-800" th:text="${schedule.activity}"></span>
+		            <span class="text-sm text-gray-600">
+		              Time: <span th:text="${schedule.timeSlot}"></span>
+		            </span>
+		            <span class="text-sm text-gray-600">
+		              Day: <span th:text="${schedule.day}"></span>
+		            </span>
+		            <span class="text-sm text-gray-600">
+		              Trainer: <span th:text="${schedule.trainer}"></span>
+		            </span>
+		          </div>
+		        </li>
+		      </th:block>
                 <!-- Activities will be added here dynamically -->
               </ul>
             </div>
@@ -254,90 +260,6 @@
     <script src="js/jquery.slicknav.js"></script>
     <script src="js/owl.carousel.min.js"></script>
     <script src="js/main.js"></script>
-    <script>
-      document.addEventListener("DOMContentLoaded", function () {
-        const activityForm = document.getElementById("activityForm");
-        const activityInput = document.getElementById("activity");
-        const timeInput = document.getElementById("time");
-        const activitiesList = document.getElementById("activities");
-
-        let activities = [];
-
-        activityForm.addEventListener("submit", function (e) {
-          e.preventDefault();
-
-          const activity = activityInput.value;
-          const time = timeInput.value;
-
-          if (activity && time) {
-            const activityItem = {
-              id: Date.now(),
-              activity,
-              time,
-            };
-            activities.push(activityItem);
-            addActivityToDOM(activityItem);
-            activityForm.reset();
-          }
-        });
-
-        function addActivityToDOM(activityItem) {
-          const li = document.createElement("li");
-          li.className =
-            "activity-item flex justify-between items-center bg-white p-3 rounded shadow";
-          li.dataset.id = activityItem.id;
-
-          const activityText = document.createElement("span");
-          activityText.className = "activity-text";
-          activityText.textContent = `${activityItem.activity} - ${activityItem.time}`;
-
-          const actions = document.createElement("div");
-          actions.className = "activity-actions flex gap-2";
-
-          const editButton = document.createElement("button");
-          editButton.className = "edit-button text-blue-500";
-          editButton.textContent = "Edit";
-          editButton.addEventListener("click", () =>
-            editActivity(activityItem.id)
-          );
-
-          const deleteButton = document.createElement("button");
-          deleteButton.className = "delete-button text-red-500";
-          deleteButton.textContent = "Delete";
-          deleteButton.addEventListener("click", () =>
-            deleteActivity(activityItem.id)
-          );
-
-          actions.appendChild(editButton);
-          actions.appendChild(deleteButton);
-
-          li.appendChild(activityText);
-          li.appendChild(actions);
-
-          activitiesList.appendChild(li);
-        }
-
-        function editActivity(id) {
-          const activityItem = activities.find(
-            (activity) => activity.id === id
-          );
-          if (activityItem) {
-            activityInput.value = activityItem.activity;
-            timeInput.value = activityItem.time;
-            deleteActivity(id);
-          }
-        }
-
-        function deleteActivity(id) {
-          activities = activities.filter((activity) => activity.id !== id);
-          const activityItem = activitiesList.querySelector(
-            `[data-id='${id}']`
-          );
-          if (activityItem) {
-            activitiesList.removeChild(activityItem);
-          }
-        }
-      });
-    </script>
+    
   </body>
 </html>

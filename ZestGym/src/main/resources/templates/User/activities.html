@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="zxx">
+<html lang="zxx"  xmlns:th="http://www.thymeleaf.org">
   <head>
     <meta charset="UTF-8" />
     <meta name="description" content="Gym Template" />
@@ -156,50 +156,70 @@
     
     <div class="flex flex-col lg:flex-row gap-8">
       <!-- Form Section (Left Side) -->
-      <div class="lg:w-1/2 bg-gray-200 p-6 rounded-sm">
-        <div class="activities-form">
-          <form id="activityForm">
-            <div class="form-group mb-4">
-              <label for="activity" class="block text-gray-700">Activity</label>
-              <input
-                type="text"
-                class="form-control w-full p-2 mt-1 border rounded"
-                id="activity"
-                name="activity"
-                placeholder="Enter activity (e.g., Swimming, Golf)"
-                required
-              />
-            </div>
-            <div class="form-group mb-4">
-              <label for="time" class="block text-gray-700">Time</label>
-              <input
-                type="text"
-                class="form-control w-full p-2 mt-1 border rounded"
-                id="time"
-                name="time"
-                placeholder="Enter time (e.g., 6:00 AM - 7:00 AM)"
-                required
-              />
-            </div>
-            <button type="submit" class="btn btn-primary w-auto py-2 bg-black text-white rounded">
-              Add Activity
-            </button>
-          </form>
-        </div>
+      <div class="lg:w-2/3 bg-gray-200 p-6 rounded-sm">
+      <div class="schedule-list">
+		  <h2 class="text-xl font-bold mb-4">Available Schedules</h2>
+		  <table class="table-auto w-full border-collapse border border-gray-300">
+		    <thead>
+		      <tr class="bg-gray-200">
+		        <th class="border border-gray-300 px-4 py-2">Day</th>
+		        <th class="border border-gray-300 px-4 py-2">Time Slot</th>
+		        <th class="border border-gray-300 px-4 py-2">Activity</th>
+		        <th class="border border-gray-300 px-4 py-2">Trainer</th>
+		        <th class="border border-gray-300 px-4 py-2">Action</th>
+		      </tr>
+		    </thead>
+		    <tbody>
+		      <!-- Iterate over the schedule data -->
+		      <tr th:each="schedule : ${schedules}">
+		        <td class="border border-gray-300 px-4 py-2" th:text="${schedule.day}"></td>
+		        <td class="border border-gray-300 px-4 py-2" th:text="${schedule.timeSlot}"></td>
+		        <td class="border border-gray-300 px-4 py-2" th:text="${schedule.activity}"></td>
+		        <td class="border border-gray-300 px-4 py-2" th:text="${schedule.trainer}"></td>
+		        <td class="border border-gray-300 px-4 py-2">
+		          <form action="/enroll" method="post">
+		            <input type="hidden" name="scheduleId" th:value="${schedule.id}" />
+		            
+		            <input type="hidden" name="email" th:value="${session.email}" />
+		            <button type="submit" class="btn btn-primary bg-black text-white rounded px-4 py-2">
+		              Enroll
+		            </button>
+		          </form>
+		        </td>
+		      </tr>
+		    </tbody>
+		  </table>
+		</div>
+      
       </div>
 
       <!-- Activities List Section (Right Side) -->
-      <div class="lg:w-1/2 bg-gray-100 rounded p-5">
-        <div class="activities-list">
-          <h3 class="text-xl font-semibold text-gray-800 mb-4">Your Activities</h3>
-          <ul id="activities" class="list-none space-y-2">
-            <!-- Example activity -->
-            <li>Swimming - 6:00 AM - 7:00 AM</li>
-            <li>Golf - 8:00 AM - 10:00 AM</li>
-            <!-- Activities will be added here dynamically -->
-          </ul>
-        </div>
-      </div>
+	<div class="lg:w-1/3 bg-gray-100 rounded-lg shadow-lg p-6">
+		  <div class="activities-list">
+		    <h3 class="text-2xl font-bold text-gray-900 mb-6">Your Activities</h3>
+		    <ul id="activities" class="list-none divide-y divide-gray-300">
+		      <!-- Render activities dynamically -->
+		      <th:block th:each="schedule : ${enrolledSchedules}">
+		        <li class="py-4">
+		          <div class="flex flex-col space-y-1">
+		            <span class="text-lg font-semibold text-gray-800" th:text="${schedule.activity}"></span>
+		            <span class="text-sm text-gray-600">
+		              Time: <span th:text="${schedule.timeSlot}"></span>
+		            </span>
+		            <span class="text-sm text-gray-600">
+		              Day: <span th:text="${schedule.day}"></span>
+		            </span>
+		            <span class="text-sm text-gray-600">
+		              Trainer: <span th:text="${schedule.trainer}"></span>
+		            </span>
+		          </div>
+		        </li>
+		      </th:block>
+		    </ul>
+		  </div>
+		</div>
+
+
     </div>
   </div>
 </section>
@@ -265,24 +285,5 @@
     <script src="js/jquery.slicknav.js"></script>
     <script src="js/owl.carousel.min.js"></script>
     <script src="js/main.js"></script>
-    <script>
-      document.getElementById('activityForm').addEventListener('submit', function(event) {
-          event.preventDefault();
-          
-          // Get the values from the form
-          var activity = document.getElementById('activity').value;
-          var time = document.getElementById('time').value;
-          
-          // Create a new list item
-          var li = document.createElement('li');
-          li.textContent = activity + ' - ' + time;
-          
-          // Add the new list item to the activities list
-          document.getElementById('activities').appendChild(li);
-          
-          // Clear the form
-          document.getElementById('activityForm').reset();
-      });
-  </script>
   </body>
 </html>

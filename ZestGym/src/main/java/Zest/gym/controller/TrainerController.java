@@ -12,6 +12,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.FileSystemUtils;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -23,10 +24,15 @@ import org.springframework.web.multipart.MultipartFile;
 
 
 import Zest.gym.model.AttendanceSheet;
+import Zest.gym.model.Schedule;
 import Zest.gym.model.Trainer;
+import Zest.gym.model.User;
 import Zest.gym.model.Video;
+import Zest.gym.repository.ActivityRepository;
 import Zest.gym.repository.AttendanceRepository;
+import Zest.gym.repository.ScheduleRepository;
 import Zest.gym.repository.TrainerRepository;
+import Zest.gym.repository.UserRepository;
 import Zest.gym.repository.VideoRepository;
 import jakarta.servlet.http.HttpSession;
 
@@ -45,6 +51,16 @@ public class TrainerController {
 	@Autowired
 	private VideoRepository vRepo;
 	
+	@Autowired
+	private UserRepository uRepo;
+	
+	
+	@Autowired
+	private ScheduleRepository sRepo;
+	
+	
+	@Autowired
+	private ActivityRepository actRepo;
 	
 	@GetMapping("t-index")
 	public String trainerIndex() {
@@ -60,17 +76,19 @@ public class TrainerController {
 		return "Trainer/TeditProfile.html";
 	}
 	@GetMapping("t-profile")
-	public String trainerProfile(HttpSession session, @ModelAttribute Trainer t, Model model) {
+	public String trainerProfile(HttpSession session, Model model) {
 	    String email = (String) session.getAttribute("email");
-	    Optional<Trainer> tList = tRepo.findByEmail(email);
-	    tList.ifPresent(trainer -> model.addAttribute("tList", trainer));  // Only add to model if present
+	    System.out.println(email);
+	    Optional<User> tList = uRepo.findByEmail(email);
+	    tList.ifPresent(user -> model.addAttribute("tList", user));  // Only add to model if present
 	    return "Trainer/Tprofile.html";
 	}
 
+
 	@GetMapping("/editProfile/{id}")
 	public String editProfile(@PathVariable int id, Model model) {
-		Optional<Trainer> tList = tRepo.findById(id);
-		model.addAttribute("tList", tList);
+		Optional<User> tList = uRepo.findById(id);
+		tList.ifPresent(user -> model.addAttribute("tList", user)); 
 		return "Trainer/TeditProfile.html";
 	}
 	
@@ -84,28 +102,28 @@ public class TrainerController {
 	                              @RequestParam String contact,  
 	                              Model model) {
 	    
-	    Optional<Trainer> t = tRepo.findById(id);
+	    Optional<User> t = uRepo.findById(id);
 	    
 	    if (t.isPresent()) {  // Ensure the Optional contains a value
-	        Trainer trainer = t.get();  // Retrieve the actual Trainer object
-	        trainer.setName(name);
+	        User trainer = t.get();  // Retrieve the actual Trainer object
+	        trainer.setUsername(name);
 	        trainer.setAddress(address);
 	        trainer.setContact(contact);
 	        trainer.setEmail(email);
-	        tRepo.save(trainer);  // Save the updated trainer object
+	        uRepo.save(trainer);  // Save the updated trainer object
 	        
 	        // Get the email from the session and find the updated trainer details
 	        String semail = (String) session.getAttribute("email");
-	        Optional<Trainer> tList = tRepo.findByEmail(semail);
+	        Optional<User> tList = uRepo.findByEmail(semail);
 	        
-	        model.addAttribute("tList", tList);
+	        tList.ifPresent(user -> model.addAttribute("tList", user)); 
 	        return "Trainer/Tprofile.html";  // Return the profile page with updated info
 	    }
 
 	    // If the trainer with the given id was not found
 	    String semail = (String) session.getAttribute("email");
-	    Optional<Trainer> tList = tRepo.findByEmail(semail);
-	    model.addAttribute("tList", tList);
+	    Optional<User> tList = uRepo.findByEmail(semail);
+	    tList.ifPresent(user -> model.addAttribute("tList", user)); 
 	    return "Trainer/Tprofile.html";  // Return the profile page if no trainer was found
 	}
 
@@ -113,10 +131,10 @@ public class TrainerController {
 	public String saveProfile(@RequestParam("image") MultipartFile Fimage, 
 	                          @RequestParam("id") int id, HttpSession session, 
 	                          Model model) {
-	    Optional<Trainer> trainerOpt = tRepo.findById(id);
+	    Optional<User> trainerOpt = uRepo.findById(id);
 	    
 	    if (trainerOpt.isPresent()) {
-	        Trainer trainer = trainerOpt.get();
+	        User trainer = trainerOpt.get();
 	        
 	        String uploadDir = Paths.get("src", "main", "resources", "static", "assets").toString();
 	        if (!Fimage.isEmpty()) {
@@ -134,7 +152,7 @@ public class TrainerController {
 	                Fimage.transferTo(imagePath);
 
 	                // Save the image name (or relative path) to the trainer object
-	                trainer.setImage(imageName);  // You can serve images from the static folder using this URL
+	                trainer.setUserimage(imageName);  // You can serve images from the static folder using this URL
 	            } catch (IOException e) {
 	                // If there was an error uploading, show an error message and redirect back
 	                model.addAttribute("error", "Failed to upload image.");
@@ -146,19 +164,19 @@ public class TrainerController {
 	        }
 
 	        // Save the trainer data (including the updated image path)
-	        tRepo.save(trainer);
+	        uRepo.save(trainer);
 	        
 	        String semail = (String) session.getAttribute("email");
-		    Optional<Trainer> tList = tRepo.findByEmail(semail);
-		    model.addAttribute("tList", tList);
+		    Optional<User> tList = uRepo.findByEmail(semail);
+		    tList.ifPresent(user -> model.addAttribute("tList", user)); 
 	        return "Trainer/Tprofile.html";   
 	    }
 
 	    // If the trainer with the given id was not found, return an error page or the form
 	    model.addAttribute("error", "Trainer not found");
 	    String semail = (String) session.getAttribute("email");
-	    Optional<Trainer> tList = tRepo.findByEmail(semail);
-	    model.addAttribute("tList", tList);
+	    Optional<User> tList = uRepo.findByEmail(semail);
+	    tList.ifPresent(user -> model.addAttribute("tList", user)); 
         return "Trainer/Tprofile.html";   
 	}
 
@@ -175,7 +193,15 @@ public class TrainerController {
 	}
 	
 	@GetMapping("t-activities")
-	public String trainerActivities() {
+	public String trainerActivities(HttpSession session, Model model) {
+		String username = (String) session.getAttribute("username");
+		System.out.println(username);
+		List<Schedule> schedules = sRepo.findAll();
+		System.out.println("All schedules: " + schedules);
+		List<Schedule> trainerSchedle = sRepo.findByTrainer(username);
+		model.addAttribute("schedules", schedules);
+		model.addAttribute("trainerSchedule", trainerSchedle);
+
 		return "Trainer/Tactivities.html";
 	}
 	

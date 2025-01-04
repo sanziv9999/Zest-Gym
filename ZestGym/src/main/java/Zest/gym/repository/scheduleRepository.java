@@ -14,6 +14,11 @@ public interface ScheduleRepository extends JpaRepository<Schedule, Integer>{
 	
 	List<Schedule> findByDay(String day);
 	
+	List<Schedule> findByIdIn(List<Integer> ids);
+	
+	
+	List<Schedule> findByTrainer(String trainer);
+	
 	
 	@Query("SELECT DISTINCT s.timeSlot FROM Schedule s")
 	List<String> findDistinctTimeSlots();

@@ -64,6 +64,8 @@ public class AdminController {
 	@Autowired
 	private AttendanceRepository aRepo;
 	
+
+	
 	@GetMapping("/adminDash")
 	public String admminDashboard(HttpSession session) {
 		if ( session.getAttribute("username")!= null) {
@@ -301,24 +303,37 @@ public class AdminController {
 	}
 	
 	
-	
-	
-	
 	@GetMapping("/manageSchedule")
 	 public String addSchedule(Model model) {
 	
-	 List<Trainer> trainers = tRepo.findAll();
-     model.addAttribute("trainers", trainers);
+		 List<User> trainers = uRepo.findAllByRole("trainer");
+	     model.addAttribute("trainers", trainers);
 	 	return "Admin/addSchedule.html";
 	 }
 	 
-	 @PostMapping("/addSchedule")
-	 public String addScheduleData(@ModelAttribute Schedule s, Model model) {
-	 	sRepo.save(s);
-	 	 List<Trainer> trainers = tRepo.findAll();
-	     model.addAttribute("trainers", trainers);
-		return "Admin/addSchedule.html";
-	 }
+	@PostMapping("/addSchedule")
+	public String addScheduleData(@ModelAttribute Schedule s, Model model, @RequestParam("trainer") String trainer) {
+	    // Save the schedule to the repository
+	    sRepo.save(s);
+
+	    // Fetch all schedules for the trainer
+	    List<Schedule> scheduleList = sRepo.findByTrainer(trainer);
+
+	    // Fetch the trainer's email
+	    String email = uRepo.findEmailByUsername(trainer);
+
+	    // Send an email to the trainer with their schedule details
+	    MailSender mailSender = new MailSender();
+	    mailSender.sendTrainerScheduleMessage(email,trainer ,scheduleList);
+
+	    // Fetch and add the list of trainers to the model
+	    List<User> trainers = uRepo.findAllByRole("trainer");
+	    model.addAttribute("trainers", trainers);
+
+	    return "Admin/addSchedule.html";
+	}
+
+
 	 
 	 @GetMapping("adminLogout")
 	 public String adminLogout(HttpSession session) {

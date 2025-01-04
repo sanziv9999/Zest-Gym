@@ -20,6 +20,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
 
+import Zest.gym.model.Activity;
 import Zest.gym.model.AttendanceSheet;
 import Zest.gym.model.Diet;
 import Zest.gym.model.MembershipDetails;
@@ -28,6 +29,7 @@ import Zest.gym.model.Video;
 import Zest.gym.model.MembershipOwned;
 import Zest.gym.model.Schedule;
 import Zest.gym.model.Trainer;
+import Zest.gym.repository.ActivityRepository;
 import Zest.gym.repository.AttendanceRepository;
 import Zest.gym.repository.DietRepository;
 import Zest.gym.repository.MembershipDetailsRepository;
@@ -44,6 +46,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
+
+import com.mysql.cj.Session;
+
 import org.springframework.web.bind.annotation.RequestBody;
 
 
@@ -72,6 +77,12 @@ public class LoginSignupContoller {
 	
 	@Autowired
 	private DietRepository dRepo;
+	
+	@Autowired
+	private ActivityRepository actRepo;
+	
+	
+	
 	
 	
 	
@@ -105,6 +116,7 @@ public class LoginSignupContoller {
 	     model.addAttribute("md", md);
 	     // Add the extracted details to the model
 	     model.addAttribute("membershipStatus", membershipDetails);
+	     model.addAttribute("message", "Session not found.");
 	     return "User/landing.html";
 	}
 	
@@ -157,7 +169,7 @@ public class LoginSignupContoller {
 
 	     // Add the extracted details to the model
 	     model.addAttribute("membershipStatus", membershipDetails);
-		return "User/index.html";
+	     return "User/login.html";
 	}
 	
 	@PostMapping("/login")
@@ -197,6 +209,7 @@ public class LoginSignupContoller {
 			     List<MembershipDetails> md = mbRepo.findAll();
 			     model.addAttribute("md", md);
 			     model.addAttribute("membershipStatus", membershipDetails);
+			     model.addAttribute("status", "Login successful as user.");
 			     return "User/index.html";
 			     
 			     
@@ -210,6 +223,7 @@ public class LoginSignupContoller {
 				System.out.println(session.getAttribute("email"));
 				System.out.println(session.getAttribute("username"));
 				session.setMaxInactiveInterval(1800);
+			   model.addAttribute("status", "Login successful as trainer.");
 				return "Trainer/Tindex.html";
 			}
 			
@@ -224,7 +238,8 @@ public class LoginSignupContoller {
 		
 		session.invalidate();
 	   List<MembershipDetails> md = mbRepo.findAll();
-		model.addAttribute("md", md);
+	   model.addAttribute("md", md);
+	   model.addAttribute("status", "Logout successful");
 		return "User/index.html";
 	}
 	
@@ -648,9 +663,59 @@ public class LoginSignupContoller {
 	 }
 	 
 	 @GetMapping("/activities")
-	 public String activities() {
-	 	return "User/activities.html";
+	 public String activities(Model model, HttpSession session) {
+		 
+		 String email = (String) session.getAttribute("email");
+		 System.out.println(email);
+
+		 // Fetch enrolled schedule IDs for the specific user
+		 List<Integer> scheduleId = actRepo.findScheduleIdsByEmail(email);
+
+		 // Fetch Schedule entities corresponding to the enrolled schedule IDs
+		 List<Schedule> enrolled = sRepo.findByIdIn(scheduleId);
+		 System.out.println("Enrolled schedules: " + enrolled);
+
+		 // Fetch all schedules
+		 List<Schedule> schedules = sRepo.findAll();
+		 System.out.println("All schedules: " + schedules);
+
+		 // Add both to the model
+		 model.addAttribute("schedules", schedules);
+		 model.addAttribute("enrolledSchedules", enrolled);
+		 
+		 
+		 return "User/activities.html";
 	 }
+	 
+	 @PostMapping("/enroll")
+	 public String enroll(@RequestParam("scheduleId") int scheduleId,
+	                      @RequestParam("email") String email,  
+	                      Model model, HttpSession session, 
+	                      @ModelAttribute Activity a) {
+	     // Logic to handle enrollment (e.g., save the enrollment in the database)
+	     a.setEmail(email);
+	     a.setScheduleId(scheduleId);
+	     actRepo.save(a);
+	     System.out.println("User enrolled in schedule with ID: " + scheduleId);
+	     
+	     // Fetch the schedule that the user enrolled in
+	     Schedule schedule = sRepo.findById(scheduleId).orElse(null);
+
+	     if (schedule != null) {
+	         // Fetch the user's name (assuming you have the user's name stored)
+	         String userName = (String) session.getAttribute("username");
+	         
+	         MailSender mailSender = new MailSender();
+	         mailSender.sendEnrollmentEmail(email, userName, schedule);
+	     }
+	     
+	     // Fetch all schedules and add them to the model for the view
+	     List<Schedule> schedules = sRepo.findAll();
+	     model.addAttribute("schedules", schedules);
+
+	     return "redirect:/activities"; // Redirect back to the schedule page
+	 }
+
 	 
 	 //Workout
 	 @GetMapping("/video")

@@ -213,7 +213,7 @@
 										        <option value="">Select Trainer</option>
 										        <!-- Dynamically generate options -->
 										        <th:block th:each="trainer : ${trainers}">
-										            <option th:value="${trainer.name}" th:text="${trainer.name}"></option>
+										            <option th:value="${trainer.username}" th:text="${trainer.username}"></option>
 										        </th:block>
 										    </select>
 										</div>
