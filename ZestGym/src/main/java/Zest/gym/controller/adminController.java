@@ -5,7 +5,6 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -29,11 +28,13 @@ import org.springframework.util.StringUtils;
 import Zest.gym.model.Diet;
 import Zest.gym.model.Trainer;
 import Zest.gym.model.MembershipDetails;
+import Zest.gym.model.MembershipOwned;
 import Zest.gym.model.Schedule;
 import Zest.gym.model.Video;
 import Zest.gym.repository.AttendanceRepository;
 import Zest.gym.repository.DietRepository;
 import Zest.gym.repository.MembershipDetailsRepository;
+import Zest.gym.repository.MembershipOwnedRepository;
 import Zest.gym.repository.ScheduleRepository;
 import Zest.gym.repository.TrainerRepository;
 import Zest.gym.repository.UserRepository;
@@ -45,6 +46,9 @@ import jakarta.servlet.http.HttpSession;
 public class AdminController {
 	@Autowired
 	private MembershipDetailsRepository mRepo;
+	
+	@Autowired
+	private MembershipOwnedRepository moRepo;
 	
 	@Autowired
 	private TrainerRepository tRepo;
@@ -95,9 +99,50 @@ public class AdminController {
 	}
 	
 	@GetMapping("/manageMembership")
-	public String addMembership() {
+	public String manageMembership(Model model) {
+		List<MembershipDetails> mList = mRepo.findAll();
+		model.addAttribute("mList", mList);
+		List<MembershipOwned> moList = moRepo.findAll();
+		model.addAttribute("moList", moList);
+		
+		return "Admin/manageMembership.html";
+	}
+	
+	@GetMapping("/addMembership")
+	public String addMembership(Model model) {
+		List<MembershipDetails> mList = mRepo.findAll();
+		model.addAttribute("mList", mList);
+		List<MembershipOwned> moList = moRepo.findAll();
+		model.addAttribute("moList", moList);
+		
 		return "Admin/addMembership.html";
 	}
+	
+	
+	
+	
+	@PostMapping("/updatePaymentStatus")
+	public String updatepaymentStatus(@RequestParam("id") int id, @RequestParam("paymentStatus") String paymentStatus, Model model) {
+	    Optional<MembershipOwned> optionalUser = moRepo.findById(id); // Find the user by ID
+	    if (optionalUser.isPresent()) {
+	        MembershipOwned user = optionalUser.get();
+	        user.setPaymentStatus(paymentStatus); // Update the role
+	    	List<MembershipDetails> mList = mRepo.findAll();
+			model.addAttribute("mList", mList);
+			List<MembershipOwned> moList = moRepo.findAll();
+			model.addAttribute("moList", moList);
+	        moRepo.save(user); // Save the changes
+	    }
+	    List<MembershipDetails> mList = mRepo.findAll();
+		model.addAttribute("mList", mList);
+		List<MembershipOwned> moList = moRepo.findAll();
+		model.addAttribute("moList", moList);
+	    return "redirect:/manageMembership"; // Redirect back to the manage user page
+	}
+	
+	
+	
+	
 	
 	@PostMapping("/addMembership")
 	public String addMembershipDetails(@ModelAttribute MembershipDetails m) {

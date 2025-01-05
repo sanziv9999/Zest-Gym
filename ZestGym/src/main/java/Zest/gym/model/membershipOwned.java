@@ -1,7 +1,7 @@
 package Zest.gym.model;
 
 import java.time.LocalDate;
-import java.util.Date;
+
 
 import org.hibernate.annotations.DynamicUpdate;
 
@@ -9,8 +9,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
+
 
 @Entity
 @DynamicUpdate
@@ -25,6 +24,7 @@ public class MembershipOwned {
 	private String address;
 	private String gender;
 	private String membershipPlan;
+	private String paymentStatus = "pending";
 
 	public int getId() {
 		return id;
@@ -91,7 +91,16 @@ public class MembershipOwned {
 
 	public void setMembershipPlan(String membershipPlan) {
 		this.membershipPlan = membershipPlan;
+	}
+
+	public String getPaymentStatus() {
+		return paymentStatus;
+	}
+
+	public void setPaymentStatus(String paymentStatusString) {
+		this.paymentStatus = paymentStatusString;
 	} 
+	
 	
 	
 	

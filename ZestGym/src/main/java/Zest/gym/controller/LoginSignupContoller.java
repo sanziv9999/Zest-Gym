@@ -535,9 +535,9 @@ public class LoginSignupContoller {
 	 public String getMembership(Model model, HttpSession session) {
 	     // Get the user email from the session
 	     String userEmail = (String) session.getAttribute("email");
-
+	     String status ="complete";
 	     // Fetch the user's membership status based on their email
-	     List<MembershipOwned> membershipStatus = mRepo.findByEmail(userEmail);
+	     List<MembershipOwned> membershipStatus = mRepo.findByEmailAndPaymentStatus(userEmail, status);
 
 	     // List to hold extracted membership details
 	     List<Map<String, String>> membershipDetails = new ArrayList<>();
@@ -607,6 +607,7 @@ public class LoginSignupContoller {
 		 if(userEmail != null) {
 		 	List<MembershipDetails> membershipDetailList = mbRepo.findAll();
 			model.addAttribute("membershipDetailList", membershipDetailList);
+			
 				
 		 	return "User/membershipForm.html";
 		 }
@@ -620,11 +621,14 @@ public class LoginSignupContoller {
 	 }
 	 
 	 @PostMapping("/membershipForm")
-	 public String membershipFormData(@ModelAttribute MembershipOwned m, Model model) {
-		mRepo.save(m);
-		List<MembershipDetails> membershipDetailList = mbRepo.findAll();
-		model.addAttribute("membershipDetailList", membershipDetailList);
-	 	return "User/membershipForm.html";
+	 public String membershipFormData(@ModelAttribute MembershipOwned m, Model model, HttpSession session, @RequestParam("membershipPlan") String membershipdetails) {
+		 String userEmail = (String) session.getAttribute("email");
+		 mRepo.save(m);
+		 MailSender mail = new MailSender();
+		 mail.sendMembershipBookingMessage(userEmail, membershipdetails);
+		 List<MembershipDetails> membershipDetailList = mbRepo.findAll();
+		 model.addAttribute("membershipDetailList", membershipDetailList);
+		 return "User/membershipForm.html";
 	 }
 	 
 	 //Activities
